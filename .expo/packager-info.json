@@ -1,5 +1,8 @@
 {
-  "expoServerPort": null,
-  "packagerPort": null,
-  "packagerPid": null
+  "expoServerPort": 19000,
+  "packagerPort": 19001,
+  "packagerPid": 18180,
+  "expoServerNgrokUrl": "https://cb-ds8.thomasvanzegbroeck.ma.exp.direct",
+  "packagerNgrokUrl": "https://packager.cb-ds8.thomasvanzegbroeck.ma.exp.direct",
+  "ngrokPid": 12632
 }
