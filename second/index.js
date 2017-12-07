@@ -38,8 +38,14 @@ import Logo from '../logo'
   });
 export default Second= StackNavigator(
   {
-  Second: {screen:Second},
-  Logo: {screen: Logo}
+  Second: 
+  {
+    screen:Second,
+  },
+  Logo: 
+  {
+    screen: Logo,
+  }
 });
 
 
