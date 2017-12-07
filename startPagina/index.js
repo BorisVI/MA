@@ -19,30 +19,33 @@ import Entypo from 'react-native-vector-icons/Entypo';
       ),
     };
   render() {
+    
     return (
       <View style={styles.container}>
-      <StatusBar hidden={true}/>
-        <Text>2+2=4 skrrrrrrrrrrraaaaa</Text>
-        <Text style={styles.titleText}>En Kevin is te lelijk voor woorden</Text>
-       
-
+      <Image resizeMode="stretch" source={require('../img/logo.png')} style={{height: 150, width: 175}}/>
       </View>
     );
-  } 
+  }
 }
-    const styles = StyleSheet.create({ 
-      container: 
-      {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-      },
-        titleText: 
-      {
-        fontSize: 20,
-        fontWeight: 'bold',
-      },
+ const styles = StyleSheet.create(
+      { 
+      container: {
+      flex: 1,
+      backgroundColor: '#fff',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    titleText: {
+      fontSize: 20,
+      fontWeight: 'bold',
+    },
+    canvas: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      bottom: 0,
+      right: 0,
+    },
   });
  export default Home; 
 
