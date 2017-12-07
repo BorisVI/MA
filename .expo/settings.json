@@ -4,6 +4,6 @@
   "dev": true,
   "strict": false,
   "minify": false,
-  "urlType": "exp",
-  "urlRandomness": "cb-ds8"
+  "urlType": "http",
+  "urlRandomness": "xd-82y"
 }

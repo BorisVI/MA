@@ -7,7 +7,7 @@ import { StyleSheet, Text, View } from 'react-native';
     return (
       <View style={styles.container}>
         <Text>2+2=4 </Text>
-        <Text style={styles.titleText}>En Kevin is te lelijk </Text>
+        <Text style={styles.titleText}>En Kevin is ULTRA gay</Text>
       </View>
     );
   } 
