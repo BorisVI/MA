@@ -15,14 +15,24 @@ class Loan{
      set payer(person:Person){
          this._payer = person;
      }
-
+     set amount(amount:number){
+        this._amount=amount;
+     }
+     set payed(payed:boolean){
+         this._payed=payed;
+     }
+     
      get receiver(): Person{
          return this._receiver;
      }
      get payer() : Person{
          return this._payer;
      }
-
-
+     get amount() : number{
+         return this._amount;
+     }
+     isPayed():boolean{
+         return this._payed;
+     }
 
 }

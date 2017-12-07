@@ -23,5 +23,25 @@ var Loan = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(Loan.prototype, "amount", {
+        get: function () {
+            return this._amount;
+        },
+        set: function (amount) {
+            this._amount = amount;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Loan.prototype, "payed", {
+        set: function (payed) {
+            this._payed = payed;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Loan.prototype.isPayed = function () {
+        return this._payed;
+    };
     return Loan;
 }());
