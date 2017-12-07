@@ -5,6 +5,7 @@ import { TabNavigator } from 'react-navigation'; // 1.0.0-beta.14
 import HomeScreen from './startPagina';
 import SecondScreen from './second';
 import ReactTable from 'react-table';
+import 'react-table/react-table.css';
 
  class App extends React.Component{
   render() {
