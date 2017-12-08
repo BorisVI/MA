@@ -1,17 +1,8 @@
 {
-<<<<<<< HEAD
-  "expoServerPort": null,
-  "packagerPort": null,
-  "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null
-=======
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 9036,
-  "expoServerNgrokUrl": "https://3k-kcu.kevinpeelman.ma.exp.direct",
-  "packagerNgrokUrl": "https://packager.3k-kcu.kevinpeelman.ma.exp.direct",
-  "ngrokPid": 2604
->>>>>>> 30b0e1b36813732b33671c0438a5d984caa4d9b9
+  "packagerPid": 18712,
+  "expoServerNgrokUrl": "https://q5-nt7.thomasvanzegbroeck.ma.exp.direct",
+  "packagerNgrokUrl": "https://packager.q5-nt7.thomasvanzegbroeck.ma.exp.direct",
+  "ngrokPid": 19032
 }

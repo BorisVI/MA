@@ -45,9 +45,7 @@ import { StackNavigator } from 'react-navigation';
   }
   goToTrip(tripId)
   {
-    console.log(tripId);
-    this.props.id = tripId;
-   
+    //this.props.id = tripId; 
     this.props.navigation.navigate('Trip',{tripId});
   }
 
