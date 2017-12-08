@@ -1,7 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View,Image, StatusBar } from 'react-native';
+import { StyleSheet, Text, View,Image, StatusBar,Alert } from 'react-native';
 //import { TabNavigator } from 'react-navigation'; // 1.0.0-beta.14
-//import {Ionicons} from 'react-native-vector-icons'; // 4.4.2
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'; // 4.4.2
+import Entypo from 'react-native-vector-icons/Entypo';
 import HomeScreen from './startPagina';
 import SecondScreen from './second';
 import TripScreen from './trip';
@@ -17,8 +18,13 @@ import { StackNavigator } from 'react-navigation';
      
    }
   static navigationOptions = {
-    title: 'Overzicht trips',
-  }
+   
+      title: 'Overzicht trips',
+      headerStyle: { backgroundColor: '#4d9280', borderWidth: 0, shadowColor: 'transparent'},
+      headerTintColor :'#fff',
+    
+  
+}
   render() {
     
     return (
@@ -27,15 +33,19 @@ import { StackNavigator } from 'react-navigation';
             <TableRow style={styles.row} title={'trip 1'} showArrow={true} onPress={() => this.goToTrip('trip 1')}></TableRow>
             <TableRow style={styles.row} title={'trip 2'} showArrow={true}  onPress={() => this.goToTrip('trip 2')}></TableRow>
             <TableRow style={styles.row} title={'trip 3'} showArrow={true}  onPress={() => this.goToTrip('whoehoe')}></TableRow>
-    
+            <MaterialIcons
+        name={'add-box'}
+        size={50}
+        style={styles.addButton}
+        onPress={() => {
+          Alert.alert("Op dit moment is het nog niet mogelijk om trips toe te voegen!");
+        }}/>
         </View>
     );
   }
   goToTrip(tripId)
   {
-    console.log(tripId);
-    this.props.id = tripId;
-   
+    //this.props.id = tripId; 
     this.props.navigation.navigate('Trip',{tripId});
   }
 
@@ -57,6 +67,14 @@ row: {
   paddingTop: 25,
   paddingBottom: 25,
 },
+addButton: {
+  alignSelf: 'flex-end',
+  position: 'absolute',
+  bottom: 0,
+  paddingBottom: 10,
+  paddingRight: 10,
+  color: '#4d9280',
+},
 });
 
 export default App= StackNavigator(
@@ -70,7 +88,8 @@ export default App= StackNavigator(
   {
     screen: TripScreen,
     
-  }
+  },
+  
 });
 /*const RootTabs = TabNavigator(
   {
