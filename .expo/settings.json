@@ -5,5 +5,9 @@
   "strict": false,
   "minify": false,
   "urlType": "exp",
+<<<<<<< HEAD
   "urlRandomness": "br-fcp"
+=======
+  "urlRandomness": "3k-kcu"
+>>>>>>> 30b0e1b36813732b33671c0438a5d984caa4d9b9
 }
