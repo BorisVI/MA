@@ -4,17 +4,19 @@ import { AppRegistry, Image, View, Text,StyleSheet } from 'react-native';
 export default class TripInfo extends Component {
   constructor(props){
     super(props);
-    this.state = {id : this.props.navigation.state.params.tripId};
-    console.log(this.state.id);
+    this.trip = {id : this.props.navigation.state.params.tripId};
+    console.log(this.props.id);
   }
   static navigationOptions = {
     title: 'Trip Detail',
+    headerStyle: { backgroundColor: '#4d9280', borderWidth: 1, borderBottomColor: 'white' },
+    headerTintColor :'#fff',
   };
   render() {
-    const id = this.state.id;
+    const id = this.trip.id;
     return (
-      <View>
-      <Text> {id}</Text>
+      <View style={styles.container}>
+      <Text style={styles.titleText}> {id}</Text>
       </View>
     );
   }
