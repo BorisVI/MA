@@ -1,3 +1,4 @@
+
 import { TSMap } from "../node_modules/typescript-map";
 import * as express from "express";
 import {Server, Path, GET, PathParam} from "typescript-rest";
@@ -7,6 +8,7 @@ export class Currency{
     constructor(name: string){
         this._name = name;
         this.update();
+
     }
 
     update(){
