@@ -4,9 +4,11 @@ class Loan{
     private _receiver: Person;
     private _payer: Person;
 
-     constructor(amount: number){
+     constructor(receiver: Person, payer: Person, amount: number){
         this._payed=false;
         this._amount=amount;
+        this._receiver = receiver;
+        this.payer = payer;
      }
 
      set receiver(person:Person){

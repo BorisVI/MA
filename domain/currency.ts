@@ -1,7 +1,7 @@
 import { TSMap } from "../node_modules/typescript-map";
 import * as express from "express";
 import {Server, Path, GET, PathParam} from "typescript-rest";
-class Currency{
+export class Currency{
     private _name : string;
     private _rateToCurrencies : TSMap<string,number>;
     constructor(name: string){
@@ -14,6 +14,7 @@ class Currency{
         let jsonobj = JSON.parse(json);
         for(let entry in jsonobj.rates){
             console.log(entry);
+            //TODO correctly read json, requires testing
         }
     }
 
