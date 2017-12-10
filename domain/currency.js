@@ -39,3 +39,4 @@ var Currency = /** @class */ (function () {
     });
     return Currency;
 }());
+exports.Currency = Currency;

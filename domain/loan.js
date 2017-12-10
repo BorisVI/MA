@@ -1,7 +1,9 @@
 var Loan = /** @class */ (function () {
-    function Loan(amount) {
+    function Loan(receiver, payer, amount) {
         this._payed = false;
         this._amount = amount;
+        this._receiver = receiver;
+        this.payer = payer;
     }
     Object.defineProperty(Loan.prototype, "receiver", {
         get: function () {
