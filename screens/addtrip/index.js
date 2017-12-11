@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, Image, View, Text,StyleSheet, TextInput } from 'react-native';
+import { AppRegistry, Image, View, Text,StyleSheet, TextInput,Button ,Alert} from 'react-native';
 import TableRow from 'react-native-table-row';
 import { StackNavigator } from 'react-navigation';
 //import PersonScreen from '../person';
@@ -12,7 +12,7 @@ import DatePicker from 'react-native-datepicker';
     var datum = new Date();
     var today = datum.getFullYear() + '-' +(datum.getMonth()+1)+'-'+datum.getDate();
     console.log(today);
-    this.state = {date: today};
+    this.state = {date: today, name: ''};
     this.datumlimits= {min: '',max:''};
     //this.max= {max: ''};
     if(datum.getMonth() == 11)
@@ -41,7 +41,7 @@ import DatePicker from 'react-native-datepicker';
     return (
     <View style={styles.container}>
     <Text>Trip naam: </Text>
-  <TextInput style={ {height:40} } placeholder="Type hier de naam van uw trip!"/>
+  <TextInput style={ {height:40} } placeholder="Type hier de naam van uw trip!" onChangeText={(text) => this.setState({name:text})}/>
  <DatePicker
         style={{width: 200,padding:10,justifyContent: 'center'}}
         date={this.state.date}
@@ -66,10 +66,21 @@ import DatePicker from 'react-native-datepicker';
         }}
         onDateChange={(date) => {this.setState({date: date})}}
       />
+      <View style={styles.buttonStyle}>
+      <Button color='#4d9280'
+ onPress={() => this.AddTrip()}
+  title="Voeg trip toe"
+  
+/>
+  </View>
     </View>
     );
   }
-  
+  AddTrip()
+  {
+    var alerttext= 'Trip naam: ' +`${this.state.name}` + ', Datum van de trip: ' +`${this.state.date}`;
+    Alert.alert(alerttext);
+  }
 }
  const styles = StyleSheet.create(
       { 
@@ -106,6 +117,11 @@ import DatePicker from 'react-native-datepicker';
      },
      viewStyle: {
        marginBottom :5,
+     },
+     buttonStyle: {
+       marginTop: 10,
+       paddingTop: 10,
+      
      }
   });
   export default AddTrip;/*= StackNavigator(
