@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View,Image, StatusBar,Alert } from 'react-native';
+import { StyleSheet, Text, View,Image, StatusBar,Alert, FlatList } from 'react-native';
 //import { TabNavigator } from 'react-navigation'; // 1.0.0-beta.14
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'; // 4.4.2
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -29,12 +29,36 @@ import { StackNavigator } from 'react-navigation';
   render() {
     
     return (
-      <View style={styles.container}>
-            <StatusBar hidden={true}/>
-            <TableRow style={styles.row} title={'trip 1'} showArrow={true} onPress={() => this.goToTrip('trip 1')}></TableRow>
+    /*  <View style={styles.container}>
+            <StatusBar hidden={true}/> 
+           <TableRow style={styles.row} title={'trip 1'} showArrow={true} onPress={() => this.goToTrip('trip 1')}></TableRow>
             <TableRow style={styles.row} title={'trip 2'} showArrow={true}  onPress={() => this.goToTrip('trip 2')}></TableRow>
             <TableRow style={styles.row} title={'trip 3'} showArrow={true}  onPress={() => this.goToTrip('whoehoe')}></TableRow>
             <MaterialIcons
+        name={'add-box'}
+        size={50}
+        style={styles.addButton}
+        onPress={() => this.goToAdd()}/>
+
+        </View>*/
+        <View style={styles.container}>
+        <StatusBar hidden={true}/> 
+        <FlatList
+          data={[
+            {key: 'Oude markt'},
+            {key: 'China'},
+            {key: 'Kerstmarkt'},
+          /*  {key: 'a'},
+            {key: 'b'},
+            {key: 'c'},
+            {key: 'd'},
+            {key: 'e'},
+            {key: 'f'},
+            {key: 'g'},*/
+          ]}
+          renderItem={({item}) => <TableRow style={styles.row} title={item.key}  showArrow={true}  onPress={() => this.goToTrip(item.key)}></TableRow>}
+        />
+        <MaterialIcons
         name={'add-box'}
         size={50}
         style={styles.addButton}
