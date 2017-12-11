@@ -6,6 +6,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 //import HomeScreen from './screensstartPagina';
 //import SecondScreen from './second';
 import TripScreen from './screens/trip';
+import AddTripScreen from './screens/addtrip';
 //import Row from 'react-native-row';
 //import 'react-table/react-table.css';
 import TableRow from 'react-native-table-row';
@@ -37,11 +38,13 @@ import { StackNavigator } from 'react-navigation';
         name={'add-box'}
         size={50}
         style={styles.addButton}
-        onPress={() => {
-          Alert.alert("Op dit moment is het nog niet mogelijk om trips toe te voegen!");
-        }}/>
+        onPress={() => this.goToAdd()}/>
         </View>
     );
+  }
+  goToAdd()
+  {
+    this.props.navigation.navigate('Add');
   }
   goToTrip(tripId)
   {
@@ -88,6 +91,10 @@ export default App= StackNavigator(
   {
     screen: TripScreen,
     
+  },
+  Add:
+  {
+    screen: AddTripScreen,
   },
   
 });
