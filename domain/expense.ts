@@ -1,6 +1,6 @@
 import { TSMap } from "../node_modules/typescript-map";
 import { Currency } from "./currency";
-class expense{
+export class Expense{
     private _name : string;
     private _date: Date;
     private _loans: Array<Loan>;

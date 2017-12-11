@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var typescript_map_1 = require("../node_modules/typescript-map");
-var expense = /** @class */ (function () {
-    function expense(name, date, loans, payers, participants, category, Currency) {
+var Expense = /** @class */ (function () {
+    function Expense(name, date, loans, payers, participants, category, Currency) {
         this._name = name;
         this._date = date;
         this._loans = loans;
@@ -12,7 +12,7 @@ var expense = /** @class */ (function () {
         this._currency = Currency;
         this.CalculateLoans();
     }
-    expense.prototype.CalculateLoans = function () {
+    Expense.prototype.CalculateLoans = function () {
         var _this = this;
         if (this.isValidAmounts) {
             var mapOver_1 = new typescript_map_1.TSMap();
@@ -68,7 +68,7 @@ var expense = /** @class */ (function () {
             console.log("error on creating loans, unequal amount payers/receivers");
         }
     };
-    expense.prototype.getTotal = function () {
+    Expense.prototype.getTotal = function () {
         if (this.isValidAmounts) {
             return this.getTotalPayers;
         }
@@ -76,24 +76,24 @@ var expense = /** @class */ (function () {
             return false;
         }
     };
-    expense.prototype.isValidAmounts = function () {
+    Expense.prototype.isValidAmounts = function () {
         return this.getTotalPayers == this.getTotalParticipants;
     };
-    expense.prototype.getTotalPayers = function () {
+    Expense.prototype.getTotalPayers = function () {
         var sum = 0;
         this._payers.forEach(function (value, key) {
             sum += value;
         });
         return sum;
     };
-    expense.prototype.getTotalParticipants = function () {
+    Expense.prototype.getTotalParticipants = function () {
         var sum = 0;
         this._participants.forEach(function (value, key) {
             sum += value;
         });
         return sum;
     };
-    Object.defineProperty(expense.prototype, "loans", {
+    Object.defineProperty(Expense.prototype, "loans", {
         get: function () {
             return this._loans;
         },
@@ -103,7 +103,7 @@ var expense = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(expense.prototype, "date", {
+    Object.defineProperty(Expense.prototype, "date", {
         get: function () {
             return this._date;
         },
@@ -113,7 +113,7 @@ var expense = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(expense.prototype, "payers", {
+    Object.defineProperty(Expense.prototype, "payers", {
         get: function () {
             return this._payers;
         },
@@ -123,7 +123,7 @@ var expense = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(expense.prototype, "participants", {
+    Object.defineProperty(Expense.prototype, "participants", {
         get: function () {
             return this._participants;
         },
@@ -133,7 +133,7 @@ var expense = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(expense.prototype, "category", {
+    Object.defineProperty(Expense.prototype, "category", {
         get: function () {
             return this._category;
         },
@@ -143,7 +143,7 @@ var expense = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(expense.prototype, "currency", {
+    Object.defineProperty(Expense.prototype, "currency", {
         get: function () {
             return this._currency;
         },
@@ -153,7 +153,7 @@ var expense = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(expense.prototype, "name", {
+    Object.defineProperty(Expense.prototype, "name", {
         get: function () {
             return this._name;
         },
@@ -163,5 +163,6 @@ var expense = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    return expense;
+    return Expense;
 }());
+exports.Expense = Expense;
