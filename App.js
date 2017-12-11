@@ -3,9 +3,9 @@ import { StyleSheet, Text, View,Image, StatusBar,Alert } from 'react-native';
 //import { TabNavigator } from 'react-navigation'; // 1.0.0-beta.14
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'; // 4.4.2
 import Entypo from 'react-native-vector-icons/Entypo';
-import HomeScreen from './startPagina';
-import SecondScreen from './second';
-import TripScreen from './trip';
+//import HomeScreen from './screensstartPagina';
+//import SecondScreen from './second';
+import TripScreen from './screens/trip';
 //import Row from 'react-native-row';
 //import 'react-table/react-table.css';
 import TableRow from 'react-native-table-row';

@@ -13,7 +13,7 @@ class PersonInfo extends React.Component {
   
     static navigationOptions = {
       title:'Person Details',
-      headerStyle: { backgroundColor: '#4d9280', borderWidth: 1, borderBottomColor: 'white' },
+      headerStyle: { backgroundColor: '#4d9280', borderWidth: 0, shadowColor: 'transparent'},
       headerTintColor :'#fff',
     };
   render() {

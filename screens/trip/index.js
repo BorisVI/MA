@@ -14,7 +14,7 @@ import PersonScreen from '../person';
   static navigationOptions = {
     
     title:'Trip Details',
-    headerStyle: { backgroundColor: '#4d9280', borderWidth: 1, borderBottomColor: 'white' },
+    headerStyle: { backgroundColor: '#4d9280', borderWidth: 0, shadowColor: 'transparent'},
     headerTintColor :'#fff',
   };
   render() {
@@ -23,13 +23,13 @@ import PersonScreen from '../person';
     <View style={styles.container}>
       <Text style={styles.titleText}>Trip: {id}</Text>
       <Text style={styles.objText}>Datum: 7/12/2017</Text>
-      <Text style={styles.hText}>Personen:</Text>
-      <View>
+      <View style={styles.viewStyle}>
+        <Text style={styles.hText}>Personen:</Text>
         <TableRow style={styles.row} title={'Jordy'} showArrow={true} onPress={() => this.goToPerson('Jordy')}></TableRow>
         <TableRow style={styles.row} title={'Boris'} showArrow={true}  onPress={() => this.goToPerson('Boris')}></TableRow>
       </View>
-      <Text style={styles.hText}>Uitgaves:</Text> 
-      <View>
+      <View style={styles.viewStyle}>
+        <Text style={styles.hText}>Uitgaves:</Text> 
         <TableRow style={styles.row} title={'Pintjes'} showArrow={true} onPress={() => this.goToExpense('Jordy')}></TableRow>
         <TableRow style={styles.row} title={'McDo'} showArrow={true}  onPress={() => this.goToExpense('Boris')}></TableRow>
       </View>
@@ -80,6 +80,9 @@ import PersonScreen from '../person';
       marginBottom: 5,
       fontWeight: 'bold',
      },
+     viewStyle: {
+       marginBottom :5,
+     }
   });
   export default TripInfo= StackNavigator(
     {
