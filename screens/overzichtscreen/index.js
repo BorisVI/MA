@@ -5,15 +5,14 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons'; // 4.4.2
 import Entypo from 'react-native-vector-icons/Entypo';
 //import HomeScreen from './screensstartPagina';
 //import SecondScreen from './second';
-//import TripScreen from './screens/trip';
-//import AddTripScreen from './screens/addtrip';
-  import TripsOverzichtScreen from './screens/overzichtscreen';
+import TripScreen from '../trip';
+import AddTripScreen from '../addtrip';
 //import Row from 'react-native-row';
 //import 'react-table/react-table.css';
 import TableRow from 'react-native-table-row';
 import { StackNavigator } from 'react-navigation';
-export default TripsOverzichtScreen;
- /*class App extends React.Component{
+
+ class Overzicht extends React.Component{
    constructor(props)
    {
      super(props);
@@ -41,7 +40,7 @@ export default TripsOverzichtScreen;
         style={styles.addButton}
         onPress={() => this.goToAdd()}/>
 
-        </View>
+        </View>*/
         <View style={styles.container}>
         <StatusBar hidden={true}/> 
         <FlatList
@@ -55,7 +54,7 @@ export default TripsOverzichtScreen;
             {key: 'd'},
             {key: 'e'},
             {key: 'f'},
-            {key: 'g'},
+            {key: 'g'},*/
           ]}
           renderItem={({item}) => <TableRow style={styles.row} title={item.key}  showArrow={true}  onPress={() => this.goToTrip(item.key)}></TableRow>}
         />
@@ -122,7 +121,7 @@ export default App= StackNavigator(
     screen: AddTripScreen,
   },
   
-});*/
+});
 /*const RootTabs = TabNavigator(
   {
   Home: {

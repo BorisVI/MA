@@ -4,7 +4,7 @@ import TableRow from 'react-native-table-row';
 import { StackNavigator } from 'react-navigation';
 //import PersonScreen from '../person';
 import DatePicker from 'react-native-datepicker';
-
+import TripsOverzichtScreen from '..//overzichtscreen';
 
  class AddTrip extends Component {
   constructor(props){
@@ -78,8 +78,14 @@ import DatePicker from 'react-native-datepicker';
   }
   AddTrip()
   {
+    if(this.state.name != '')
+    {
     var alerttext= 'Trip naam: ' +`${this.state.name}` + ', Datum van de trip: ' +`${this.state.date}`;
-    Alert.alert(alerttext);
+    console.log(alerttext);
+   this.props.navigation.navigate('Overzicht');
+    }else{
+      Alert.alert('Naam mag niet worden leeg gelaten');
+    }
   }
 }
  const styles = StyleSheet.create(
@@ -124,21 +130,21 @@ import DatePicker from 'react-native-datepicker';
       
      }
   });
-  export default AddTrip;/*= StackNavigator(
+  export default AddTrip= StackNavigator(
     {
-    RecentScreen:{
-      screen:TripInfo,
-     
+    Actual:
+    {        
+      screen: AddTrip,     
     },
-    PersonInfo: 
+    Overzicht: 
     {
-      screen: PersonScreen,
-      
+      screen: TripsOverzichtScreen,     
     },
    
     
-  },{
+  },
+  {
     headerMode : 'none',
-  });*/
+  });
 // skip this line if using Create React Native App
 
