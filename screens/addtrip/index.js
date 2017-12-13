@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { AppRegistry, Image, View, Text,StyleSheet, TextInput,Button ,Alert} from 'react-native';
 import TableRow from 'react-native-table-row';
+import TripsOverzichtScreen from '../overzicht/index';
 import { StackNavigator } from 'react-navigation';
 //import PersonScreen from '../person';
 import DatePicker from 'react-native-datepicker';
-import TripsOverzichtScreen from '..//overzichtscreen';
+//import Overzicht from '../overzichtscreen';
 
- class AddTrip extends Component {
+export default class AddTrip extends Component {
   constructor(props){
     super(props);
     var datum = new Date();
@@ -28,8 +29,8 @@ import TripsOverzichtScreen from '..//overzichtscreen';
       this.datumlimits.max= (datum.getFullYear()) + '-' +(datum.getMonth()+2)+'-'+datum.getDate();
       this.datumlimits.min=(datum.getFullYear()) + '-' +(datum.getMonth())+'-'+datum.getDate();
     }
-    console.log(this.datumlimits.max);
-    console.log(this.datumlimits.min);
+    //console.log(this.datumlimits.max);
+    //console.log(this.datumlimits.min);
   }
   static navigationOptions = {
     
@@ -81,8 +82,8 @@ import TripsOverzichtScreen from '..//overzichtscreen';
     if(this.state.name != '')
     {
     var alerttext= 'Trip naam: ' +`${this.state.name}` + ', Datum van de trip: ' +`${this.state.date}`;
-    console.log(alerttext);
-   this.props.navigation.navigate('Overzicht');
+    Alert.alert(alerttext);
+   this.props.navigation.goBack();
     }else{
       Alert.alert('Naam mag niet worden leeg gelaten');
     }
@@ -130,21 +131,22 @@ import TripsOverzichtScreen from '..//overzichtscreen';
       
      }
   });
-  export default AddTrip= StackNavigator(
+  /*AddTrip= StackNavigator(
     {
     Actual:
     {        
       screen: AddTrip,     
     },
-    Overzicht: 
+    Terug:
     {
-      screen: TripsOverzichtScreen,     
-    },
+      screen: TripsOverzichtScreen,
+    }
    
     
   },
   {
     headerMode : 'none',
   });
+ // export default AddTrip;
 // skip this line if using Create React Native App
-
+*/

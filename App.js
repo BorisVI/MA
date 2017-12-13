@@ -7,7 +7,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 //import SecondScreen from './second';
 //import TripScreen from './screens/trip';
 //import AddTripScreen from './screens/addtrip';
-  import TripsOverzichtScreen from './screens/overzichtscreen';
+  import TripsOverzichtScreen from './screens/overzicht';
 //import Row from 'react-native-row';
 //import 'react-table/react-table.css';
 import TableRow from 'react-native-table-row';

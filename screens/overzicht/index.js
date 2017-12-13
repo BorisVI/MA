@@ -12,7 +12,7 @@ import AddTripScreen from '../addtrip';
 import TableRow from 'react-native-table-row';
 import { StackNavigator } from 'react-navigation';
 
- class Overzicht extends React.Component{
+ export default class OverzichtInfo extends React.Component{
    constructor(props)
    {
      super(props);
@@ -104,11 +104,11 @@ addButton: {
 },
 });
 
-export default App= StackNavigator(
+OverzichtInfo= StackNavigator(
   {
   Home: 
   {
-    screen:App,
+    screen:OverzichtInfo,
     
   },
   Trip: 
@@ -122,6 +122,7 @@ export default App= StackNavigator(
   },
   
 });
+//export default Overzicht;
 /*const RootTabs = TabNavigator(
   {
   Home: {
