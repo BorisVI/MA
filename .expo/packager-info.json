@@ -1,8 +1,8 @@
 {
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 10256,
-  "expoServerNgrokUrl": "https://q5-nt7.thomasvanzegbroeck.ma.exp.direct",
-  "packagerNgrokUrl": "https://packager.q5-nt7.thomasvanzegbroeck.ma.exp.direct",
-  "ngrokPid": 18244
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null
 }
