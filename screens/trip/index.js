@@ -3,20 +3,13 @@ import { AppRegistry, Image, View, Text,StyleSheet } from 'react-native';
 import TableRow from 'react-native-table-row';
 import { StackNavigator } from 'react-navigation';
 import PersonScreen from '../person';
-import TripDB from "../../domain/trip";
- class TripInfo extends Component {
+export class TripInfo extends Component {
 
   constructor(props){
     super(props);
     this.trip = {id : this.props.navigation.state.params.tripId};
     
     console.log(this.props.navigation.state.params.tripId);
-    var startDate = new Date();
-    var endDate = Date();
-    var id = String('1');
-    var name = String('1');
-    let t =  new TripDB(id,name,startDate,endDate);
-    //console.log(t.getId());
   }
   static navigationOptions = {
     
