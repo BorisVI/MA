@@ -5,6 +5,7 @@ import TripsOverzichtScreen from '../overzicht/index';
 import { StackNavigator } from 'react-navigation';
 //import PersonScreen from '../person';
 import DatePicker from 'react-native-datepicker';
+import {Trip} from '../../domain/trip'
 //import Overzicht from '../overzichtscreen';
 
 export default class AddTrip extends Component {
@@ -68,7 +69,7 @@ export default class AddTrip extends Component {
         onDateChange={(date) => {this.setState({date: date})}}
       />
       <View style={styles.buttonStyle}>
-      <Button color='#4d9280'
+      <Button color='#4d9280' 
  onPress={() => this.AddTrip()}
   title="Voeg trip toe"
   
@@ -81,8 +82,12 @@ export default class AddTrip extends Component {
   {
     if(this.state.name != '')
     {
-    var alerttext= 'Trip naam: ' +`${this.state.name}` + ', Datum van de trip: ' +`${this.state.date}`;
-    Alert.alert(alerttext);
+      let tid = this.state.name+ this.state.date;
+    let t = new Trip(tid,this.state.name,this.state.date, this.state.date);
+    //var alerttext= 'Trip naam: ' +`${this.state.name}` + ', Datum van de trip: ' +`${this.state.date}`;
+    //Alert.alert(t);
+    
+    console.log(t.id + ' ' + t.name + ' ' + t.startdate);
    this.props.navigation.goBack();
     }else{
       Alert.alert('Naam mag niet worden leeg gelaten');
