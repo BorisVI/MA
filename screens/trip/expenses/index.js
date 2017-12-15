@@ -1,27 +1,32 @@
 import React, { Component } from 'react';
-import { AppRegistry, Image, View, Text,StyleSheet } from 'react-native';
+import { AppRegistry, Image, View, Text,StyleSheet, Picker, TouchableWithoutFeedback } from 'react-native';
 import TableRow from 'react-native-table-row';
-import { TabNavigator } from 'react-navigation';
-import ExpensesScreen from './expenses';
+import { Navigator } from 'react-navigation';
+//import PersonScreen from '../person';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 
 
 
- class TripInfo extends Component {
+class TripInfo extends Component {
   constructor(props){
     super(props);
     this.trip = {id : this.props.navigation.state.params.tripId};
- 
-  console.log(this.props.navigation.state.params.tripId);
+    console.log(this.props.navigation.state.params.tripId);
+    this.state = {expense: 'Bier'}
+  }
+  setState(state)
+  {
+    super.setState(state);
+    console.log(`Set state to ${JSON.stringify(state)}`);
   }
   static navigationOptions = {
     
-    title:'Trip Details',
+    title:'Expenses',
     headerStyle: { backgroundColor: '#4d9280', borderWidth: 0, shadowColor: 'transparent'},
     headerTintColor :'#fff',
   };
   render() {
-    const id = this.trip.id;
+   // const id = this.trip.id;
     const tableHead = ['Name', 'Amount already paid', 'Amount due', 'Receives/stillneeds to pay'];
     const tableData = [
       ['John', '120', '30', '90'],
@@ -31,16 +36,23 @@ import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-ta
     ];
     return (
     <View>
-      <Text style={styles.titleText}>Trip: {id}</Text>
-      <Text style={styles.objText}>Datum: 7/12/2017</Text>
-      <Table styles={{marginTop:10, marginRight: 5, marginLeft :5}}>
+      <Text style={styles.dropText}>Selected expense: </Text>
+      <Picker
+  selectedValue={this.state.expense}
+  onValueChange={(itemValue, itemIndex) => this.setState({expense: itemValue})}>
+  <Picker.Item label="Bier" value="Bier" />
+  <Picker.Item label="McDo" value="McDo" />
+  <Picker.Item label="Jordy heeft honger om 23:30 wtf" value="FuckingJordy" />
+  <Picker.Item label="Glazen Bokal" value="snoop dogg" />
+</Picker>
+      <Table style={styles.viewTable}>
           <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
           <Rows data={tableData} style={styles.row} textStyle={styles.text}/>
       </Table>
     </View>
     );
   }
-  goToPerson(personId)
+  /*goToPerson(personId)
   {
     //this.props.id = tripId; 
     this.props.navigation.navigate('PersonInfo',{personId});
@@ -48,15 +60,20 @@ import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-ta
   goToExpense(expenseId)
   {
     this.props.navigation.navigate('ExpenseInfo',{expenseId});
-  }
+  }*/
 }
  const styles = StyleSheet.create(
       { 
+      dropText:{
+        fontSize: 18,
+        fontWeight: 'bold',
+      },
       viewTable:
       {
         marginTop: 10,
         marginLeft: 5,
         marginRight: 5,
+        
       },
       container: {  
       flex: 1,
@@ -90,7 +107,9 @@ import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-ta
       marginBottom: 5,
       fontWeight: 'bold',
      },
-    
+     viewStyle: {
+       marginBottom :5,
+     },
      head: {
         height: null, 
         backgroundColor: '#f1f8ff'
@@ -102,24 +121,21 @@ import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-ta
       },
      
   });
-  export default TripInfo= TabNavigator(
+  export default TripInfo;/*= StackNavigator(
     {
     RecentScreen:{
       screen:TripInfo,
+     
     },
-    Expensens: 
+    PersonInfo: 
     {
-      screen: ExpensesScreen,  
-    },    
+      screen: PersonScreen,
+      
     },
-    {
+   
+    
+  },{
     headerMode : 'none',
-    tabBarPosition: 'bottom',
-    },{
-    tabBarOptions: {
-      headerStyle: {
-        backgroundColor:  '#4d9280',
-      },
-    },});
+  });*/
 // skip this line if using Create React Native App
 

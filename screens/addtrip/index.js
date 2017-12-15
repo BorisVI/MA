@@ -14,7 +14,7 @@ export default class AddTrip extends Component {
     var datum = new Date();
     var today = datum.getFullYear() + '-' +(datum.getMonth()+1)+'-'+datum.getDate();
     console.log(today);
-    this.state = {date: today, name: ''};
+    this.state = {startdate: today, enddate: today, name: ''};
     this.datumlimits= {min: '',max:''};
     //this.max= {max: ''};
     if(datum.getMonth() == 11)
@@ -44,9 +44,10 @@ export default class AddTrip extends Component {
     <View style={styles.container}>
     <Text>Trip naam: </Text>
   <TextInput style={ {height:40} } placeholder="Type hier de naam van uw trip!" onChangeText={(text) => this.setState({name:text})}/>
+  <Text>Startdatum: </Text>
  <DatePicker
         style={{width: 200,padding:10,justifyContent: 'center'}}
-        date={this.state.date}
+        date={this.state.startdate}
         mode="date"
         placeholder="select date"
         format="YYYY-MM-DD"
@@ -66,7 +67,32 @@ export default class AddTrip extends Component {
           }
           // ... You can check the source to find the other keys. 
         }}
-        onDateChange={(date) => {this.setState({date: date})}}
+        onDateChange={(date) => {this.setState({startdate: date})}}
+      />
+      <Text>Eind datum: </Text>
+      <DatePicker
+        style={{width: 200,padding:10,justifyContent: 'center'}}
+        date={this.state.enddate}
+        mode="date"
+        placeholder="select date"
+        format="YYYY-MM-DD"
+        minDate={this.datumlimits.min}
+        maxDate={this.datumlimits.max}
+        confirmBtnText="Confirm"
+        cancelBtnText="Cancel"
+        customStyles={{
+          dateIcon: {
+            position: 'absolute',
+            left: 0,
+            top: 4,
+            marginLeft: 0
+          },
+          dateInput: {
+            marginLeft: 36
+          }
+          // ... You can check the source to find the other keys. 
+        }}
+        onDateChange={(date) => {this.setState({enddate: date})}}
       />
       <View style={styles.buttonStyle}>
       <Button color='#4d9280' 
@@ -83,11 +109,11 @@ export default class AddTrip extends Component {
     if(this.state.name != '')
     {
       let tid = this.state.name+ this.state.date;
-    let t = new Trip(tid,this.state.name,this.state.date, this.state.date);
+    let t = new Trip(tid,this.state.name,this.state.startdate, this.state.enddate);
     //var alerttext= 'Trip naam: ' +`${this.state.name}` + ', Datum van de trip: ' +`${this.state.date}`;
     //Alert.alert(t);
     
-    console.log(t.id + ' ' + t.name + ' ' + t.startdate);
+    console.log(t.id + ' ' + t.name + ' ' + t.startdate + ' '+ t.enddate);
    this.props.navigation.goBack();
     }else{
       Alert.alert('Naam mag niet worden leeg gelaten');
