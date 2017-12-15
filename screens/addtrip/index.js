@@ -17,17 +17,18 @@ export default class AddTrip extends Component {
     this.state = {startdate: today, enddate: today, name: ''};
     this.datumlimits= {min: '',max:''};
     //this.max= {max: ''};
-    if(datum.getMonth() == 11)
+    if(datum.getMonth() >5)
     {
-      this.datumlimits.max= (datum.getFullYear()+1) + '-1-'+datum.getDate();
+     var varmonth = (datum.getMonth() + 7) -12
+      this.datumlimits.max= (datum.getFullYear()+1) + '-'+varmonth+'-'+datum.getDate();
       this.datumlimits.min =datum.getFullYear() + '-' +(datum.getMonth())+'-'+datum.getDate();
     } else if(datum.getMonth()==0)
     {
-      this.datumlimits.max= (datum.getFullYear()) + '-' +(datum.getMonth()+2)+'-'+datum.getDate();
+      this.datumlimits.max= (datum.getFullYear()) + '-' +(datum.getMonth()+7)+'-'+datum.getDate();
       this.datumlimits.min=(datum.getFullYear()-1) + '-' +'12'+'-'+datum.getDate();
     }else
     {
-      this.datumlimits.max= (datum.getFullYear()) + '-' +(datum.getMonth()+2)+'-'+datum.getDate();
+      this.datumlimits.max= (datum.getFullYear()) + '-' +(datum.getMonth()+7)+'-'+datum.getDate();
       this.datumlimits.min=(datum.getFullYear()) + '-' +(datum.getMonth())+'-'+datum.getDate();
     }
     //console.log(this.datumlimits.max);
