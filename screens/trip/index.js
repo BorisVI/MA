@@ -1,18 +1,23 @@
 import React, { Component } from 'react';
 import { AppRegistry, Image, View, Text,StyleSheet } from 'react-native';
 import TableRow from 'react-native-table-row';
+<<<<<<< HEAD
 import { TabNavigator } from 'react-navigation';
 import ExpensesScreen from './expenses';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 
 
+=======
+import { StackNavigator } from 'react-navigation';
+import PersonScreen from '../person';
+export class TripInfo extends Component {
+>>>>>>> 9eef702ad72d888b459f628baceebe63f6fb0677
 
- class TripInfo extends Component {
   constructor(props){
     super(props);
     this.trip = {id : this.props.navigation.state.params.tripId};
- 
-  console.log(this.props.navigation.state.params.tripId);
+    
+    console.log(this.props.navigation.state.params.tripId);
   }
   static navigationOptions = {
     
