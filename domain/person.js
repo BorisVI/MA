@@ -19,3 +19,4 @@ var Person = /** @class */ (function () {
     });
     return Person;
 }());
+exports.Person = Person;

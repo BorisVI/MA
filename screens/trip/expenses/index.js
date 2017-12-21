@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, Image, View, Text,StyleSheet, Picker, TouchableWithoutFeedback } from 'react-native';
+import { AppRegistry, Image, View, Text,StyleSheet, Picker, TouchableWithoutFeedback,Button } from 'react-native';
 import TableRow from 'react-native-table-row';
 import { Navigator } from 'react-navigation';
 //import PersonScreen from '../person';
@@ -49,6 +49,13 @@ class TripInfo extends Component {
           <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
           <Rows data={tableData} style={styles.row} textStyle={styles.text}/>
       </Table>
+      <View style={styles.buttonStyle}>
+      <Button color='#4d9280' 
+ onPress={() => this.AddTrip()}
+  title="Voeg expense toe"
+  
+/>
+  </View>
     </View>
     );
   }
@@ -118,6 +125,11 @@ class TripInfo extends Component {
        marginLeft: 5 
       },
      row: { height: 30 
+      },
+      buttonStyle: {
+        marginTop: 10,
+        paddingTop: 10,
+       
       },
      
   });
