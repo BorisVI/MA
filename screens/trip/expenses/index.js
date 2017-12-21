@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { AppRegistry, Image, View, Text,StyleSheet, Picker, TouchableWithoutFeedback,Button } from 'react-native';
 import TableRow from 'react-native-table-row';
-import { Navigator } from 'react-navigation';
+import { StackNavigator } from 'react-navigation';
 //import PersonScreen from '../person';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
+import AddExpenseScreen from './add';
 
 
-
-class TripInfo extends Component {
+class ExpenseInfo extends Component {
   constructor(props){
     super(props);
     this.trip = {id : this.props.navigation.state.params.tripId};
@@ -51,7 +51,7 @@ class TripInfo extends Component {
       </Table>
       <View style={styles.buttonStyle}>
       <Button color='#4d9280' 
- onPress={() => this.AddTrip()}
+ onPress={() => this.AddExpense()}
   title="Voeg expense toe"
   
 />
@@ -59,15 +59,11 @@ class TripInfo extends Component {
     </View>
     );
   }
-  /*goToPerson(personId)
+ 
+  AddExpense()
   {
-    //this.props.id = tripId; 
-    this.props.navigation.navigate('PersonInfo',{personId});
+  this.props.navigation.navigate('Add')
   }
-  goToExpense(expenseId)
-  {
-    this.props.navigation.navigate('ExpenseInfo',{expenseId});
-  }*/
 }
  const styles = StyleSheet.create(
       { 
@@ -133,21 +129,21 @@ class TripInfo extends Component {
       },
      
   });
-  export default TripInfo;/*= StackNavigator(
+  export default ExpenseInfo = StackNavigator(
     {
-    RecentScreen:{
-      screen:TripInfo,
-     
-    },
-    PersonInfo: 
+    Home: 
     {
-      screen: PersonScreen,
+      screen:ExpenseInfo,
       
     },
-   
+    Add: 
+    {
+      screen: AddExpenseScreen,
+      
+    },
     
-  },{
-    headerMode : 'none',
-  });*/
-// skip this line if using Create React Native App
+  },
+  {
+    headerMode : 'none',}
+  );
 

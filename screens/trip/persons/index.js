@@ -137,6 +137,6 @@ export class PersonInfo extends Component {
   },
   {
     headerMode : 'none',}
-  );;
+  );
 // skip this line if using Create React Native App
 

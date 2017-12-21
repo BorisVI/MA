@@ -8,7 +8,7 @@ import DatePicker from 'react-native-datepicker';
 //import {Trip} from '../../domain/trip'
 //import Overzicht from '../overzichtscreen';
 
-export default class AddTrip extends Component {
+export default class AddExpenseScreen extends Component {
   constructor(props){
     super(props);
     var datum = new Date();

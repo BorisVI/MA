@@ -9,7 +9,7 @@ import DatePicker from 'react-native-datepicker';
 import {Person} from '../../../domain/person.js'
 //import Overzicht from '../overzichtscreen';
 
-export default class AddPerson extends Component {
+export default class AddPersonScreen extends Component {
   constructor(props){
     super(props);
     this.state = {firstname: '', name: ''};
