@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, Image, View, Text,StyleSheet, TextInput,Button ,Alert} from 'react-native';
+import { AppRegistry, Image, View, Text,StyleSheet, TextInput,Button ,Alert, Picker} from 'react-native';
 import TableRow from 'react-native-table-row';
 //import TripsOverzichtScreen from '../overzicht/index';
 import { StackNavigator } from 'react-navigation';
@@ -14,7 +14,7 @@ export default class AddExpenseScreen extends Component {
     var datum = new Date();
     var today = datum.getFullYear() + '-' +(datum.getMonth()+1)+'-'+datum.getDate();
     console.log(today);
-    this.state = {startdate: today, enddate: today, name: ''};
+    this.state = {date: today, name: '', category : '', currency: 'EUR'};
     this.datumlimits= {min: '',max:''};
     //this.max= {max: ''};
     if(datum.getMonth() >5)
@@ -43,12 +43,14 @@ export default class AddExpenseScreen extends Component {
   render() {
     return (
     <View style={styles.container}>
-    <Text>Expense name: </Text>
+    <Text style={styles.dropText}>Expense name: </Text>
   <TextInput style={ {height:40} } placeholder="Type hier de naam van uw expense!" onChangeText={(text) => this.setState({name:text})}/>
-  <Text>Startdatum: </Text>
+  <Text style={styles.dropText}>Category name: </Text>
+  <TextInput style={ {height:40} } placeholder="Type hier de naam van uw category!" onChangeText={(text) => this.setState({category:text})}/>
+  <Text style={styles.dropText}>datum: </Text>
  <DatePicker
         style={{width: 200,padding:10,justifyContent: 'center'}}
-        date={this.state.startdate}
+        date={this.state.date}
         mode="date"
         placeholder="select date"
         format="YYYY-MM-DD"
@@ -68,9 +70,16 @@ export default class AddExpenseScreen extends Component {
           }
           // ... You can check the source to find the other keys. 
         }}
-        onDateChange={(date) => {this.setState({startdate: date})}}
+        onDateChange={(date) => {this.setState({date: date})}}
       />
-      
+
+<Text style={styles.dropText}>Currency: </Text>
+<Picker
+  selectedValue={this.state.currency}
+  onValueChange={(itemValue, itemIndex) => this.setState({currency: itemValue})}>
+  <Picker.Item label="EUR" value="EUR" />
+  <Picker.Item label="USD" value="USD" />
+</Picker>
       <View style={styles.buttonStyle}>
       <Button color='#4d9280' 
  onPress={() => this.AddExpense()}
@@ -99,6 +108,10 @@ export default class AddExpenseScreen extends Component {
 }
  const styles = StyleSheet.create(
       { 
+        dropText:{
+          fontSize: 18,
+          fontWeight: 'bold',
+        },
       container: {  
       flex: 1,
       backgroundColor: '#fff',
