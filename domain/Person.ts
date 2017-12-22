@@ -1,4 +1,4 @@
-class Person {
+export class Person {
 	private _firstname : string;
 	private _name : string;
 	constructor(firstname: string, name: string){

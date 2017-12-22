@@ -1,5 +1,6 @@
 import { Trip } from "./trip";
 import { AsyncStorage } from 'react-native';
+import { Person } from "./Person";
 
 export default class LocalStorage{
 
@@ -11,7 +12,7 @@ export default class LocalStorage{
      * @returns {Promise<Trip>}
      * @memberof LocalStorage
      */
-    async getItem(TripId: string): Promise<Trip> {
+    async getTrip(TripId: string): Promise<Trip> {
         return AsyncStorage.getItem(`@Trip:${TripId}`)
         .then((json) => {
             return JSON.parse(json) as Trip;
@@ -19,13 +20,13 @@ export default class LocalStorage{
     }
  
     /**
-     * Save a single item
+     * Save a single trip
      *
      * @param {Trip} item
      * @returns {Promise<void>}
      * @memberof LocalStorage
      */
-    async setItem(item: Trip): Promise<void> {
+    async addTrip(item: Trip): Promise<void> {
         return AsyncStorage.setItem(`@Trip:${item.id}`, JSON.stringify(item));
     }
  
@@ -35,17 +36,17 @@ export default class LocalStorage{
      * @returns {Promise<void>}
      * @memberof LocalStorage
      */
-    async deleteItem(TripId: string): Promise<void> {
+    async deleteTrip(TripId: string): Promise<void> {
         return AsyncStorage.removeItem(`@Trip:${TripId}`);
     }
  
     /**
-     * Get all the items
+     * Get all the trips
      *
      * @returns {Promise<Trip[]>}
      * @memberof LocalStorage
      */
-    async getAllItems(): Promise<Trip[]> {
+    async getAllTrips(): Promise<Trip[]> {
         return AsyncStorage.getAllKeys()
         .then((keys: string[]) => {
             const fetchKeys = keys.filter((k) => { return k.startsWith('@Trip:'); });
@@ -55,4 +56,17 @@ export default class LocalStorage{
             return result.map((r) => { return JSON.parse(r[1]) as Trip; });
         });
     }
+
+    /**
+     * Save a new member for the trip
+     *
+     * @param {Trip} item
+     * @returns {Promise<void>}
+     * @memberof LocalStorage
+     */
+    async addMember(tripId: string, person: Person ): Promise<void> {
+        const trip = this.getTrip(tripId);
+        return AsyncStorage.setItem(`@Trip:${person.firstName}`, JSON.stringify(item));
+    }
+
 }
