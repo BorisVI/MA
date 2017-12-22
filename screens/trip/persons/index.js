@@ -1,29 +1,33 @@
 import React, { Component } from 'react';
-import { AppRegistry, Image, View, Text,StyleSheet } from 'react-native';
+import { AppRegistry, Image, View, Text,StyleSheet, Picker,Button } from 'react-native';
 import TableRow from 'react-native-table-row';
 
-import { TabNavigator } from 'react-navigation';
-import ExpensesScreen from './expenses';
-import PersonsScreen from './persons';
+import { StackNavigator } from 'react-navigation';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
-
-export class TripInfo extends Component {
+import AddPersonScreen from './add';
+export class PersonInfo extends Component {
 
 
   constructor(props){
     super(props);
-    this.trip = {id : this.props.navigation.state.params.tripId};
+    //this.trip = {id : this.props.navigation.state.params.tripId};
     
-    console.log(this.props.navigation.state.params.tripId);
+   // console.log(this.props.navigation.state.params.tripId);
+   this.state = {person: 'Boris'}
+  }
+  setState(state)
+  {
+    super.setState(state);
+    console.log(`Set state to ${JSON.stringify(state)}`);
   }
   static navigationOptions = {
     
-    title:'Trip Details',
+    title:'Persons',
     headerStyle: { backgroundColor: '#4d9280', borderWidth: 0, shadowColor: 'transparent'},
     headerTintColor :'#fff',
   };
   render() {
-    const id = this.trip.id;
+   // const id = this.trip.id;
     const tableHead = ['Name', 'Amount already paid', 'Amount due', 'Receives/stillneeds to pay'];
     const tableData = [
       ['John', '120', '30', '90'],
@@ -33,27 +37,40 @@ export class TripInfo extends Component {
     ];
     return (
     <View>
-      <Text style={styles.titleText}>Trip: {id}</Text>
-      <Text style={styles.objText}>Datum: 7/12/2017</Text>
-      <Table styles={{marginTop:10, marginRight: 5, marginLeft :5}}>
+      <Text style={styles.dropText}>Selected person: </Text>
+         <Picker
+  selectedValue={this.state.person}
+  onValueChange={(itemValue, itemIndex) => this.setState({person: itemValue})}>
+  <Picker.Item label="Boris" value="Boris" />
+  <Picker.Item label="Thomas" value="Thomas" />
+  <Picker.Item label="Jordy" value="Jordy" />
+  <Picker.Item label="Kevin" value="Kevin" />
+</Picker>
+      <Table styles={styles.viewTable}>
           <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
           <Rows data={tableData} style={styles.row} textStyle={styles.text}/>
       </Table>
+      <View style={styles.buttonStyle}>
+      <Button color='#4d9280' 
+ onPress={() => this.AddPerson()}
+  title="Voeg een persoon toe"
+  
+/>
+  </View>
     </View>
     );
   }
-  goToPerson(personId)
+  AddPerson()
   {
-    //this.props.id = tripId; 
-    this.props.navigation.navigate('PersonInfo',{personId});
-  }
-  goToExpense(expenseId)
-  {
-    this.props.navigation.navigate('ExpenseInfo',{expenseId});
+    this.props.navigation.navigate('Add');
   }
 }
  const styles = StyleSheet.create(
       { 
+        dropText:{
+          fontSize: 18,
+          fontWeight: 'bold',
+        },
       viewTable:
       {
         marginTop: 10,
@@ -102,30 +119,29 @@ export class TripInfo extends Component {
       },
      row: { height: 30 
       },
+      buttonStyle: {
+        marginTop: 10,
+        paddingTop: 10,
+       
+      },
      
   });
-  export default TripInfo= TabNavigator(
+  export default PersonInfo= StackNavigator(
     {
-    RecentScreen:{
-      screen:TripInfo,
+    Home: 
+    {
+      screen:PersonInfo,
+      
     },
-    Expensens: 
+    Add: 
     {
-      screen: ExpensesScreen,  
+      screen: AddPersonScreen,
+      
     },
-    Persons:
-    {
-      screen: PersonsScreen,
-    },    
-    },
-    {
-    headerMode : 'none',
-    tabBarPosition: 'bottom',
-    },{
-    tabBarOptions: {
-      headerStyle: {
-        backgroundColor:  '#4d9280',
-      },
-    },});
+    
+  },
+  {
+    headerMode : 'none',}
+  );
 // skip this line if using Create React Native App
 

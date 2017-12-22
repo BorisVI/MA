@@ -9,10 +9,9 @@ export class Expense{
     private _category : Category;
     private _currency : Currency;
 
-    constructor(name: string, date: Date, loans: Array<Loan>, payers: TSMap<Person, number>, participants: TSMap<Person, number>, category : Category, Currency: Currency){
+    constructor(name: string, date: Date, payers: TSMap<Person, number>, participants: TSMap<Person, number>, category : Category, Currency: Currency){
         this._name = name;
         this._date = date;
-        this._loans = loans;
         this._payers = payers;
         this._participants = participants;
         this._category = category;
