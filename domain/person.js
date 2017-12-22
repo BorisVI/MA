@@ -19,6 +19,9 @@ var Person = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Person.prototype.equals = function (p) {
+        return (p._firstname == this._firstname && p._name == this._name);
+    };
     return Person;
 }());
 exports.Person = Person;

@@ -2,6 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var Trip = /** @class */ (function () {
     function Trip(id, name, startDate, endDate) {
+        this._participants = new Array();
+        this._expenses = new Array();
+        this._currencies = new Array();
         this._id = id;
         this._name = name;
         this._startdate = startDate;
@@ -20,10 +23,21 @@ var Trip = /** @class */ (function () {
         this._expenses.splice(this._expenses.indexOf(expense), 1);
     };
     Trip.prototype.removePerson = function (person) {
-        this._participants.splice(this.participants.indexOf(person), 1);
+        if (this.getIndexPerson(person) != -1) {
+            this._participants.splice(this.getIndexPerson(person), 1);
+        }
     };
     Trip.prototype.removeCurrency = function (currency) {
         this.currencies.splice(this._currencies.indexOf(currency), 1);
+    };
+    Trip.prototype.getIndexPerson = function (p) {
+        var index = -1;
+        for (var i = 0; i < this._participants.length; i++) {
+            if (this._participants[i].equals(p)) {
+                index = i;
+            }
+        }
+        return index;
     };
     Object.defineProperty(Trip.prototype, "id", {
         get: function () {

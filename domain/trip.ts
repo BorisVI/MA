@@ -4,9 +4,9 @@ import { Person } from "./person";
 export class Trip{
 
     private _id : string;
-    private _participants : Array<Person>;
-    private _expenses : Array<Expense>;
-    private _currencies : Array<Currency>;
+    private _participants : Array<Person> = new Array();
+    private _expenses : Array<Expense> = new Array();
+	private _currencies : Array<Currency> = new Array();
     private _startdate : Date;
     private _enddate : Date;
     private _name : string;
@@ -35,12 +35,24 @@ export class Trip{
     }
 
     removePerson(person : Person){
-        this._participants.splice(this.participants.indexOf(person),1);
+		if(this.getIndexPerson(person) != -1){
+			this._participants.splice(this.getIndexPerson(person),1);
+		}
     }
 
     removeCurrency(currency : Currency){
         this.currencies.splice(this._currencies.indexOf(currency),1);
-    }
+	}
+	
+	getIndexPerson(p: Person): number{
+		let index: number = -1;
+		for (var i = 0; i < this._participants.length; i++){
+			if(this._participants[i].equals(p)){
+				index = i;
+			}
+		}
+		return index;
+	}
 
 	public get id(): string {
 		return this._id;

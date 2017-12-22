@@ -13,4 +13,8 @@ export class Person {
 	get name(): string{
 		return this._name;
 	}
+
+	equals(p: Person): boolean{
+		return(p._firstname == this._firstname && p._name == this._name);
+	}
 }
