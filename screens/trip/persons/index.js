@@ -37,6 +37,7 @@ export class PersonInfo extends Component {
     ];
     return (
     <View>
+      <Text style={styles.dropText}>Selected person: </Text>
          <Picker
   selectedValue={this.state.person}
   onValueChange={(itemValue, itemIndex) => this.setState({person: itemValue})}>
@@ -66,6 +67,10 @@ export class PersonInfo extends Component {
 }
  const styles = StyleSheet.create(
       { 
+        dropText:{
+          fontSize: 18,
+          fontWeight: 'bold',
+        },
       viewTable:
       {
         marginTop: 10,
