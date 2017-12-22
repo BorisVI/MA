@@ -13,26 +13,35 @@ import TableRow from 'react-native-table-row';
 import { StackNavigator } from 'react-navigation';
 import {LocalStorage} from '../../domain/localStorage';
 import { Trip } from '../../domain/trip';
-
  export default class OverzichtInfo extends React.Component{
    constructor(props)
    {
     super(props);
-    let storage = new LocalStorage();
+    
+    this.storage = {db: new LocalStorage()};
+   // let storage = new LocalStorage();
     let trip1 = new Trip('1','trip 1', new Date(), new Date());
-    let trip2 = new Trip('2','trip 2', new Date(), new Date());
+    let trip2 = new Trip('2','trip ezahbv', new Date(), new Date());
     let trip3 = new Trip('3','trip 3', new Date(), new Date());
-    storage.addTrip(trip1);
-    storage.addTrip(trip2);
-    storage.addTrip(trip3);
-
-    storage.getTrip('2').then((trip)=>{
+    this.storage.db.addTrip(trip1);
+    //storage.addTrip(trip2);
+    //storage.addTrip(trip3);
+    this.localitems = {trips: []};
+    /*storage.getTrip('2').then((trip)=>{
       let t = JSON.parse(trip);
       console.log(t._id);
       console.log(t._name);
-    });
-    storage.getAllTrips().then((trips) =>{
-      console.log(trips);
+    });*/
+    this.storage.db.getAllTrips().then((trips) =>{
+     // this.items.trips = [];
+      console.log("<<<<<<<<<"+ this.localitems.trips);
+      var array = this.localitems.trips;
+      for(let t of trips )
+      {
+        array.push({key: t._id, name: t._name});
+      }
+      this.localitems = {trips: array};
+      console.log(">>>>>>>>>>>>>>>>>>>>>"+`${JSON.stringify(this.localitems)}`);
     });
     /*
     let result2 = storage.getTrip('2').then((trip) => {
@@ -71,19 +80,8 @@ import { Trip } from '../../domain/trip';
         <View style={styles.container}>
         <StatusBar hidden={true}/> 
         <FlatList
-          data={[
-            {key: 'Oude markt'},
-            {key: 'China'},
-            {key: 'Kerstmarkt'},
-          /*  {key: 'a'},
-            {key: 'b'},
-            {key: 'c'},
-            {key: 'd'},
-            {key: 'e'},
-            {key: 'f'},
-            {key: 'g'},*/
-          ]}
-          renderItem={({item}) => <TableRow style={styles.row} title={item.key}  showArrow={true}  onPress={() => this.goToTrip(item.key)}></TableRow>}
+          data={this.localitems.trips}
+          renderItem={({item}) => <TableRow style={styles.row} title={item.name} key={item.key} showArrow={true}  onPress={() => this.goToTrip(item.key)}></TableRow>}
         />
         <MaterialIcons
         name={'add-box'}
@@ -95,11 +93,14 @@ import { Trip } from '../../domain/trip';
   }
   goToAdd()
   {
-    this.props.navigation.navigate('Add');
+    let db = this.storage.db;
+    this.props.navigation.navigate('Add',{db});
+
   }
   goToTrip(tripId)
   {
     //this.props.id = tripId; 
+    let db = this.storage.db;
     this.props.navigation.navigate('Trip',{tripId});
   }
 
