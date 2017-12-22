@@ -1,5 +1,6 @@
 import { Currency } from "./currency";
 import { Expense } from "./expense";
+import { Person } from "./person";
 export class Trip{
 
     private _id : string;
