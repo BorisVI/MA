@@ -28,6 +28,7 @@
     "react-native-asyncstorage": "^1.0.0",
     "react-native-datepicker": "^1.6.0",
     "react-native-elements": "^0.18.4",
+    "react-native-table-component": "^1.1.2",
     "react-native-table-row": "0.0.4",
     "react-native-vector-icons": "^4.4.2",
     "react-navigation": "^1.0.0-beta.21",
