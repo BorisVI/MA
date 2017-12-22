@@ -1,5 +1,8 @@
 import { TSMap } from "../node_modules/typescript-map";
 import { Currency } from "./currency";
+import { Person } from "./person";
+import { Loan } from "./loan";
+
 export class Expense{
     private _name : string;
     private _date: Date;

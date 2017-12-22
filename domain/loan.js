@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var Loan = /** @class */ (function () {
     function Loan(receiver, payer, amount) {
         this._payed = false;
@@ -47,3 +49,4 @@ var Loan = /** @class */ (function () {
     };
     return Loan;
 }());
+exports.Loan = Loan;

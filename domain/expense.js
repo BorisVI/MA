@@ -1,11 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var typescript_map_1 = require("../node_modules/typescript-map");
+var person_1 = require("./person");
+var loan_1 = require("./loan");
 var Expense = /** @class */ (function () {
-    function Expense(name, date, loans, payers, participants, category, Currency) {
+    function Expense(name, date, payers, participants, category, Currency) {
         this._name = name;
         this._date = date;
-        this._loans = loans;
         this._payers = payers;
         this._participants = participants;
         this._category = category;
@@ -33,8 +34,8 @@ var Expense = /** @class */ (function () {
                 var topay = 0;
                 var canreceive = 0;
                 var amount = 0;
-                var payer = new Person("", "");
-                var receiver = new Person("", "");
+                var payer = new person_1.Person("", "");
+                var receiver = new person_1.Person("", "");
                 var found = false;
                 mapUnder_1.forEach(function (value, key) {
                     if (value != 0 && !found) {
@@ -59,7 +60,7 @@ var Expense = /** @class */ (function () {
                 else {
                     amount = canreceive;
                 }
-                this._loans.push(new Loan(receiver, payer, amount));
+                this._loans.push(new loan_1.Loan(receiver, payer, amount));
                 mapUnder_1.set(payer, mapUnder_1.get(payer) + amount);
                 mapOver_1.set(receiver, mapOver_1.get(receiver) - amount);
             }

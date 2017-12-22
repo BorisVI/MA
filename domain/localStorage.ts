@@ -4,7 +4,6 @@ import { Person } from "./person";
 
 export class LocalStorage{
 
-
     getTrip(tripId: string): Trip {
         return AsyncStorage.get(tripId).then((keyValue) => {
             console.log(keyValue) //Display key value

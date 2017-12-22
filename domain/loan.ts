@@ -1,4 +1,6 @@
-class Loan{
+import { Person } from "./person";
+
+export class Loan{
     private _payed : boolean;
     private _amount: number;
     private _receiver: Person;
