@@ -1,14 +1,22 @@
+import { LocalStorage } from "./localStorage";
+import { Trip } from "./trip";
+
+import { AsyncStorage } from 'react-native';
+
 class Service {
 
-	constructor(){
+    private _storage : LocalStorage;
+
+	getTrip(tripId: string): Trip{
+        return this._storage.getTrip(tripId);
+    }
+
+    public get storage(): LocalStorage {
+		return this._storage;
 	}
-    createPerson(firstname:string,name:string): Person{
-        return new Person(firstname,name);
-    }
-    createLoan(receiver: Person, payer: Person, amount: number): Loan{
-        return new Loan(receiver,payer,amount);
-    }
-    createExpense(): Expense{
-        
-    }
+
+	public set storage(value: LocalStorage) {
+		this._storage = value;
+	}
+    
 }
