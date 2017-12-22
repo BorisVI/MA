@@ -13,20 +13,31 @@ import TableRow from 'react-native-table-row';
 import { StackNavigator } from 'react-navigation';
 import {LocalStorage} from '../../domain/localStorage';
 import { Trip } from '../../domain/trip';
+import { Person } from '../../domain/person';
 
  export default class OverzichtInfo extends React.Component{
    constructor(props)
    {
     super(props);
     let storage = new LocalStorage();
+    let person1 = new Person('Peelman', 'Kevin');
+    let person2 = new Person('Vanzegbroeck', 'Thomas');
+    let person3 = new Person('Van Ingelgom', 'Boris');
+    let person4 = new Person('Van den Brande', 'Jordy');
+    let person5 = new Person('Vanzegbroeck', 'Thomas');
     let trip1 = new Trip('1','trip 1', new Date(), new Date());
     let trip2 = new Trip('2','trip 2', new Date(), new Date());
     let trip3 = new Trip('3','trip 3', new Date(), new Date());
+    trip1.addPerson(person1);
+    trip1.addPerson(person2);
+    trip1.addPerson(person3);
+    trip1.addPerson(person4);
+    trip1.removePerson(person5);
     storage.addTrip(trip1);
     storage.addTrip(trip2);
     storage.addTrip(trip3);
 
-    storage.getTrip('2').then((trip)=>{
+    storage.getTrip('1').then((trip)=>{
       let t = JSON.parse(trip);
       console.log(t._id);
       console.log(t._name);
