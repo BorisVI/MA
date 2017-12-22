@@ -1,6 +1,6 @@
 import { Trip } from "./trip";
 import { AsyncStorage } from 'react-native';
-import { Person } from "./Person";
+import { Person } from "./person";
 
 export default class LocalStorage{
 
