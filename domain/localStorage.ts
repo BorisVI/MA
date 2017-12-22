@@ -64,9 +64,16 @@ export default class LocalStorage{
      * @returns {Promise<void>}
      * @memberof LocalStorage
      */
-    async addMember(tripId: string, person: Person ): Promise<void> {
+    async addPersonToTrip(tripId: string, person: Person ): Promise<void> {
         const trip = this.getTrip(tripId);
+        
+        AsyncStorage.updateTrip(trip);
         return AsyncStorage.setItem(`@Trip:${person.firstName}`, JSON.stringify(item));
+    }
+
+    async updateTrip(trip: Trip): Promise<void>{
+        this.deleteTrip(trip.id);
+        this.addTrip(trip);
     }
 
 }
