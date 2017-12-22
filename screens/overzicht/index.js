@@ -11,12 +11,14 @@ import AddTripScreen from '../addtrip';
 //import 'react-table/react-table.css';
 import TableRow from 'react-native-table-row';
 import { StackNavigator } from 'react-navigation';
+import {LocalStorage} from '../../domain/localStorage';
 
  export default class OverzichtInfo extends React.Component{
    constructor(props)
    {
      super(props);
-     
+     let storage = new LocalStorage();
+    // let bam = storage.getAllTrips();
    }
   static navigationOptions = {
    

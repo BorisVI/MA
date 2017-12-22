@@ -31,7 +31,7 @@ export default class AddExpenseScreen extends Component {
       this.datumlimits.max= (datum.getFullYear()) + '-' +(datum.getMonth()+7)+'-'+datum.getDate();
       this.datumlimits.min=(datum.getFullYear()) + '-' +(datum.getMonth())+'-'+datum.getDate();
     }
-    this.dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1!==r2});
+    //this.dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1!==r2});
     //console.log(this.datumlimits.max);
     //console.log(this.datumlimits.min);
   }
