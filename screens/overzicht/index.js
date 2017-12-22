@@ -12,14 +12,39 @@ import AddTripScreen from '../addtrip';
 import TableRow from 'react-native-table-row';
 import { StackNavigator } from 'react-navigation';
 import {LocalStorage} from '../../domain/localStorage';
+import { Trip } from '../../domain/trip';
 
  export default class OverzichtInfo extends React.Component{
    constructor(props)
    {
-     super(props);
-     let storage = new LocalStorage();
-    // let bam = storage.getAllTrips();
-   }
+    super(props);
+    let storage = new LocalStorage();
+    let trip1 = new Trip('1','trip 1', new Date(), new Date());
+    let trip2 = new Trip('2','trip 2', new Date(), new Date());
+    let trip3 = new Trip('3','trip 3', new Date(), new Date());
+    storage.addTrip(trip1);
+    storage.addTrip(trip2);
+    storage.addTrip(trip3);
+
+    storage.getTrip('2').then((trip)=>{
+      let t = JSON.parse(trip);
+      console.log(t._id);
+      console.log(t._name);
+    });
+    storage.getAllTrips().then((trips) =>{
+      console.log(trips);
+    });
+    /*
+    let result2 = storage.getTrip('2').then((trip) => {
+      console.log(trip._name);
+    });
+    let result = storage.getAllTrips().then((keyValue) => {
+      console.log('result: ' + keyValue) //Display key value
+      }, (error) => {
+        console.log(error) //Display error
+      });
+      */
+  }
   static navigationOptions = {
    
       title: 'Overzicht trips',

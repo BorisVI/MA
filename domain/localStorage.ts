@@ -4,24 +4,31 @@ import { Person } from "./person";
 
 export class LocalStorage{
 
-    getTrip(tripId: string): Trip {
-        return AsyncStorage.get(tripId).then((keyValue) => {
-            console.log(keyValue) //Display key value
-            }, (error) => {
-            console.log(error) //Display error
-      });
+    async getTrip(tripId: string): Promise<Trip> {
+        let trip = await AsyncStorage.getItem(tripId);
+      return trip;
     }
 
-    getAllTrips(): Trip[]{
-        return AsyncStorage.getAllTrips().then((keyValue) => {
-            console.log(keyValue) //Display key value
-            }, (error) => {
-            console.log(error) //Display error
+    async getAllTrips(): Promise<Trip[]> {
+        return AsyncStorage.getAllKeys()
+        .then((keys: string[]) => {
+            return AsyncStorage.multiGet(keys);
+        })
+        .then((result) => {
+            return result.map((r) => { return JSON.parse(r[1]) as Trip; });
         });
     }
 
-    addTrip(trip: Trip){
+    async addTrip(trip: Trip){
         AsyncStorage.setItem(trip.id, JSON.stringify(trip));
+    }
+
+    async removeTrip(tripId: string){
+        AsyncStorage.removeItem(tripId);
+    }
+
+    async updateTrip(trip: Trip){
+        this.addTrip(trip);
     }
 
 /*
