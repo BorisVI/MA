@@ -32,9 +32,16 @@ import { Person } from '../../domain/person';
     let trip1 = new Trip('1','trip 1', new Date(), new Date());
     let trip2 = new Trip('2','trip ezahbv', new Date(), new Date());
     let trip3 = new Trip('3','trip 3', new Date(), new Date());
+
+    trip1.addPerson(person1);
+    trip1.addPerson(person2);
+    trip1.addPerson(person3);
+    trip1.addPerson(person4);
+
     this.storage.db.addTrip(trip1);
-    //storage.addTrip(trip2);
-    //storage.addTrip(trip3);
+    this.storage.db.addTrip(trip2);
+    this.storage.db.addTrip(trip3);
+    //this.storage.db.clearDb();
     this.localitems = {trips: []};
     /*storage.getTrip('2').then((trip)=>{
     trip1.addPerson(person1);
@@ -53,25 +60,15 @@ import { Person } from '../../domain/person';
     });*/
     this.storage.db.getAllTrips().then((trips) =>{
      // this.items.trips = [];
-      console.log("<<<<<<<<<"+ this.localitems.trips);
       var array = this.localitems.trips;
       for(let t of trips )
       {
-        array.push({key: t._id, name: t._name});
+        array.push({key: t.id, name: t.name});
+        console.log('result: ' + t.id + ', ' + t.name + ', ' + t.startdate + ', ' + t.enddate + ', ' + t.participants + ', ' + t.expenses + ', ' + t.currencies);
       }
       this.localitems = {trips: array};
-      console.log(">>>>>>>>>>>>>>>>>>>>>"+`${JSON.stringify(this.localitems)}`);
+      //console.log(">>>>>>>>>>>>>>>>>>>>>"+`${JSON.stringify(this.localitems)}`);
     });
-    /*
-    let result2 = storage.getTrip('2').then((trip) => {
-      console.log(trip._name);
-    });
-    let result = storage.getAllTrips().then((keyValue) => {
-      console.log('result: ' + keyValue) //Display key value
-      }, (error) => {
-        console.log(error) //Display error
-      });
-      */
   }
   static navigationOptions = {
    

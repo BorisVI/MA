@@ -20,7 +20,7 @@ export class LocalStorage{
     }
 
     async addTrip(trip: Trip){
-        AsyncStorage.setItem(trip.id, JSON.stringify(trip));
+        AsyncStorage.setItem(trip.id, JSON.stringify(trip).replace(/"_/g,"\""));
     }
 
     async removeTrip(tripId: string){
@@ -29,6 +29,15 @@ export class LocalStorage{
 
     async updateTrip(trip: Trip){
         this.addTrip(trip);
+    }
+
+    async clearDb(){
+        this.getAllTrips().then((trips: Trip[]) => {
+            for(let trip of trips){
+                //console.log(JSON.stringify(trip).replace(/"_/g,"\""));
+                this.removeTrip(trip.id);
+            }
+        });
     }
 
 /*

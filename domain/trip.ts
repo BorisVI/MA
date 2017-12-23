@@ -54,6 +54,10 @@ export class Trip{
 		return index;
 	}
 
+	public toString = () : string => {
+		return "{\"id\":\""+ this.id.toString() +"\",\"name\":\""+ this.name.toString() +"\",\"participants\":[" + this.participants.toString() + "],\"expenses\":[" + this.expenses.toString() + "],\"currencies\":[" + this.currencies.toString() + "],\"_startdate\":\"" + this.startdate.toString() + "\",\"_enddate\":\"" + this.enddate.toString() + "\"}";
+	}
+
 	public get id(): string {
 		return this._id;
 	}

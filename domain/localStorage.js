@@ -68,7 +68,7 @@ var LocalStorage = /** @class */ (function () {
     LocalStorage.prototype.addTrip = function (trip) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                react_native_1.AsyncStorage.setItem(trip.id, JSON.stringify(trip));
+                react_native_1.AsyncStorage.setItem(trip.id, JSON.stringify(trip).replace(/"_/g, "\""));
                 return [2 /*return*/];
             });
         });
@@ -85,6 +85,21 @@ var LocalStorage = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 this.addTrip(trip);
+                return [2 /*return*/];
+            });
+        });
+    };
+    LocalStorage.prototype.clearDb = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                this.getAllTrips().then(function (trips) {
+                    for (var _i = 0, trips_1 = trips; _i < trips_1.length; _i++) {
+                        var trip = trips_1[_i];
+                        //console.log(JSON.stringify(trip).replace(/"_/g,"\""));
+                        _this.removeTrip(trip.id);
+                    }
+                });
                 return [2 /*return*/];
             });
         });

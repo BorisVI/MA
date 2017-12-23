@@ -2,9 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var Trip = /** @class */ (function () {
     function Trip(id, name, startDate, endDate) {
+        var _this = this;
         this._participants = new Array();
         this._expenses = new Array();
         this._currencies = new Array();
+        this.toString = function () {
+            return "{\"id\":\"" + _this.id.toString() + "\",\"name\":\"" + _this.name.toString() + "\",\"participants\":[" + _this.participants.toString() + "],\"expenses\":[" + _this.expenses.toString() + "],\"currencies\":[" + _this.currencies.toString() + "],\"_startdate\":\"" + _this.startdate.toString() + "\",\"_enddate\":\"" + _this.enddate.toString() + "\"}";
+        };
         this._id = id;
         this._name = name;
         this._startdate = startDate;
