@@ -6,11 +6,13 @@ import { StackNavigator } from 'react-navigation';
 //import PersonScreen from '../person';
 import DatePicker from 'react-native-datepicker';
 import {Trip} from '../../domain/trip'
+import {LocalStorage} from '../../domain/localStorage';
 //import Overzicht from '../overzichtscreen';
 
 export default class AddTrip extends Component {
   constructor(props){
     super(props);
+    this.storage = {db: this.props.navigation.state.params.db}
     var datum = new Date();
     var today = datum.getFullYear() + '-' +(datum.getMonth()+1)+'-'+datum.getDate();
     console.log(today);
@@ -109,12 +111,13 @@ export default class AddTrip extends Component {
   {
     if(this.state.name != '')
     {
-      let tid = this.state.name+ this.state.date;
+      let tid = this.state.name+ this.state.startdate;
     let t = new Trip(tid,this.state.name,this.state.startdate, this.state.enddate);
     //var alerttext= 'Trip naam: ' +`${this.state.name}` + ', Datum van de trip: ' +`${this.state.date}`;
     //Alert.alert(t);
     
     console.log(t.id + ' ' + t.name + ' ' + t.startdate + ' '+ t.enddate);
+    this.storage.db.addTrip(t);
    this.props.navigation.goBack();
     }else{
       Alert.alert('Naam mag niet worden leeg gelaten');
