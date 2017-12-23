@@ -39,7 +39,7 @@ var react_native_1 = require("react-native");
 var LocalStorage = /** @class */ (function () {
     function LocalStorage() {
     }
-    LocalStorage.prototype.getTrip = function (tripId) {
+    LocalStorage.getTrip = function (tripId) {
         return __awaiter(this, void 0, void 0, function () {
             var trip;
             return __generator(this, function (_a) {
@@ -52,7 +52,7 @@ var LocalStorage = /** @class */ (function () {
             });
         });
     };
-    LocalStorage.prototype.getAllTrips = function () {
+    LocalStorage.getAllTrips = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 return [2 /*return*/, react_native_1.AsyncStorage.getAllKeys()
@@ -65,7 +65,7 @@ var LocalStorage = /** @class */ (function () {
             });
         });
     };
-    LocalStorage.prototype.addTrip = function (trip) {
+    LocalStorage.addTrip = function (trip) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 react_native_1.AsyncStorage.setItem(trip.id, JSON.stringify(trip).replace(/"_/g, "\""));
@@ -73,7 +73,7 @@ var LocalStorage = /** @class */ (function () {
             });
         });
     };
-    LocalStorage.prototype.removeTrip = function (tripId) {
+    LocalStorage.removeTrip = function (tripId) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 react_native_1.AsyncStorage.removeItem(tripId);
@@ -81,7 +81,7 @@ var LocalStorage = /** @class */ (function () {
             });
         });
     };
-    LocalStorage.prototype.updateTrip = function (trip) {
+    LocalStorage.updateTrip = function (trip) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 this.addTrip(trip);
@@ -89,14 +89,13 @@ var LocalStorage = /** @class */ (function () {
             });
         });
     };
-    LocalStorage.prototype.clearDb = function () {
+    LocalStorage.clearDb = function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
                 this.getAllTrips().then(function (trips) {
                     for (var _i = 0, trips_1 = trips; _i < trips_1.length; _i++) {
                         var trip = trips_1[_i];
-                        //console.log(JSON.stringify(trip).replace(/"_/g,"\""));
                         _this.removeTrip(trip.id);
                     }
                 });

@@ -11,7 +11,7 @@ import AddTripScreen from '../addtrip';
 //import 'react-table/react-table.css';
 import TableRow from 'react-native-table-row';
 import { StackNavigator } from 'react-navigation';
-import {LocalStorage} from '../../domain/localStorage';
+import { Service as Service} from '../../domain/service';
 import { Trip } from '../../domain/trip';
 
 import { Person } from '../../domain/person';
@@ -21,8 +21,8 @@ import { Person } from '../../domain/person';
    {
     super(props);
     
-    this.storage = {db: new LocalStorage()};
-   // let storage = new LocalStorage();
+    //this.storage = {db: new LocalStorage()};
+    // let storage = new LocalStorage();
     //let storage = new LocalStorage();
     let person1 = new Person('Peelman', 'Kevin');
     let person2 = new Person('Vanzegbroeck', 'Thomas');
@@ -37,10 +37,14 @@ import { Person } from '../../domain/person';
     trip1.addPerson(person2);
     trip1.addPerson(person3);
     trip1.addPerson(person4);
+    //let s = Service.getInstance();
+    Service.addTrip(trip1);
+    Service.addTrip(trip2);
+    Service.addTrip(trip3);
 
-    this.storage.db.addTrip(trip1);
-    this.storage.db.addTrip(trip2);
-    this.storage.db.addTrip(trip3);
+    //this.storage.db.addTrip(trip1);
+    //this.storage.db.addTrip(trip2);
+    //this.storage.db.addTrip(trip3);
     //this.storage.db.clearDb();
     this.localitems = {trips: []};
     /*storage.getTrip('2').then((trip)=>{
@@ -58,7 +62,7 @@ import { Person } from '../../domain/person';
       console.log(t._id);
       console.log(t._name);
     });*/
-    this.storage.db.getAllTrips().then((trips) =>{
+    Service.getAllTrips().then((trips) =>{
      // this.items.trips = [];
       var array = this.localitems.trips;
       for(let t of trips )
@@ -109,14 +113,14 @@ import { Person } from '../../domain/person';
   }
   goToAdd()
   {
-    let db = this.storage.db;
+    //let db = this.storage.db;
     this.props.navigation.navigate('Add',{db});
 
   }
   goToTrip(tripId)
   {
     //this.props.id = tripId; 
-    let db = this.storage.db;
+    //let db = this.storage.db;
     this.props.navigation.navigate('Trip',{tripId});
   }
 
