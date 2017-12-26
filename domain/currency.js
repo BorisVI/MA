@@ -37,6 +37,9 @@ var Currency = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Currency.prototype.equals = function (c) {
+        return c._name == this._name;
+    };
     return Currency;
 }());
 exports.Currency = Currency;

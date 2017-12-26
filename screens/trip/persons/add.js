@@ -17,16 +17,16 @@ export default class AddPersonScreen extends Component {
   }
   static navigationOptions = {
     
-    title:'Voeg een Persoon toe',
+    title:'Add a person',
     headerStyle: { backgroundColor: '#4d9280', borderWidth: 0, shadowColor: 'transparent'},
     headerTintColor :'#fff',
   };
   render() {
     return (
     <View style={styles.container}>
-    <Text>Voornaam: </Text>
+    <Text>First name: </Text>
   <TextInput style={ {height:40} } placeholder="Type hier de voornaam!" onChangeText={(text) => this.setState({firstname:text})}/>
-  <Text>Achternaam: </Text>
+  <Text>Last name: </Text>
   <TextInput style={ {height:40} } placeholder="Type hier de achternaam!" onChangeText={(text) => this.setState({name:text})}/>
   <View style={styles.buttonStyle}>
       <Button color='#4d9280' 

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { AppRegistry, Image, View, Text,StyleSheet, Picker, TouchableWithoutFeedback,Button } from 'react-native';
+import { AppRegistry, Image, View, Text,StyleSheet, Picker, TouchableWithoutFeedback,Button ,FlatList} from 'react-native';
 import TableRow from 'react-native-table-row';
 import { StackNavigator } from 'react-navigation';
 //import PersonScreen from '../person';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
+import{Service as Service} from '../../../domain/service';
 import AddExpenseScreen from './add';
 
 
@@ -12,7 +13,25 @@ class ExpenseInfo extends Component {
     super(props);
     this.trip = {id : this.props.navigation.state.params.tripId};
     console.log(this.props.navigation.state.params.tripId);
-    this.state = {expense: 'Bier'}
+    this.state = {id: this.props.navigation.state.params.tripId,expenses: []}
+    //this.loadExpenses()
+  }
+  componentDidMount()
+  {
+    this.loadExpenses();
+    console.log(this.expenses);
+  }
+  loadExpenses()
+  {
+    var items =[];    
+      Service.getTrip(this.state.id).then((trip)=>{
+      let t = JSON.parse(trip);
+      console.log(t);
+     for(let p of t.expenses){
+       items.push({key: name})
+     }
+    });
+    this.setState({expenses: items});
   }
   setState(state)
   {
@@ -37,18 +56,10 @@ class ExpenseInfo extends Component {
     return (
     <View>
       <Text style={styles.dropText}>Selected expense: </Text>
-      <Picker
-  selectedValue={this.state.expense}
-  onValueChange={(itemValue, itemIndex) => this.setState({expense: itemValue})}>
-  <Picker.Item label="Bier" value="Bier" />
-  <Picker.Item label="McDo" value="McDo" />
-  <Picker.Item label="Jordy heeft honger om 23:30 wtf" value="FuckingJordy" />
-  <Picker.Item label="Glazen Bokal" value="snoop dogg" />
-</Picker>
-      <Table style={styles.viewTable}>
-          <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
-          <Rows data={tableData} style={styles.row} textStyle={styles.text}/>
-      </Table>
+      <FlatList
+          data={this.state.expenses}
+          renderItem={({item}) => <TableRow style={styles.row} title={item.key} key={item.key} showArrow={true}  onPress={() => this.goToExpense(item.key)}></TableRow>}
+        />
       <View style={styles.buttonStyle}>
       <Button color='#4d9280' 
  onPress={() => this.AddExpense()}
@@ -59,7 +70,9 @@ class ExpenseInfo extends Component {
     </View>
     );
   }
- 
+  goToExpense(expenseId){
+    this.props.navigation.navigate('Expense',{expenseId})
+  }
   AddExpense()
   {
   this.props.navigation.navigate('Add')
@@ -141,6 +154,10 @@ class ExpenseInfo extends Component {
       screen: AddExpenseScreen,
       
     },
+    Expense:
+    {
+      screen : AddExpenseScreen,
+    }
     
   },
   {

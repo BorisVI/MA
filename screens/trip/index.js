@@ -6,15 +6,23 @@ import { TabNavigator } from 'react-navigation';
 import ExpensesScreen from './expenses';
 import PersonsScreen from './persons';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
-
+import {Service as Service} from '../../domain/service';
 export class TripInfo extends Component {
 
 
   constructor(props){
     super(props);
-    this.trip = {id : this.props.navigation.state.params.tripId};
-    
-    console.log(this.props.navigation.state.params.tripId);
+    this.trips = {id : this.props.navigation.state.params.tripId};
+    this.state ={id: this.props.navigation.state.params.trip,name: '',startdate: '', enddate:''};
+    console.log("id: "+this.trips.id);
+    Service.getTrip(this.trips.id).then((trip)=>{
+      let t = JSON.parse(trip);
+      console.log(t);
+      this.setState({name: t.name});
+      this.setState({startdate: t.startdate})
+      this.setState({enddate: t.enddate});
+    });
+    //console.log(this.props.navigation.state.params.tripId);
   }
   static navigationOptions = {
     
@@ -23,7 +31,7 @@ export class TripInfo extends Component {
     headerTintColor :'#fff',
   };
   render() {
-    const id = this.trip.id;
+    //const id = this.trips.id;
     const tableHead = ['Name', 'Amount already paid', 'Amount due', 'Receives/stillneeds to pay'];
     const tableData = [
       ['John', '120', '30', '90'],
@@ -33,8 +41,9 @@ export class TripInfo extends Component {
     ];
     return (
     <View>
-      <Text style={styles.titleText}>Trip: {id}</Text>
-      <Text style={styles.objText}>Datum: 7/12/2017</Text>
+      <Text style={styles.titleText}>Trip: {this.state.id}</Text>
+      <Text style={styles.objText}>Start date: {this.state.startdate}</Text>
+      <Text style={styles.objText}>End date: {this.state.enddate}</Text>
       <Table styles={{marginTop:10, marginRight: 5, marginLeft :5}}>
           <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
           <Rows data={tableData} style={styles.row} textStyle={styles.text}/>

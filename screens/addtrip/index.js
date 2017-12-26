@@ -7,12 +7,13 @@ import { StackNavigator } from 'react-navigation';
 import DatePicker from 'react-native-datepicker';
 import {Trip} from '../../domain/trip'
 import {LocalStorage} from '../../domain/localStorage';
+import { Service as Service} from '../../domain/service';
 //import Overzicht from '../overzichtscreen';
 
 export default class AddTrip extends Component {
   constructor(props){
     super(props);
-    this.storage = {db: this.props.navigation.state.params.db}
+   // this.storage = {db: this.props.navigation.state.params.db}
     var datum = new Date();
     var today = datum.getFullYear() + '-' +(datum.getMonth()+1)+'-'+datum.getDate();
     console.log(today);
@@ -38,16 +39,16 @@ export default class AddTrip extends Component {
   }
   static navigationOptions = {
     
-    title:'Voeg een trip toe',
+    title:'Add a trip',
     headerStyle: { backgroundColor: '#4d9280', borderWidth: 0, shadowColor: 'transparent'},
     headerTintColor :'#fff',
   };
   render() {
     return (
     <View style={styles.container}>
-    <Text>Trip naam: </Text>
+    <Text>Name of the trip: </Text>
   <TextInput style={ {height:40} } placeholder="Type hier de naam van uw trip!" onChangeText={(text) => this.setState({name:text})}/>
-  <Text>Startdatum: </Text>
+  <Text>Start date: </Text>
  <DatePicker
         style={{width: 200,padding:10,justifyContent: 'center'}}
         date={this.state.startdate}
@@ -72,7 +73,7 @@ export default class AddTrip extends Component {
         }}
         onDateChange={(date) => {this.setState({startdate: date})}}
       />
-      <Text>Eind datum: </Text>
+      <Text>End date: </Text>
       <DatePicker
         style={{width: 200,padding:10,justifyContent: 'center'}}
         date={this.state.enddate}
@@ -111,13 +112,14 @@ export default class AddTrip extends Component {
   {
     if(this.state.name != '')
     {
-      let tid = this.state.name+ this.state.startdate;
+    let tid = this.state.name+ this.state.startdate+ this.state.enddate;
     let t = new Trip(tid,this.state.name,this.state.startdate, this.state.enddate);
     //var alerttext= 'Trip naam: ' +`${this.state.name}` + ', Datum van de trip: ' +`${this.state.date}`;
     //Alert.alert(t);
     
     console.log(t.id + ' ' + t.name + ' ' + t.startdate + ' '+ t.enddate);
-    this.storage.db.addTrip(t);
+   Service.addTrip(t);
+   this.props.navigation.state.params.onNavigateBack(true);
    this.props.navigation.goBack();
     }else{
       Alert.alert('Naam mag niet worden leeg gelaten');

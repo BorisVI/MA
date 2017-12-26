@@ -11,31 +11,43 @@ import AddTripScreen from '../addtrip';
 //import 'react-table/react-table.css';
 import TableRow from 'react-native-table-row';
 import { StackNavigator } from 'react-navigation';
-import {LocalStorage} from '../../domain/localStorage';
+import { Service as Service} from '../../domain/service';
 import { Trip } from '../../domain/trip';
-
+import {connect} from 'react-redux'
 import { Person } from '../../domain/person';
 
- export default class OverzichtInfo extends React.Component{
+ class OverzichtInfo extends React.Component{
    constructor(props)
    {
     super(props);
-    
-    this.storage = {db: new LocalStorage()};
-   // let storage = new LocalStorage();
+    //Service.clearDb();
+    //this.storage = {db: new LocalStorage()};
+    // let storage = new LocalStorage();
     //let storage = new LocalStorage();
     let person1 = new Person('Peelman', 'Kevin');
     let person2 = new Person('Vanzegbroeck', 'Thomas');
     let person3 = new Person('Van Ingelgom', 'Boris');
     let person4 = new Person('Van den Brande', 'Jordy');
     let person5 = new Person('Vanzegbroeck', 'Thomas');
-    let trip1 = new Trip('1','trip 1', new Date(), new Date());
+    let trip1 = new Trip('1','trip 1', '2017-12-26', '2017-12-26');
     let trip2 = new Trip('2','trip ezahbv', new Date(), new Date());
     let trip3 = new Trip('3','trip 3', new Date(), new Date());
-    this.storage.db.addTrip(trip1);
-    //storage.addTrip(trip2);
-    //storage.addTrip(trip3);
-    this.localitems = {trips: []};
+
+    trip1.addPerson(person1);
+    trip1.addPerson(person2);
+    trip1.addPerson(person3);
+    trip1.addPerson(person4);
+    //let s = Service.getInstance();
+    Service.addTrip(trip1);
+    //Service.addTrip(trip2);
+    //Service.addTrip(trip3);
+    //Service.clearDb();
+    //this.storage.db.addTrip(trip1);
+    //this.storage.db.addTrip(trip2);
+    //this.storage.db.addTrip(trip3);
+    //this.storage.db.clearDb();
+    this.state = {trips: []};
+    this.storeTripsLocaly();
     /*storage.getTrip('2').then((trip)=>{
     trip1.addPerson(person1);
     trip1.addPerson(person2);
@@ -51,36 +63,48 @@ import { Person } from '../../domain/person';
       console.log(t._id);
       console.log(t._name);
     });*/
-    this.storage.db.getAllTrips().then((trips) =>{
+   /* Service.getAllTrips().then((trips) =>{
      // this.items.trips = [];
-      console.log("<<<<<<<<<"+ this.localitems.trips);
       var array = this.localitems.trips;
       for(let t of trips )
       {
-        array.push({key: t._id, name: t._name});
+        array.push({key: t.id, name: t.name});
+        console.log('result: ' + t.id + ', ' + t.name + ', ' + t.startdate + ', ' + t.enddate + ', ' + t.participants + ', ' + t.expenses + ', ' + t.currencies);
       }
       this.localitems = {trips: array};
-      console.log(">>>>>>>>>>>>>>>>>>>>>"+`${JSON.stringify(this.localitems)}`);
-    });
-    /*
-    let result2 = storage.getTrip('2').then((trip) => {
-      console.log(trip._name);
-    });
-    let result = storage.getAllTrips().then((keyValue) => {
-      console.log('result: ' + keyValue) //Display key value
-      }, (error) => {
-        console.log(error) //Display error
-      });
-      */
+      //console.log(">>>>>>>>>>>>>>>>>>>>>"+`${JSON.stringify(this.localitems)}`);
+    });*/
+  }
+  handleOnNavigateBack= (b) => {
+   //console.log("yess");
+    this.storeTripsLocaly();
+  }
+  storeTripsLocaly() 
+  {
+    Service.getAllTrips().then((trips) =>
+    {
+      // this.items.trips = [];
+       var array = [];
+       for(let t of trips )
+       {
+         array.push({key: t.id, name: t.name});
+        // console.log('result_: ' + t._id + ', ' + t._name + ', ' + t.startdate + ', ' + t.enddate + ', ' + t.participants + ', ' + t.expenses + ', ' + t.currencies);
+         //console.log('result: ' + t.id + ', ' + t.name + ', ' + t.startdate + ', ' + t.enddate + ', ' + t.participants + ', ' + t.expenses + ', ' + t.currencies);
+       }
+       this.setState({trips: array});
+       //console.log(this.localitems.trips);
+       //console.log(">>>>>>>>>>>>>>>>>>>>>"+`${JSON.stringify(this.localitems)}`);
+     });
   }
   static navigationOptions = {
    
-      title: 'Overzicht trips',
+      title: 'Trips overview',
       headerStyle: { backgroundColor: '#4d9280', borderWidth: 0, shadowColor: 'transparent'},
       headerTintColor :'#fff',
     
   
 }
+
   render() {
     
     return (
@@ -99,7 +123,7 @@ import { Person } from '../../domain/person';
         <View style={styles.container}>
         <StatusBar hidden={true}/> 
         <FlatList
-          data={this.localitems.trips}
+          data={this.state.trips}
           renderItem={({item}) => <TableRow style={styles.row} title={item.name} key={item.key} showArrow={true}  onPress={() => this.goToTrip(item.key)}></TableRow>}
         />
         <MaterialIcons
@@ -110,16 +134,26 @@ import { Person } from '../../domain/person';
         </View>
     );
   }
+  fillList()
+  {
+    //unused method, gebruiken om iets te testen als ik die 2 undefined uit menb db krijg 
+    items=[];
+    for(let item of this.state.trips)
+    {
+      items.push(<TableRow style={styles.row} title={item.name} key={item.key} showArrow={true} onPress={() => this.goToTrip(item.key)}/>);
+    }
+    return items;
+  }
   goToAdd()
   {
-    let db = this.storage.db;
-    this.props.navigation.navigate('Add',{db});
+    //let db = this.storage.db;
+    this.props.navigation.navigate('Add', {onNavigateBack: this.handleOnNavigateBack});
 
   }
   goToTrip(tripId)
   {
     //this.props.id = tripId; 
-    let db = this.storage.db;
+    //let db = this.storage.db;
     this.props.navigation.navigate('Trip',{tripId});
   }
 
@@ -169,6 +203,8 @@ OverzichtInfo= StackNavigator(
   },
   
 });
+
+export default OverzichtInfo;
 //export default Overzicht;
 /*const RootTabs = TabNavigator(
   {

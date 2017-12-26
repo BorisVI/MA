@@ -22,6 +22,10 @@ export class Expense{
         this.CalculateLoans();
     }
 
+    equals(e: Expense): boolean{
+        return e._name == this._name;
+    }
+
     CalculateLoans(){
         if(this.isValidAmounts){
             let mapOver = new TSMap<Person,number>();

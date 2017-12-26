@@ -34,4 +34,8 @@ export class Currency{
          return this._rateToCurrencies;
      }
 
+     equals(c : Currency): boolean{
+         return c._name == this._name; 
+     }
+
 }

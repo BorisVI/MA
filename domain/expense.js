@@ -13,6 +13,9 @@ var Expense = /** @class */ (function () {
         this._currency = Currency;
         this.CalculateLoans();
     }
+    Expense.prototype.equals = function (e) {
+        return e._name == this._name;
+    };
     Expense.prototype.CalculateLoans = function () {
         var _this = this;
         if (this.isValidAmounts) {
