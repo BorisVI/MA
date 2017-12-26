@@ -54,7 +54,7 @@ export default class AddExpenseScreen extends Component {
   <TextInput style={ {height:40} } placeholder="Type hier de naam van uw expense!" onChangeText={(text) => this.setState({name:text})}/>
   <Text style={styles.dropText}>Category name: </Text>
   <TextInput style={ {height:40} } placeholder="Type hier de naam van uw category!" onChangeText={(text) => this.setState({category:text})}/>
-  <Text style={styles.dropText}>Datum: </Text>
+  <Text style={styles.dropText}>Date: </Text>
  <DatePicker
         style={{width: 200,padding:10,justifyContent: 'center'}}
         date={this.state.date}
@@ -131,7 +131,7 @@ export default class AddExpenseScreen extends Component {
   <FlatList
           data={this.state.payers}
           extraData={this.state}
-          renderItem={({item}) => <Text style={styles.row}>Name: {item.key}    Amount: {item.amount}</Text>}
+          renderItem={({item}) => <Text style={styles.row}>Name: {item.key}    Amount payed: {item.amount}</Text>}
         />
   <View style={styles.buttonStyle}>
       <Button color='#4d9280' 
