@@ -10,6 +10,7 @@ var Trip = /** @class */ (function () {
         this.tripName = name;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.standardCurrency = "EUR";
     }
     Trip.prototype.getExpensesByCategory = function () {
         var map = new typescript_map_1.TSMap();
@@ -149,6 +150,16 @@ var Trip = /** @class */ (function () {
         },
         set: function (value) {
             this._tripName = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Trip.prototype, "standardCurrency", {
+        get: function () {
+            return this._standardCurrency;
+        },
+        set: function (value) {
+            this._standardCurrency = value;
         },
         enumerable: true,
         configurable: true

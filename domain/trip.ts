@@ -10,12 +10,14 @@ export class Trip{
     private _startDate : Date;
     private _endDate : Date;
 	private _tripName : string;
+	private _standardCurrency: string;
 
     constructor(tripId : string, name: string, startDate : Date, endDate : Date){
         this.tripId = tripId;
         this.tripName = name;
         this.startDate = startDate;
 		this.endDate = endDate;
+		this.standardCurrency = "EUR";
 	}
 
 	getExpensesByCategory(): TSMap<string, number>{
@@ -148,6 +150,12 @@ export class Trip{
 		this._tripName = value;
 	}
 
+	public get standardCurrency(): string {
+		return this._standardCurrency;
+	}
+	public set standardCurrency(value: string) {
+		this._standardCurrency = value;
+	}
 	equals(t : Trip): Boolean {
 		return t.tripId==this.tripId;
 	}
