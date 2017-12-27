@@ -60,9 +60,7 @@ var Service = /** @class */ (function () {
             return __generator(this, function (_a) {
                 this.getTrip(tripId).then(function (trip) {
                     var t = _this.getNewTrip(trip);
-                    _this.getLargestPersonIdFromTrip(tripId).then(function (index) {
-                        return t.addPerson(new person_1.Person(index, firstName, lastName));
-                    });
+                    t.addPerson(new person_1.Person(t.getLargestPersonId(), firstName, lastName));
                     localStorage_1.LocalStorage.updateTrip(t);
                 });
                 return [2 /*return*/];
@@ -72,17 +70,7 @@ var Service = /** @class */ (function () {
     Service.getLargestPersonIdFromTrip = function (tripId) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.getTrip(tripId).then(function (trip) {
-                        var highest = 0;
-                        var participants = trip.participants;
-                        for (var _i = 0, participants_1 = participants; _i < participants_1.length; _i++) {
-                            var person = participants_1[_i];
-                            if (Number(person.personId) > highest) {
-                                highest = Number(person.personId);
-                            }
-                        }
-                        return String(highest + 1);
-                    })];
+                return [2 /*return*/, ''];
             });
         });
     };
@@ -161,35 +149,12 @@ var Service = /** @class */ (function () {
             });
         });
     };
-    Service.addTripTest = function (trip) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                localStorage_1.LocalStorage.addTrip(trip);
-                return [2 /*return*/, this.getAllTrips()];
-            });
-        });
-    };
-    Service.getTripTest = function (tripId) {
+    Service.getTrip = function (tripId) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
                 return [2 /*return*/, localStorage_1.LocalStorage.getTrip(tripId).then(function (trip) {
                         return _this.getNewTrip(trip);
-                    })];
-            });
-        });
-    };
-    Service.getTrip = function (tripId) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/, localStorage_1.LocalStorage.getAllTrips().then(function (trips) {
-                        for (var _i = 0, trips_1 = trips; _i < trips_1.length; _i++) {
-                            var trip = trips_1[_i];
-                            if (trip.tripId == tripId) {
-                                return trip;
-                            }
-                        }
-                        return null;
                     })];
             });
         });

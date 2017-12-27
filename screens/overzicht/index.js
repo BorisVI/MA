@@ -21,62 +21,19 @@ import { Person } from '../../domain/person';
    {
     super(props);
     Service.clearDb();
-    //this.storage = {db: new LocalStorage()};
-    // let storage = new LocalStorage();
-    //let storage = new LocalStorage();
-    //let person1 = new Person('Peelman', 'Kevin');
-    //let person2 = new Person('Vanzegbroeck', 'Thomas');
-    //let person3 = new Person('Van Ingelgom', 'Boris');
-    //let person4 = new Person('Van den Brande', 'Jordy');
-    //let person5 = new Person('Vanzegbroeck', 'Thomas');
     let trip1 = new Trip('1','trip 123', '2017-12-26', '2017-12-26');
     let trip2 = new Trip('2','trip ezahbv', new Date(), new Date());
     let trip3 = new Trip('3','trip 3', new Date(), new Date());
 
-    Service.addTripTest(trip1);
+    Service.addTrip(trip1);
     Service.addPersonToTrip(trip1.tripId, 'Kevin', 'Peelman');
+    Service.getTripTest('1').then((trip)=>{
+      console.log(trip.tripName);
+      trip.getExpensesSummary();
+    });
 
-    //trip1.addPerson(person1);
-    //trip1.addPerson(person2);
-    //trip1.addPerson(person3);
-    //trip1.addPerson(person4);
-    //let s = Service.getInstance();
-    //Service.addTrip(trip1);
-    //Service.addTrip(trip2);
-    //Service.addTrip(trip3);
-    //Service.clearDb();
-    //this.storage.db.addTrip(trip1);
-    //this.storage.db.addTrip(trip2);
-    //this.storage.db.addTrip(trip3);
-    //this.storage.db.clearDb();
     this.state = {trips: []};
     this.storeTripsLocaly();
-    /*storage.getTrip('2').then((trip)=>{
-    trip1.addPerson(person1);
-    trip1.addPerson(person2);
-    trip1.addPerson(person3);
-    trip1.addPerson(person4);
-    trip1.removePerson(person5);
-    storage.addTrip(trip1);
-    storage.addTrip(trip2);
-    storage.addTrip(trip3);
-
-    storage.getTrip('1').then((trip)=>{
-      let t = JSON.parse(trip);
-      console.log(t._id);
-      console.log(t._name);
-    });*/
-   /* Service.getAllTrips().then((trips) =>{
-     // this.items.trips = [];
-      var array = this.localitems.trips;
-      for(let t of trips )
-      {
-        array.push({key: t.id, name: t.name});
-        console.log('result: ' + t.id + ', ' + t.name + ', ' + t.startdate + ', ' + t.enddate + ', ' + t.participants + ', ' + t.expenses + ', ' + t.currencies);
-      }
-      this.localitems = {trips: array};
-      //console.log(">>>>>>>>>>>>>>>>>>>>>"+`${JSON.stringify(this.localitems)}`);
-    });*/
   }
   handleOnNavigateBack= (b) => {
     this.storeTripsLocaly();
@@ -98,8 +55,6 @@ import { Person } from '../../domain/person';
       title: 'Trips overview',
       headerStyle: { backgroundColor: '#4d9280', borderWidth: 0, shadowColor: 'transparent'},
       headerTintColor :'#fff',
-    
-  
 }
 
   render() {

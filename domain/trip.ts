@@ -21,16 +21,16 @@ export class Trip{
 	
 	getExpensesSummary(): TSMap<string, number[]>{
 		let map = new TSMap<string,number[]>();
-		for (let i = 0; i < this._expenses.length; i++){
-			this._expenses[i].consumers.forEach((value: number, key: string) =>{
+		for (let i = 0; i < this.expenses.length; i++){
+			this.expenses[i].consumers.forEach((value: number, key: string) =>{
 				let total : number[];
 				if(map.has(key)){
 					total[0] = value[0];
 					total[1] = value[1];
 				}
 				total[0] += value;
-				if(this._expenses[i].payers.has(key)){
-                    total[1] += this._expenses[i].payers.get(key);
+				if(this.expenses[i].payers.has(key)){
+                    total[1] += this.expenses[i].payers.get(key);
                 }
 				map.set(key, total);
             });
@@ -38,65 +38,38 @@ export class Trip{
 		return map;
 	}
 
+	getLargestPersonId(): string{
+        let highest = 0;
+        for(let person of this.participants){
+            if(Number(person.personId) > highest){
+                highest = Number(person.personId);
+            }
+        }
+        return String(highest + 1);
+	}
+
     addExpense(expense: Expense){
-        this._expenses.push(expense);
+        this.expenses.push(expense);
     }
 
     addPerson(person : Person){
-		//console.log(person);
-        this._participants.push(person);
+        this.participants.push(person);
     }
 
     addCurrency(currency : Currency){
-        this._currencies.push(currency);
+        this.currencies.push(currency);
     }
 
     removeExpense(expense: Expense){
-        if(this.getIndexExpense(expense) != -1){
-			this._expenses.splice(this.getIndexExpense(expense),1);
-		}
+        this.expenses.splice(this.expenses.findIndex(e => e.ExpenseId == expense.ExpenseId),1);
     }
 
     removePerson(person : Person){
-		if(this.getIndexPerson(person) != -1){
-			this._participants.splice(this.getIndexPerson(person),1);
-		}
+		this.participants.splice(this.participants.findIndex(p => p.personId == person.personId),1);
     }
 
     removeCurrency(currency : Currency){
-        if(this.getIndexCurrency(currency) != -1){
-			this._currencies.splice(this.getIndexCurrency(currency),1);
-		}
-	}
-
-	getIndexExpense(e: Expense): number{
-		let index: number = -1;
-		for (var i = 0; i < this._expenses.length; i++){
-			if(this._expenses[i].equals(e)){
-				index = i;
-			}
-		}
-		return index;
-	}
-
-	getIndexCurrency(c: Currency): number{
-		let index: number = -1;
-		for (var i = 0; i < this._currencies.length; i++){
-			if(this._currencies[i].equals(c)){
-				index = i;
-			}
-		}
-		return index;
-	}
-	
-	getIndexPerson(p: Person): number{
-		let index: number = -1;
-		for (var i = 0; i < this._participants.length; i++){
-			if(this._participants[i].equals(p)){
-				index = i;
-			}
-		}
-		return index;
+        this.currencies.splice(this.currencies.findIndex(c => c.name == currency.name),1);
 	}
 
 	public get tripId(): string {

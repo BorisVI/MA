@@ -24,11 +24,7 @@ export class LocalStorage{
     static async addTrip(trip: Trip){
         AsyncStorage.setItem(trip.tripId, JSON.stringify(trip).replace(/"_/g,"\""));
     }
-/*
-    static async addTripTest(trip: Trip){
-        AsyncStorage.setItem(trip.tripId, JSON.stringify(trip));
-    }
-*/
+    
     static async removeTrip(tripId: string){
         AsyncStorage.removeItem(tripId);
     }

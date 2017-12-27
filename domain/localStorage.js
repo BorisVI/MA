@@ -71,11 +71,6 @@ var LocalStorage = /** @class */ (function () {
             });
         });
     };
-    /*
-        static async addTripTest(trip: Trip){
-            AsyncStorage.setItem(trip.tripId, JSON.stringify(trip));
-        }
-    */
     LocalStorage.removeTrip = function (tripId) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
