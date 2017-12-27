@@ -75,6 +75,15 @@ export class Service {
            });
     }
 
+    static async addTripTest(trip: Trip): Promise<Trip[]>{
+        LocalStorage.addTrip(trip);
+        return this.getAllTrips();
+    }
+
+    static async getTripTest(tripId: string): Promise<Trip> {
+        return LocalStorage.getTrip(tripId);
+    }
+
     static async getTrip(tripId: string): Promise<Trip> {
         return LocalStorage.getAllTrips().then((trips)=>{
              for(let trip of trips)

@@ -143,6 +143,21 @@ var Service = /** @class */ (function () {
             });
         });
     };
+    Service.addTripTest = function (trip) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                localStorage_1.LocalStorage.addTrip(trip);
+                return [2 /*return*/, this.getAllTrips()];
+            });
+        });
+    };
+    Service.getTripTest = function (tripId) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, localStorage_1.LocalStorage.getTrip(tripId)];
+            });
+        });
+    };
     Service.getTrip = function (tripId) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {

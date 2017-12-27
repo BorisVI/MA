@@ -35,12 +35,10 @@ export class LocalStorage{
     }
 
     static async clearDb(){
-        this.getAllTrips().then((trips: Trip[]) => {
-            for(let trip of trips)
-            {
-                this.removeTrip(trip.tripId);     
+        AsyncStorage.getAllKeys().then((keys: string[])=>{
+            for(let id of keys){
+                this.removeTrip(id);
             }
         });
     }
-    
 }

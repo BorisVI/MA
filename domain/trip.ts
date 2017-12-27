@@ -18,8 +18,6 @@ export class Trip{
         this.startDate = startDate;
         this.endDate = endDate;
 	}
-
-
 	
 	getExpensesSummary(): TSMap<string, number[]>{
 		let map = new TSMap<string,number[]>();

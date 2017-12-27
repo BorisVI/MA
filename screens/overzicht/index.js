@@ -20,7 +20,7 @@ import { Person } from '../../domain/person';
    constructor(props)
    {
     super(props);
-    //Service.clearDb();
+    Service.clearDb();
     //this.storage = {db: new LocalStorage()};
     // let storage = new LocalStorage();
     //let storage = new LocalStorage();
@@ -33,12 +33,19 @@ import { Person } from '../../domain/person';
     let trip2 = new Trip('2','trip ezahbv', new Date(), new Date());
     let trip3 = new Trip('3','trip 3', new Date(), new Date());
 
-    trip1.addPerson(person1);
-    trip1.addPerson(person2);
-    trip1.addPerson(person3);
-    trip1.addPerson(person4);
+    Service.addTripTest(trip1);
+    let tripTest = Service.getTripTest('1');
+    tripTest.then((trip)=>{
+      console.log(trip);
+      console.log(trip.tripId);
+      trip.addPerson(person1);
+    });
+    //trip1.addPerson(person1);
+    //trip1.addPerson(person2);
+    //trip1.addPerson(person3);
+    //trip1.addPerson(person4);
     //let s = Service.getInstance();
-    Service.addTrip(trip1);
+    //Service.addTrip(trip1);
     //Service.addTrip(trip2);
     //Service.addTrip(trip3);
     //Service.clearDb();
@@ -85,7 +92,7 @@ import { Person } from '../../domain/person';
        var array = [];
        for(let t of trips )
        {
-         array.push({key: t.id, name: t.name});
+         array.push({key: t.tripId, name: t.tripName});
        }
        this.setState({trips: array});
      });

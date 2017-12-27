@@ -91,10 +91,10 @@ var LocalStorage = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                this.getAllTrips().then(function (trips) {
-                    for (var _i = 0, trips_1 = trips; _i < trips_1.length; _i++) {
-                        var trip = trips_1[_i];
-                        _this.removeTrip(trip.tripId);
+                react_native_1.AsyncStorage.getAllKeys().then(function (keys) {
+                    for (var _i = 0, keys_1 = keys; _i < keys_1.length; _i++) {
+                        var id = keys_1[_i];
+                        _this.removeTrip(id);
                     }
                 });
                 return [2 /*return*/];

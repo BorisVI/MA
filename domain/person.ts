@@ -4,8 +4,6 @@ export class Person {
 	private _lastName : string;
 	private _firstName : string;
 
-
-
 	constructor(id:string,firstName: string, lastName: string){
 		this.personId=id;
 		this.firstName =firstName;
@@ -19,14 +17,12 @@ export class Person {
 		this._personId = value;
 	}
 
-
 	public get firstName(): string {
 		return this._firstName;
 	}
 	public set firstName(value: string) {
 		this._firstName = value;
 	}
-
 
 	public get lastName(): string {
 		return this._lastName;
