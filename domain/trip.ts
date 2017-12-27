@@ -154,4 +154,7 @@ export class Trip{
 	public set tripName(value: string) {
 		this._tripName = value;
 	}
+	equals(t : Trip){
+		return t.tripId==this.tripId;
+	}
 }
