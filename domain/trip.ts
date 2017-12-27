@@ -18,7 +18,7 @@ export class Trip{
         this.tripName = name;
         this.startDate = startDate;
 		this.endDate = endDate;
-		this.standardCurrency = new Currency('Euro');
+		this.standardCurrency = new Currency('EUR', 'Euro')
 	}
 	
 	getExpensesSummary(): TSMap<string, number[]>{
@@ -80,8 +80,8 @@ export class Trip{
 		this.participants.splice(this.participants.findIndex(p => p.personId == id),1);
     }
 
-    removeCurrency(name : string){
-        this.currencies.splice(this.currencies.findIndex(c => c.name == name),1);
+    removeCurrency(id : string){
+        this.currencies.splice(this.currencies.findIndex(c => c.currencyId == id),1);
 	}
 
 	public get tripId(): string {

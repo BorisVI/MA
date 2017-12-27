@@ -47,10 +47,10 @@ export class Service {
         });
     }
 
-    static async addCurrencyToTrip(tripId: string, name: string): Promise<void>{
+    static async addCurrencyToTrip(tripId: string, id: string, name: string): Promise<void>{
         this.getTrip(tripId).then((trip) =>{
             let t = this.getNewTrip(trip);
-            t.addCurrency(new Currency(name));
+            t.addCurrency(new Currency(id, name));
             LocalStorage.updateTrip(t);
         });
     }

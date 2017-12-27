@@ -11,7 +11,7 @@ var Trip = /** @class */ (function () {
         this.tripName = name;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.standardCurrency = new currency_1.Currency('Euro');
+        this.standardCurrency = new currency_1.Currency('EUR', 'Euro');
     }
     Trip.prototype.getExpensesSummary = function () {
         var _this = this;
@@ -71,8 +71,8 @@ var Trip = /** @class */ (function () {
     Trip.prototype.removePerson = function (id) {
         this.participants.splice(this.participants.findIndex(function (p) { return p.personId == id; }), 1);
     };
-    Trip.prototype.removeCurrency = function (name) {
-        this.currencies.splice(this.currencies.findIndex(function (c) { return c.name == name; }), 1);
+    Trip.prototype.removeCurrency = function (id) {
+        this.currencies.splice(this.currencies.findIndex(function (c) { return c.currencyId == id; }), 1);
     };
     Object.defineProperty(Trip.prototype, "tripId", {
         get: function () {

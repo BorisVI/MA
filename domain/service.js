@@ -108,13 +108,13 @@ var Service = /** @class */ (function () {
             });
         });
     };
-    Service.addCurrencyToTrip = function (tripId, name) {
+    Service.addCurrencyToTrip = function (tripId, id, name) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
                 this.getTrip(tripId).then(function (trip) {
                     var t = _this.getNewTrip(trip);
-                    t.addCurrency(new currency_1.Currency(name));
+                    t.addCurrency(new currency_1.Currency(id, name));
                     localStorage_1.LocalStorage.updateTrip(t);
                 });
                 return [2 /*return*/];
