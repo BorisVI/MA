@@ -26,19 +26,15 @@ export class PersonInfo extends Component {
   }
 
   handleOnNavigateBack= (b) => {
-    console.log("yess izbadipa");
      this.loadPersons();
    }
   loadPersons()
   {
     Service.getTrip(this.props.navigation.state.params.tripId).then((trip)=>{
         var items=[];
-        console.log('jnrei');
         for(let tt of  trip.participants)
         {
-         console.log('babyyyyyyy'); 
           var fname =tt.name+ ' '+ tt.firstname;
-          console.log(fname);
            items.push({key: fname});
         }
         this.setState({persons: items});
@@ -49,7 +45,6 @@ export class PersonInfo extends Component {
   setState(state)
   {
     super.setState(state);
-    console.log(`Set state to ${JSON.stringify(state)}`);
   }
   static navigationOptions = {
     

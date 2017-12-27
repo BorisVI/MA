@@ -8,7 +8,6 @@ class PersonInfo extends React.Component {
   {
     super(props);
     this.person = {id : this.props.navigation.state.params.personId};
-    console.log(this.props.navigation.state.params.personId);
   }
   
     static navigationOptions = {

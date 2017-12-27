@@ -13,7 +13,6 @@ export default class AddExpenseScreen extends Component {
     super(props);
     var datum = new Date();
     var today = datum.getFullYear() + '-' +(datum.getMonth()+1)+'-'+datum.getDate();
-    console.log(today);
     this.state = {date: today, name: '', category : '', currency: 'EUR', particpant: 'Jordy', participants : [], payer: '', payers: [], payedamount:''};
     this.datumlimits= {min: '',max:''};
     //this.max= {max: ''};
@@ -38,7 +37,6 @@ export default class AddExpenseScreen extends Component {
   setState(state)
   {
     super.setState(state);
-    console.log(`Set state to ${JSON.stringify(state)}`);
   }
   static navigationOptions = {
     
@@ -148,7 +146,6 @@ export default class AddExpenseScreen extends Component {
     var pa = this.state.payers
     pa.push({key: this.state.payer, amount: this.state.payedamount});
     this.setState({payers: pa});
-    console.log(this.state.payers)
   }
   onChangedNr(text){
     let newText = '';
@@ -164,7 +161,6 @@ export default class AddExpenseScreen extends Component {
         }
     }
     this.setState({ payedamount: newText });
-    console.log(this.state.payedamount);
   }
   renderPar(){
    
@@ -173,7 +169,6 @@ export default class AddExpenseScreen extends Component {
      
       items.push(<Picker.Item key={item.key} label={item.key} value={item.key}/>);
     }
-    console.log('test4');
     return items;
   }
   AddParticpant(){
@@ -189,7 +184,6 @@ export default class AddExpenseScreen extends Component {
     p.push({key: this.state.particpant});
     this.setState({participants:p});
     this.setState({payer: this.state.particpant})
-    console.log(this.state.participants);
   }
   }
   AddExpense()
