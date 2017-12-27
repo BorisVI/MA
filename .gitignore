@@ -1,4 +1,5 @@
 
+
 # Created by https://www.gitignore.io/api/reactnative
 
 ### ReactNative ###
@@ -204,4 +205,5 @@ freeline.py
 freeline/
 freeline_project_description.json
 
-# End of https://www.gitignore.io/api/reactnative
+# End of https://www.gitignore.io/api/reactnative.expo/packager-info.json
+.expo/packager-info.json

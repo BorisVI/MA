@@ -1,58 +1,46 @@
 import { Trip } from "./trip";
 import { AsyncStorage } from 'react-native';
+import { Person } from "./person";
 
-export default class LocalStorage{
+export class LocalStorage{
 
 
-    /**
-     * Get a single item
-     *
-     * @param {string} TripId
-     * @returns {Promise<Trip>}
-     * @memberof LocalStorage
-     */
-    async getItem(TripId: string): Promise<Trip> {
-        return AsyncStorage.getItem(`@Trip:${TripId}`)
-        .then((json) => {
-            return JSON.parse(json) as Trip;
-        });
-    }
- 
-    /**
-     * Save a single item
-     *
-     * @param {Trip} item
-     * @returns {Promise<void>}
-     * @memberof LocalStorage
-     */
-    async setItem(item: Trip): Promise<void> {
-        return AsyncStorage.setItem(`@Trip:${item.id}`, JSON.stringify(item));
-    }
- 
-    /**
-     * Deletes a single item
-     *
-     * @returns {Promise<void>}
-     * @memberof LocalStorage
-     */
-    async deleteItem(TripId: string): Promise<void> {
-        return AsyncStorage.removeItem(`@Trip:${TripId}`);
-    }
- 
-    /**
-     * Get all the items
-     *
-     * @returns {Promise<Trip[]>}
-     * @memberof LocalStorage
-     */
-    async getAllItems(): Promise<Trip[]> {
+    static async getAllTrips(): Promise<Trip[]> {
         return AsyncStorage.getAllKeys()
         .then((keys: string[]) => {
-            const fetchKeys = keys.filter((k) => { return k.startsWith('@Trip:'); });
-            return AsyncStorage.multiGet(fetchKeys);
+            return AsyncStorage.multiGet(keys);
         })
         .then((result) => {
             return result.map((r) => { return JSON.parse(r[1]) as Trip; });
         });
     }
+    
+    static async getTrip(tripId: string): Promise<Trip>{
+        var trip: Trip= AsyncStorage.getItem(tripId).then((value)=>{
+            return JSON.parse(value);
+        });
+        return trip;
+    }
+
+    static async addTrip(trip: Trip){
+        AsyncStorage.setItem(trip.tripId, JSON.stringify(trip).replace(/"_/g,"\""));
+    }
+
+    static async removeTrip(tripId: string){
+        AsyncStorage.removeItem(tripId);
+    }
+
+    static async updateTrip(trip: Trip){
+        this.addTrip(trip);
+    }
+
+    static async clearDb(){
+        this.getAllTrips().then((trips: Trip[]) => {
+            for(let trip of trips)
+            {
+                this.removeTrip(trip.tripId);     
+            }
+        });
+    }
+    
 }

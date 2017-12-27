@@ -1,51 +1,51 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var typescript_map_1 = require("../node_modules/typescript-map");
 var Expense = /** @class */ (function () {
-    function Expense(name, date, loans, payers, participants, category, Currency) {
-        this._name = name;
-        this._date = date;
-        this._loans = loans;
-        this._payers = payers;
-        this._participants = participants;
-        this._category = category;
-        this._currency = Currency;
-        this.CalculateLoans();
+    function Expense(id, name, date, payers, consumers, category, currency) {
+        this.ExpenseId = id;
+        this.name = name;
+        this.date = date;
+        this.payers = payers;
+        this.consumers = consumers;
+        this.category = category;
+        this.currency = currency;
     }
-    Expense.prototype.CalculateLoans = function () {
-        var _this = this;
-        if (this.isValidAmounts) {
-            var mapOver_1 = new typescript_map_1.TSMap();
-            var mapUnder_1 = new typescript_map_1.TSMap();
-            this._participants.forEach(function (value, key) {
+    Expense.prototype.equals = function (e) {
+        return e.ExpenseId == this.ExpenseId;
+    };
+    /*
+    CalculateLoans(){
+        if(this.isValidAmounts){
+            let mapOver = new TSMap<Person,number>();
+            let mapUnder = new TSMap<Person,number>();
+            this._consumers.forEach((value: number, key: Person) =>{
                 var amount = 0;
-                if (_this._payers.has(key)) {
-                    amount = _this._payers.get(key) - value;
+                if(this._payers.has(key)){
+                    amount = this._payers.get(key) - value;
                 }
-                if (amount > 0) {
-                    mapOver_1.set(key, amount);
-                }
-                else {
-                    mapUnder_1.set(key, 0 - amount);
+                if(amount>0){
+                    mapOver.set(key, amount);
+                }else{
+                    mapUnder.set(key, 0 - amount);
                 }
             });
-            while (this.getTotalPayers() != 0) {
+            while(this.getTotalPayers() != 0){
                 var topay = 0;
                 var canreceive = 0;
                 var amount = 0;
-                var payer = new Person("", "");
-                var receiver = new Person("", "");
+                var payer = new Person("","","");
+                var receiver = new Person("","","");
                 var found = false;
-                mapUnder_1.forEach(function (value, key) {
-                    if (value != 0 && !found) {
+                mapUnder.forEach((value: number, key: Person) =>{
+                    if(value != 0 && !found){
                         topay = value;
                         payer = key;
                         found = true;
                     }
                 });
                 found = false;
-                mapOver_1.forEach(function (value, key) {
-                    if (value != 0 && !found) {
+                mapOver.forEach((value: number, key: Person) =>{
+                    if(value != 0 && !found){
                         canreceive = value;
                         receiver = key;
                         found = true;
@@ -53,21 +53,21 @@ var Expense = /** @class */ (function () {
                 });
                 topay = Math.abs(topay);
                 canreceive = Math.abs(canreceive);
-                if (topay <= canreceive) {
+                if(topay <= canreceive){
                     amount = topay;
-                }
-                else {
+                }else{
                     amount = canreceive;
                 }
-                this._loans.push(new Loan(receiver, payer, amount));
-                mapUnder_1.set(payer, mapUnder_1.get(payer) + amount);
-                mapOver_1.set(receiver, mapOver_1.get(receiver) - amount);
+                this._loans.push(new Loan(receiver,payer,amount));
+                mapUnder.set(payer, mapUnder.get(payer) + amount);
+                mapOver.set(receiver, mapOver.get(receiver) - amount);
             }
-        }
-        else {
+        }else{
             console.log("error on creating loans, unequal amount payers/receivers");
         }
-    };
+
+    }
+    */
     Expense.prototype.getTotal = function () {
         if (this.isValidAmounts) {
             return this.getTotalPayers;
@@ -77,7 +77,7 @@ var Expense = /** @class */ (function () {
         }
     };
     Expense.prototype.isValidAmounts = function () {
-        return this.getTotalPayers == this.getTotalParticipants;
+        return this.getTotalPayers == this.getTotalconsumers;
     };
     Expense.prototype.getTotalPayers = function () {
         var sum = 0;
@@ -86,13 +86,23 @@ var Expense = /** @class */ (function () {
         });
         return sum;
     };
-    Expense.prototype.getTotalParticipants = function () {
+    Expense.prototype.getTotalconsumers = function () {
         var sum = 0;
-        this._participants.forEach(function (value, key) {
+        this._consumers.forEach(function (value, key) {
             sum += value;
         });
         return sum;
     };
+    Object.defineProperty(Expense.prototype, "ExpenseId", {
+        get: function () {
+            return this._ExpenseId;
+        },
+        set: function (value) {
+            this._ExpenseId = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(Expense.prototype, "loans", {
         get: function () {
             return this._loans;
@@ -123,12 +133,12 @@ var Expense = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Expense.prototype, "participants", {
+    Object.defineProperty(Expense.prototype, "consumers", {
         get: function () {
-            return this._participants;
+            return this._consumers;
         },
         set: function (value) {
-            this._participants = value;
+            this._consumers = value;
         },
         enumerable: true,
         configurable: true

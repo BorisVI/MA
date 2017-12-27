@@ -19,9 +19,8 @@
     "preset": "jest-expo"
   },
   "dependencies": {
-    "@types/es6-promise": "0.0.33",
     "es6": "0.0.7",
-    "es6-promise": "^4.1.1",
+    "es6-promise": "^4.2.2",
     "expo": "^21.0.0",
     "react": "^16.0.0-alpha.12",
     "react-native": "^0.48.4",
@@ -29,9 +28,11 @@
     "react-native-branch": "^2.2.1",
     "react-native-datepicker": "^1.6.0",
     "react-native-elements": "^0.18.4",
+    "react-native-table-component": "^1.1.2",
     "react-native-table-row": "0.0.4",
     "react-native-vector-icons": "^4.4.2",
     "react-navigation": "^1.0.0-beta.21",
+    "react-redux": "^5.0.6",
     "swagger-express": "^1.0.5",
     "swagger-ui-express": "^2.0.11",
     "typescript": "^2.6.2",

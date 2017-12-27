@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import { AppRegistry, Image, View, Text,StyleSheet, Picker,Button } from 'react-native';
+import { AppRegistry, Image, View, Text,StyleSheet, Picker,Button,FlatList } from 'react-native';
 import TableRow from 'react-native-table-row';
 
 import { StackNavigator } from 'react-navigation';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import AddPersonScreen from './add';
+import {Service as Service} from '../../../domain/service';
+import {Trip} from '../../../domain/trip';
+
 export class PersonInfo extends Component {
 
 
@@ -13,12 +16,35 @@ export class PersonInfo extends Component {
     //this.trip = {id : this.props.navigation.state.params.tripId};
     
    // console.log(this.props.navigation.state.params.tripId);
-   this.state = {person: 'Boris'}
+   this.state = {id: this.props.navigation.state.params.tripId,persons: []};
+   //this.loadPersons();
+  }
+  componentDidMount()
+  {
+    this.loadPersons();
+   //console.log(this.state.persons);
+  }
+
+  handleOnNavigateBack= (b) => {
+     this.loadPersons();
+   }
+  loadPersons()
+  {
+    Service.getTrip(this.props.navigation.state.params.tripId).then((trip)=>{
+        var items=[];
+        for(let tt of  trip.participants)
+        {
+          var fname =tt.name+ ' '+ tt.firstname;
+           items.push({key: fname});
+        }
+        this.setState({persons: items});
+      });
+
+    //this.setState({persons: items});
   }
   setState(state)
   {
     super.setState(state);
-    console.log(`Set state to ${JSON.stringify(state)}`);
   }
   static navigationOptions = {
     
@@ -35,21 +61,17 @@ export class PersonInfo extends Component {
       ['Tiago', '0', '50', '50'],
       ['Jack', '0', '0', '0'],
     ];
+    
     return (
+      
     <View>
-      <Text style={styles.dropText}>Selected person: </Text>
-         <Picker
-  selectedValue={this.state.person}
-  onValueChange={(itemValue, itemIndex) => this.setState({person: itemValue})}>
-  <Picker.Item label="Boris" value="Boris" />
-  <Picker.Item label="Thomas" value="Thomas" />
-  <Picker.Item label="Jordy" value="Jordy" />
-  <Picker.Item label="Kevin" value="Kevin" />
-</Picker>
-      <Table styles={styles.viewTable}>
-          <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
-          <Rows data={tableData} style={styles.row} textStyle={styles.text}/>
-      </Table>
+      <Text style={styles.dropText}>Persons: </Text>
+      <FlatList
+          data={this.state.persons}
+          extraData={this.state}
+          renderItem={({item}) => <TableRow style={styles.row} title={item.key} key={item.key} showArrow={true}  onPress={() => this.goToPerson(item.key)}></TableRow>}
+        />
+     
       <View style={styles.buttonStyle}>
       <Button color='#4d9280' 
  onPress={() => this.AddPerson()}
@@ -60,9 +82,13 @@ export class PersonInfo extends Component {
     </View>
     );
   }
+  goToPerson(name){
+    this.props.navigation.navigate('Person', {name})
+  }
   AddPerson()
   {
-    this.props.navigation.navigate('Add');
+    let tripId = this.props.navigation.state.params.tripId;
+    this.props.navigation.navigate('Add', {tripId, onNavigateBack: this.handleOnNavigateBack});
   }
 }
  const styles = StyleSheet.create(
@@ -137,6 +163,10 @@ export class PersonInfo extends Component {
     {
       screen: AddPersonScreen,
       
+    },
+    Person:
+    {
+      screen: AddPersonScreen,
     },
     
   },
