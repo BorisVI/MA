@@ -20,6 +20,17 @@ export class Trip{
 		this.endDate = endDate;
 		this.standardCurrency = new Currency('EUR', 'Euro')
 	}
+
+	getExpensesByCategory(): TSMap<string, number>{
+		let map = new TSMap<string,number>();
+		for(let e of this.expenses){
+			if(map.has(e.ExpenseId)){
+				map.set(e.ExpenseId, 0);
+			}
+			map.set(e.ExpenseId, map.get(e.ExpenseId) + e.getTotalconsumers());
+		}
+		return map;
+	}
 	
 	getExpensesSummary(): TSMap<string, number[]>{
 		let map = new TSMap<string,number[]>();

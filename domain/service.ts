@@ -7,6 +7,14 @@ import { Currency } from "./currency";
 
 export class Service {
 
+    static async getExpensesByCategory(tripId: string): Promise<TSMap<string, number>>{
+        let tripPromise = this.getTrip(tripId);
+        return tripPromise.then((trip) =>{
+            let t = this.getNewTrip(trip);
+            return t.getExpensesByCategory();
+        });
+    }
+
     static async getExpensesSummary(tripId: string): Promise<TSMap<string, number[]>> {
         let tripPromise = this.getTrip(tripId);
         return tripPromise.then((trip) =>{

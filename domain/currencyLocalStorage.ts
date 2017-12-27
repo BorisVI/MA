@@ -11,7 +11,7 @@ export class LocalStorage{
         .then((result) => {
             return result.map((r) => { return JSON.parse(r[1]) as Currency; });
         });
-    }s
+    }
     
     static async getCurrency(currencyId: string): Promise<Currency>{
         var currency: Currency= AsyncStorage.getItem(currencyId).then((json)=>{
