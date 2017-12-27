@@ -8,6 +8,7 @@ export class Trip{
     private _participants : Array<Person> = new Array();
     private _expenses : Array<Expense> = new Array();
 	private _currencies : Array<Currency> = new Array();
+	private _standardCurrency : Currency;
     private _startDate : Date;
     private _endDate : Date;
 	private _tripName : string;
@@ -16,7 +17,8 @@ export class Trip{
         this.tripId = tripId;
         this.tripName = name;
         this.startDate = startDate;
-        this.endDate = endDate;
+		this.endDate = endDate;
+		this.standardCurrency = new Currency('Euro');
 	}
 	
 	getExpensesSummary(): TSMap<string, number[]>{
@@ -36,6 +38,16 @@ export class Trip{
             });
 		}
 		return map;
+	}
+
+	getLargestExpenseId(): string{
+        let highest = 0;
+        for(let expense of this.expenses){
+            if(Number(expense.ExpenseId) > highest){
+                highest = Number(expense.ExpenseId);
+            }
+        }
+        return String(highest + 1);
 	}
 
 	getLargestPersonId(): string{
@@ -60,16 +72,16 @@ export class Trip{
         this.currencies.push(currency);
     }
 
-    removeExpense(expense: Expense){
-        this.expenses.splice(this.expenses.findIndex(e => e.ExpenseId == expense.ExpenseId),1);
+    removeExpense(id: string){
+        this.expenses.splice(this.expenses.findIndex(e => e.ExpenseId == id),1);
     }
 
-    removePerson(person : Person){
-		this.participants.splice(this.participants.findIndex(p => p.personId == person.personId),1);
+    removePerson(id : string){
+		this.participants.splice(this.participants.findIndex(p => p.personId == id),1);
     }
 
-    removeCurrency(currency : Currency){
-        this.currencies.splice(this.currencies.findIndex(c => c.name == currency.name),1);
+    removeCurrency(name : string){
+        this.currencies.splice(this.currencies.findIndex(c => c.name == name),1);
 	}
 
 	public get tripId(): string {
@@ -127,6 +139,15 @@ export class Trip{
 	public set tripName(value: string) {
 		this._tripName = value;
 	}
+	
+	public get standardCurrency(): Currency {
+		return this._standardCurrency;
+	}
+
+	public set standardCurrency(value: Currency) {
+		this._standardCurrency = value;
+	}
+
 	equals(t : Trip): Boolean {
 		return t.tripId==this.tripId;
 	}

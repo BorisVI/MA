@@ -1,14 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var category_1 = require("./category");
 var Expense = /** @class */ (function () {
-    function Expense(id, name, date, payers, consumers, category, currency) {
+    function Expense(id, name, date, currency) {
         this.ExpenseId = id;
         this.name = name;
         this.date = date;
-        this.payers = payers;
-        this.consumers = consumers;
-        this.category = category;
+        this.category = category_1.Category.Misc;
         this.currency = currency;
+        /*this.payers = payers;
+        this.consumers = consumers;*/
     }
     Expense.prototype.equals = function (e) {
         return e.ExpenseId == this.ExpenseId;

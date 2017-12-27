@@ -23,58 +23,44 @@ export class Service {
         });
     }
 
-    static async getLargestPersonIdFromTrip(tripId: string): Promise<string>{
-        return '';
-    }
-
-    static async removePersonFromTrip(tripId: string, person: Person): Promise<Trip[]>{
-        let tripPromise = this.getTrip(tripId);
-        return tripPromise.then((trip) =>{
-            let t = this.getNewTrip(trip);  
-            t.removePerson(person);
-            LocalStorage.updateTrip(t);
-            return this.getAllTrips();
-           });
-    }
-
-    static async addExpenseToTrip(tripId: string, expense: Expense): Promise<Trip[]>{
-        let tripPromise = this.getTrip(tripId);
-        return tripPromise.then((trip) =>{
+    static async removePersonFromTrip(tripId: string, id: string): Promise<void>{
+        this.getTrip(tripId).then((trip)=>{
             let t = this.getNewTrip(trip);
-            t.addExpense(expense);
+            t.removePerson(id);
             LocalStorage.updateTrip(t);
-            return this.getAllTrips();
-           });
+        });
     }
 
-    static async removeExpenseFromTrip(tripId: string, expense: Expense): Promise<Trip[]>{
-        let tripPromise = this.getTrip(tripId);
-        return tripPromise.then((trip) =>{
+    static async addExpenseToTrip(tripId: string, name: string, date: Date): Promise<void>{
+        this.getTrip(tripId).then((trip) =>{
             let t = this.getNewTrip(trip);
-            t.removeExpense(expense);
+            t.addExpense(new Expense(t.getLargestExpenseId(), name, date, t.standardCurrency));
             LocalStorage.updateTrip(t);
-            return this.getAllTrips();
-           });
+        });
     }
 
-    static async addCurrencyToTrip(tripId: string, currency: Currency): Promise<Trip[]>{
-        let tripPromise = this.getTrip(tripId);
-        return tripPromise.then((trip) =>{
-            let t=this.getNewTrip(trip);
-            t.addCurrency(currency);
-            LocalStorage.updateTrip(t);
-            return this.getAllTrips();
-           });
-    }
-
-    static async removeCurrencyFromTrip(tripId: string, currency: Currency){
-        let tripPromise = this.getTrip(tripId);
-        return tripPromise.then((trip) =>{
+    static async removeExpenseFromTrip(tripId: string, id: string): Promise<void>{
+        this.getTrip(tripId).then((trip)=>{
             let t = this.getNewTrip(trip);
-            t.removeCurrency(currency);
+            t.removeCurrency(id);
             LocalStorage.updateTrip(t);
-            return this.getAllTrips();
-           });
+        });
+    }
+
+    static async addCurrencyToTrip(tripId: string, name: string): Promise<void>{
+        this.getTrip(tripId).then((trip) =>{
+            let t = this.getNewTrip(trip);
+            t.addCurrency(new Currency(name));
+            LocalStorage.updateTrip(t);
+        });
+    }
+
+    static async removeCurrencyFromTrip(tripId: string, name: string): Promise<void>{
+        this.getTrip(tripId).then((trip)=>{
+            let t = this.getNewTrip(trip);
+            t.removeCurrency(name);
+            LocalStorage.updateTrip(t);
+        });
     }
 
     static async getTrip(tripId: string): Promise<Trip> {
