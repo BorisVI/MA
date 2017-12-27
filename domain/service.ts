@@ -111,7 +111,19 @@ export class Service {
         let t = new Trip(trip.tripId, trip.tripName, trip.startDate, trip.endDate);
         for(let exp of trip.expenses)
         {
-            t.addExpense(exp);
+            let expense = new Expense(exp.ExpenseId, exp.name, exp.date, exp.currency);
+            expense.category = exp.category;
+            let consumers : TSMap<string, number>;
+            let payers : TSMap<string, number>;
+            exp.consumers.forEach((value: number, key: string) => {
+                consumers.set(key, value);
+            });
+            expense.consumers = consumers;
+            exp.payers.forEach((value: number, key: string) => {
+                payers.set(key, value);
+            });
+            expense.payers = payers;
+            t.addExpense(expense);
         }
         for(let cur of trip.currencies)
         {
@@ -119,7 +131,8 @@ export class Service {
         }
         for(let par of trip.participants)
         {
-            t.addPerson(par);
+            let person = new Person(par.personId, par.firstName, par.lastName);
+            t.addPerson(person);
         }
         return t;
     }
