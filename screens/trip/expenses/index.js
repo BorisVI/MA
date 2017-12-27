@@ -20,19 +20,29 @@ class ExpenseInfo extends Component {
   {
     this.loadExpenses();
   }
+  
+  handleOnNavigateBack= (b) => {
+    this.loadExpenses();
+  }
   loadExpenses()
   {
     var items =[];    
       Service.getTrip(this.state.id).then((trip)=>{
+       // console.log('hfezu9 '+trip);
      for(let p of trip.expenses){
-       items.push({key: name})
+      // console.log('hhh '+p.name);
+       items.push({key: p.name})
      }
-    });
-    this.setState({expenses: items});
+     //console.log(items);
+     this.setState({expenses: items});
+    }
+  );
+    
   }
   setState(state)
   {
     super.setState(state);
+    console.log(`Set state to ${JSON.stringify(state)}`);
   }
   static navigationOptions = {
     
@@ -53,7 +63,8 @@ class ExpenseInfo extends Component {
       <Text style={styles.dropText}>Selected expense: </Text>
       <FlatList
           data={this.state.expenses}
-          renderItem={({item}) => <TableRow style={styles.row} title={item.key} key={item.key} showArrow={true}  onPress={() => this.goToExpense(item.key)}></TableRow>}
+          extraData={this.state}
+          renderItem={({item}) => <TableRow style={styles.row} title={item.key} key={item.key} showArrow={true}  onPress={() => this.goToExpense(item.key)}>{console.log('bifze '+item.key)}</TableRow>}
         />
       <View style={styles.buttonStyle}>
       <Button color='#4d9280' 
@@ -71,7 +82,7 @@ class ExpenseInfo extends Component {
   AddExpense()
   {
     let tripId = this.props.navigation.state.params.tripId;
-  this.props.navigation.navigate('Add',{tripId});
+  this.props.navigation.navigate('Add',{tripId,onNavigateBack: this.handleOnNavigateBack});
   }
 }
  const styles = StyleSheet.create(
