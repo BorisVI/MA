@@ -79,7 +79,8 @@ class ExpenseInfo extends Component {
     );
   }
   goToExpense(expenseId){
-    this.props.navigation.navigate('Expense',{expenseId})
+    let tripId = this.props.navigation.state.params.tripId;
+    this.props.navigation.navigate('Expense',{tripId})
   }
   AddExpense()
   {
