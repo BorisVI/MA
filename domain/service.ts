@@ -23,7 +23,7 @@ export class Service {
     }
 
     static async addPersonToTrip(tripId: string, firstName: string, lastName: string): Promise<void>{
-        this.getTrip(tripId).then((trip) =>{
+        await this.getTrip(tripId).then((trip) =>{
             let t = this.getNewTrip(trip);
             t.addPerson(new Person(t.getLargestPersonId(), firstName, lastName));
             LocalStorage.updateTrip(t);
@@ -31,7 +31,7 @@ export class Service {
     }
 
     static async removePersonFromTrip(tripId: string, id: string): Promise<void>{
-        this.getTrip(tripId).then((trip)=>{
+      await  this.getTrip(tripId).then((trip)=>{
             let t = this.getNewTrip(trip);
             t.removePerson(id);
             LocalStorage.updateTrip(t);
@@ -39,7 +39,7 @@ export class Service {
     }
 
     static async addExpenseToTrip(tripId: string, name: string, date: Date): Promise<void>{
-        this.getTrip(tripId).then((trip) =>{
+      await  this.getTrip(tripId).then((trip) =>{
             let t = this.getNewTrip(trip);
             t.addExpense(new Expense(t.getLargestExpenseId(), name, date, t.standardCurrency));
             LocalStorage.updateTrip(t);
@@ -47,7 +47,7 @@ export class Service {
     }
 
     static async removeExpenseFromTrip(tripId: string, id: string): Promise<void>{
-        this.getTrip(tripId).then((trip)=>{
+      await this.getTrip(tripId).then((trip)=>{
             let t = this.getNewTrip(trip);
             t.removeCurrency(id);
             LocalStorage.updateTrip(t);
@@ -55,7 +55,7 @@ export class Service {
     }
 
     static async addCurrencyToTrip(tripId: string, id:string): Promise<void>{
-        this.getTrip(tripId).then((trip) =>{
+        await this.getTrip(tripId).then((trip) =>{
             let t = this.getNewTrip(trip);
             t.addCurrency(id);
             LocalStorage.updateTrip(t);
@@ -63,7 +63,7 @@ export class Service {
     }
 
     static async removeCurrencyFromTrip(tripId: string, name: string): Promise<void>{
-        this.getTrip(tripId).then((trip)=>{
+       await this.getTrip(tripId).then((trip)=>{
             let t = this.getNewTrip(trip);
             t.removeCurrency(name);
             LocalStorage.updateTrip(t);

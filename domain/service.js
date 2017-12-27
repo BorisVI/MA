@@ -72,12 +72,16 @@ var Service = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                this.getTrip(tripId).then(function (trip) {
-                    var t = _this.getNewTrip(trip);
-                    t.addPerson(new person_1.Person(t.getLargestPersonId(), firstName, lastName));
-                    localStorage_1.LocalStorage.updateTrip(t);
-                });
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.getTrip(tripId).then(function (trip) {
+                            var t = _this.getNewTrip(trip);
+                            t.addPerson(new person_1.Person(t.getLargestPersonId(), firstName, lastName));
+                            localStorage_1.LocalStorage.updateTrip(t);
+                        })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
             });
         });
     };
@@ -85,12 +89,16 @@ var Service = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                this.getTrip(tripId).then(function (trip) {
-                    var t = _this.getNewTrip(trip);
-                    t.removePerson(id);
-                    localStorage_1.LocalStorage.updateTrip(t);
-                });
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.getTrip(tripId).then(function (trip) {
+                            var t = _this.getNewTrip(trip);
+                            t.removePerson(id);
+                            localStorage_1.LocalStorage.updateTrip(t);
+                        })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
             });
         });
     };
@@ -98,12 +106,16 @@ var Service = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                this.getTrip(tripId).then(function (trip) {
-                    var t = _this.getNewTrip(trip);
-                    t.addExpense(new expense_1.Expense(t.getLargestExpenseId(), name, date, t.standardCurrency));
-                    localStorage_1.LocalStorage.updateTrip(t);
-                });
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.getTrip(tripId).then(function (trip) {
+                            var t = _this.getNewTrip(trip);
+                            t.addExpense(new expense_1.Expense(t.getLargestExpenseId(), name, date, t.standardCurrency));
+                            localStorage_1.LocalStorage.updateTrip(t);
+                        })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
             });
         });
     };
@@ -111,12 +123,16 @@ var Service = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                this.getTrip(tripId).then(function (trip) {
-                    var t = _this.getNewTrip(trip);
-                    t.removeCurrency(id);
-                    localStorage_1.LocalStorage.updateTrip(t);
-                });
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.getTrip(tripId).then(function (trip) {
+                            var t = _this.getNewTrip(trip);
+                            t.removeCurrency(id);
+                            localStorage_1.LocalStorage.updateTrip(t);
+                        })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
             });
         });
     };
@@ -124,12 +140,16 @@ var Service = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                this.getTrip(tripId).then(function (trip) {
-                    var t = _this.getNewTrip(trip);
-                    t.addCurrency(id);
-                    localStorage_1.LocalStorage.updateTrip(t);
-                });
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.getTrip(tripId).then(function (trip) {
+                            var t = _this.getNewTrip(trip);
+                            t.addCurrency(id);
+                            localStorage_1.LocalStorage.updateTrip(t);
+                        })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
             });
         });
     };
@@ -137,12 +157,16 @@ var Service = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                this.getTrip(tripId).then(function (trip) {
-                    var t = _this.getNewTrip(trip);
-                    t.removeCurrency(name);
-                    localStorage_1.LocalStorage.updateTrip(t);
-                });
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.getTrip(tripId).then(function (trip) {
+                            var t = _this.getNewTrip(trip);
+                            t.removeCurrency(name);
+                            localStorage_1.LocalStorage.updateTrip(t);
+                        })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
             });
         });
     };

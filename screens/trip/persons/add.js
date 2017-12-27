@@ -50,8 +50,7 @@ export default class AddPersonScreen extends Component {
     
    // console.log(t.firstName + ' ' + t.name + ' ');
     //console.log('jitNgren'+this.state.id);
-   Service.addPersonToTrip(this.state.id, p).then((hehe)=>{
-
+   Service.addPersonToTrip(this.state.id, this.state.firstname,this.state.name).then(()=>{
      this.props.navigation.state.params.onNavigateBack(true);
      this.props.navigation.goBack();
    });

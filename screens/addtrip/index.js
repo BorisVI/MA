@@ -107,9 +107,11 @@ export default class AddTrip extends Component {
     {
     let tid = this.state.name+ this.state.startdate+ this.state.enddate;
     let t = new Trip(tid,this.state.name,this.state.startdate, this.state.enddate);    
-    Service.addTrip(t);
-    this.props.navigation.state.params.onNavigateBack(true);
-    this.props.navigation.goBack();
+    Service.addTrip(t).then(()=>{
+      this.props.navigation.state.params.onNavigateBack(true);
+      this.props.navigation.goBack();
+      
+    });
     }else{
       Alert.alert('Naam mag niet worden leeg gelaten');
     }

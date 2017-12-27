@@ -34,8 +34,8 @@ export class PersonInfo extends Component {
         var items=[];
         for(let tt of  trip.participants)
         {
-          var fname =tt.firstname+ ' '+ tt.name;
-          //console.log(fname);
+          var fname =tt.firstName+ ' '+ tt.lastName;
+          console.log('jeeej '+ fname);
            items.push({key: fname});
         }
         this.setState({persons: items});

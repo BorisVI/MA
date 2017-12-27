@@ -11,7 +11,6 @@ import {LocalStorage} from '../../../domain/localStorage';
 import {Service as Service} from '../../../domain/service';
 import {Person} from '../../../domain/person';
 import {Expense} from '../../../domain/expense';
-import {Currency} from '../../../domain/currency';
 import {Category} from '../../../domain/category';
 export default class AddExpenseScreen extends Component {
   constructor(props){
@@ -323,9 +322,9 @@ export default class AddExpenseScreen extends Component {
      // console.log('tel me op');
      payerslist.set(persone,payer.amount);
      }
-     let cur = new Currency(this.state.currency);
-     let exp = new Expense(this.state.name, this.state.date,payerslist,parlist,this.state.category, cur);
-
+     
+     let exp = new Expense(this.state.name, this.state.date,payerslist,parlist,this.state.category, currency);
+     
      //console.log(payerslist.size());
   
   }
