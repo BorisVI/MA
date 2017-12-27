@@ -12,22 +12,22 @@ class ExpenseInfo extends Component {
   constructor(props){
     super(props);
     this.trip = {id : this.props.navigation.state.params.tripId};
-    console.log(this.props.navigation.state.params.tripId);
+   // console.log(this.props.navigation.state.params.tripId);
     this.state = {id: this.props.navigation.state.params.tripId,expenses: []}
     //this.loadExpenses()
   }
   componentDidMount()
   {
     this.loadExpenses();
-    console.log(this.expenses);
+    //console.log(this.expenses);
   }
   loadExpenses()
   {
     var items =[];    
       Service.getTrip(this.state.id).then((trip)=>{
-      let t = JSON.parse(trip);
-      console.log(t);
-     for(let p of t.expenses){
+      //let t = JSON.parse(trip);
+     // console.log(t);
+     for(let p of trip.expenses){
        items.push({key: name})
      }
     });

@@ -43,6 +43,7 @@ export class Trip{
     }
 
     addPerson(person : Person){
+		//console.log(person);
         this._participants.push(person);
     }
 

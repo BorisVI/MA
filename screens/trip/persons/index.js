@@ -22,28 +22,29 @@ export class PersonInfo extends Component {
   componentDidMount()
   {
     this.loadPersons();
-   console.log(this.state.persons);
+   //console.log(this.state.persons);
   }
 
+  handleOnNavigateBack= (b) => {
+    console.log("yess izbadipa");
+     this.loadPersons();
+   }
   loadPersons()
   {
-      var items =[];    
-      console.log('njfsdnjofeon'+ this.props.navigation.state.params.tripId);
-      Service.getTrip(this.props.navigation.state.params.tripId).then((trip)=>{
-    //  let t = JSON.parse(trip);
-      console.log('jhkbrfgzbjphfregz'+ trip);
-      //let pl = JSON.parse(t.participants);
-      console.log('hvbfedzpibefzbihpefz'+trip.id);
-    //  console.log('bjidgfsjbdsfbijhfed'+ trip.participants());
-     for(let p of trip.participants)
-     {
-       let bam = JSON.parse(p);
-       console.log('ezfdrHGVUO '+bam.firstname);
-      var fname= p.firstname + ' ' + p.name;
-      items.push({key: fname});   
-     }
-    });
-    this.setState({persons: items});
+    Service.getTrip(this.props.navigation.state.params.tripId).then((trip)=>{
+        var items=[];
+        console.log('jnrei');
+        for(let tt of  trip.participants)
+        {
+         console.log('babyyyyyyy'); 
+          var fname =tt.name+ ' '+ tt.firstname;
+          console.log(fname);
+           items.push({key: fname});
+        }
+        this.setState({persons: items});
+      });
+
+    //this.setState({persons: items});
   }
   setState(state)
   {
@@ -58,7 +59,6 @@ export class PersonInfo extends Component {
   };
   render() {
    // const id = this.trip.id;
-   {console.log("hbdvsibf"+this.state.persons)}
     const tableHead = ['Name', 'Amount already paid', 'Amount due', 'Receives/stillneeds to pay'];
     const tableData = [
       ['John', '120', '30', '90'],
@@ -92,7 +92,8 @@ export class PersonInfo extends Component {
   }
   AddPerson()
   {
-    this.props.navigation.navigate('Add');
+    let tripId = this.props.navigation.state.params.tripId;
+    this.props.navigation.navigate('Add', {tripId, onNavigateBack: this.handleOnNavigateBack});
   }
 }
  const styles = StyleSheet.create(

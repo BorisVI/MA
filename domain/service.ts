@@ -8,22 +8,40 @@ import { Currency } from "./currency";
 export class Service {
 
     static async getExpensesSummary(tripId: string){
-        let tripPromise = LocalStorage.getTrip(tripId);
+        let tripPromise = this.getTrip(tripId);
         return tripPromise.then((trip) =>{
             return trip.getExpensesSummary();
         });
     }
 
-    static async addPersonToTrip(tripId: string, person: Person){
-        let tripPromise = LocalStorage.getTrip(tripId);
-        tripPromise.then((trip) =>{
-            trip.addPerson(person);
-           LocalStorage.updateTrip(trip);
+    static async addPersonToTrip(tripId: string, person: Person): Promise<Trip[]>{
+        console.log(tripId);
+        let tripPromise = this.getTrip(tripId);
+        
+       return tripPromise.then((trip) =>{
+            //console.log('bzfeipzqbf '+ person);
+            //console.log('jiezdsjfezi'+trip.getExpensesSummary());
+            let t = new Trip(trip.id, trip.name, trip.startdate, trip.enddate);
+            for(let exp of trip.expenses)
+            {
+                t.addExpense(exp);
+            }
+            for(let cur of trip.currencies)
+            {
+                t.addCurrency(cur);
+            }
+            for(let par of trip.participants)
+            {
+                t.addPerson(par);
+            }
+            t.addPerson(person);
+           LocalStorage.updateTrip(t);
+           return this.getAllTrips();
         });
     }
 
     static async removePersonFromTrip(tripId: string, person: Person){
-        let tripPromise = LocalStorage.getTrip(tripId);
+        let tripPromise = this.getTrip(tripId);
         tripPromise.then((trip) =>{
                 trip.removePerson(person);
                 LocalStorage.updateTrip(trip);
@@ -31,7 +49,7 @@ export class Service {
     }
 
     static async addExpenseToTrip(tripId: string, expense: Expense){
-        let tripPromise = LocalStorage.getTrip(tripId);
+        let tripPromise = this.getTrip(tripId);
         tripPromise.then((trip) =>{
                 trip.addExpense(expense);
                 LocalStorage.updateTrip(trip);
@@ -39,7 +57,7 @@ export class Service {
     }
 
     static async removeExpenseFromTrip(tripId: string, expense: Expense){
-        let tripPromise = LocalStorage.getTrip(tripId);
+        let tripPromise = this.getTrip(tripId);
         tripPromise.then((trip) =>{
                 trip.removeExpense(expense);
                 LocalStorage.updateTrip(trip);
@@ -47,7 +65,7 @@ export class Service {
     }
 
     static async addCurrencyToTrip(tripId: string, currency: Currency){
-        let tripPromise = LocalStorage.getTrip(tripId);
+        let tripPromise = this.getTrip(tripId);
         tripPromise.then((trip) =>{
                 trip.addCurrency(currency);
                 LocalStorage.updateTrip(trip);
@@ -55,7 +73,7 @@ export class Service {
     }
 
     static async removeCurrencyFromTrip(tripId: string, currency: Currency){
-        let tripPromise = LocalStorage.getTrip(tripId);
+        let tripPromise = this.getTrip(tripId);
         tripPromise.then((trip) =>{
                 trip.removeCurrency(currency);
                 LocalStorage.updateTrip(trip);
@@ -63,7 +81,21 @@ export class Service {
     }
 
     static async getTrip(tripId: string): Promise<Trip> {
-        return LocalStorage.getTrip(tripId);
+        return LocalStorage.getAllTrips().then((trips)=>{
+             for(let trip of trips)
+             {
+                 //console.log('hbefzup '+ trip.id);
+                 if(trip.id == tripId)
+                 {
+                   //  console.log('rfo'+ trip.getExpensesSummary());
+                     //console.log('ojgrnor '+ trip);
+                    // console.log('efzihb'+ trip.id);
+                     return trip;
+                 }
+             }
+             return null;
+         });
+        
     }
 
     static async getAllTrips(): Promise<Trip[]> {

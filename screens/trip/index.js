@@ -14,13 +14,13 @@ export class TripInfo extends Component {
     super(props);
     this.trips = {id : this.props.navigation.state.params.tripId};
     this.state ={id: this.props.navigation.state.params.trip,name: '',startdate: '', enddate:''};
-    console.log("id: "+this.trips.id);
+   // console.log("id: "+this.trips.id);
     Service.getTrip(this.trips.id).then((trip)=>{
-      let t = JSON.parse(trip);
-      console.log(t);
-      this.setState({name: t.name});
-      this.setState({startdate: t.startdate})
-      this.setState({enddate: t.enddate});
+      //let t = JSON.parse(trip);
+     // console.log(t);
+      this.setState({name: trip.name});
+      this.setState({startdate: trip.startdate})
+      this.setState({enddate: trip.enddate});
     });
     //console.log(this.props.navigation.state.params.tripId);
   }
@@ -41,7 +41,7 @@ export class TripInfo extends Component {
     ];
     return (
     <View>
-      <Text style={styles.titleText}>Trip: {this.state.id}</Text>
+      <Text style={styles.titleText}>Trip: {this.state.name}</Text>
       <Text style={styles.objText}>Start date: {this.state.startdate}</Text>
       <Text style={styles.objText}>End date: {this.state.enddate}</Text>
       <Table styles={{marginTop:10, marginRight: 5, marginLeft :5}}>

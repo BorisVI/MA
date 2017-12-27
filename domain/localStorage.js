@@ -39,19 +39,6 @@ var react_native_1 = require("react-native");
 var LocalStorage = /** @class */ (function () {
     function LocalStorage() {
     }
-    LocalStorage.getTrip = function (tripId) {
-        return __awaiter(this, void 0, void 0, function () {
-            var trip;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, react_native_1.AsyncStorage.getItem(tripId)];
-                    case 1:
-                        trip = _a.sent();
-                        return [2 /*return*/, trip];
-                }
-            });
-        });
-    };
     LocalStorage.getAllTrips = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
@@ -100,6 +87,17 @@ var LocalStorage = /** @class */ (function () {
                     }
                 });
                 return [2 /*return*/];
+            });
+        });
+    };
+    LocalStorage.getTrip = function (tripId) {
+        return __awaiter(this, void 0, void 0, function () {
+            var trip;
+            return __generator(this, function (_a) {
+                trip = react_native_1.AsyncStorage.getItem(tripId).then(function (value) {
+                    return JSON.parse(value);
+                });
+                return [2 /*return*/, trip];
             });
         });
     };

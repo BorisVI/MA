@@ -4,10 +4,6 @@ import { Person } from "./person";
 
 export class LocalStorage{
 
-    static async getTrip(tripId: string): Promise<Trip> {
-        let trip = await AsyncStorage.getItem(tripId);
-      return trip;
-    }
 
     static async getAllTrips(): Promise<Trip[]> {
         return AsyncStorage.getAllKeys()
@@ -38,5 +34,12 @@ export class LocalStorage{
                 this.removeTrip(trip.id);     
             }
         });
+    }
+    
+    static async getTrip(tripId: string): Promise<Trip>{
+        var trip: Trip= AsyncStorage.getItem(tripId).then((value)=>{
+            return JSON.parse(value);
+        });
+        return trip;
     }
 }
