@@ -15,7 +15,7 @@ export class PersonOveriew extends Component {
   }
   static navigationOptions = {
     
-    title:'Trip Details',
+    title:'Person Details',
     headerStyle: { backgroundColor: '#4d9280', borderWidth: 0, shadowColor: 'transparent'},
     headerTintColor :'#fff',
   };

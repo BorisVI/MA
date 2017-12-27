@@ -13,10 +13,10 @@ export default class AddExpense extends Component {
     super(props);
     var datum = new Date();
     var today = datum.getFullYear() + '-' +(datum.getMonth()+1)+'-'+datum.getDate();
-    this.state = {date: today, name: '',id: this.props.navigation.state.params.tripId};
+    this.state = {date: '', name: '',id: this.props.navigation.state.params.tripId,startDateTrip: '', endDateTrip:''};
     this.datumlimits= {min: '',max:''};
     //this.max= {max: ''};
-    if(datum.getMonth() >5)
+    /*if(datum.getMonth() >5)
     {
      var varmonth = (datum.getMonth() + 7) -12
       this.datumlimits.max= (datum.getFullYear()+1) + '-'+varmonth+'-'+datum.getDate();
@@ -29,7 +29,13 @@ export default class AddExpense extends Component {
     {
       this.datumlimits.max= (datum.getFullYear()) + '-' +(datum.getMonth()+7)+'-'+datum.getDate();
       this.datumlimits.min=(datum.getFullYear()) + '-' +(datum.getMonth())+'-'+datum.getDate();
-    }
+    }*/
+    Service.getTrip(this.state.id).then((trip)=>{
+      this.setState({date: trip.startDate});
+      this.setState({startDateTrip: trip.startDate});
+      this.setState({endDateTrip: trip.endDate});
+    });
+    console.log(this.datumlimits.min+ ','+ this.datumlimits.max);
   }
   setState(state)
   {
@@ -38,7 +44,7 @@ export default class AddExpense extends Component {
   }
   static navigationOptions = {
     
-    title:'Add a trip',
+    title:'Add a expense',
     headerStyle: { backgroundColor: '#4d9280', borderWidth: 0, shadowColor: 'transparent'},
     headerTintColor :'#fff',
   };
@@ -46,7 +52,7 @@ export default class AddExpense extends Component {
     return (
     <View style={styles.container}>
     <Text>Name of the expense: </Text>
-  <TextInput style={ {height:40} } placeholder="Type hier de naam van uw trip!" onChangeText={(text) => this.setState({name:text})}/>
+  <TextInput style={ {height:40} } placeholder="Type hier de naam van uw expense!" onChangeText={(text) => this.setState({name:text})}/>
   <Text>Start date: </Text>
  <DatePicker
         style={{width: 200,padding:10,justifyContent: 'center'}}
@@ -54,8 +60,8 @@ export default class AddExpense extends Component {
         mode="date"
         placeholder="select date"
         format="YYYY-MM-DD"
-        minDate={this.datumlimits.min}
-        maxDate={this.datumlimits.max}
+        minDate={this.state.startDateTrip}
+        maxDate={this.state.endDateTrip}
         confirmBtnText="Confirm"
         cancelBtnText="Cancel"
         customStyles={{
@@ -75,15 +81,15 @@ export default class AddExpense extends Component {
       
       <View style={styles.buttonStyle}>
       <Button color='#4d9280' 
- onPress={() => this.AddTrip()}
-  title="Voeg trip toe"
+ onPress={() => this.AddExpense()}
+  title="add expense"
   
 />
   </View>
     </View>
     );
   }
-  AddTrip()
+  AddExpense()
   {
     if(this.state.name != '')
     {
