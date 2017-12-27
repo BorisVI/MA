@@ -56,8 +56,8 @@ var LocalStorage = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var trip;
             return __generator(this, function (_a) {
-                trip = react_native_1.AsyncStorage.getItem(tripId).then(function (value) {
-                    return JSON.parse(value);
+                trip = react_native_1.AsyncStorage.getItem(tripId).then(function (json) {
+                    return JSON.parse(json);
                 });
                 return [2 /*return*/, trip];
             });
@@ -71,6 +71,11 @@ var LocalStorage = /** @class */ (function () {
             });
         });
     };
+    /*
+        static async addTripTest(trip: Trip){
+            AsyncStorage.setItem(trip.tripId, JSON.stringify(trip));
+        }
+    */
     LocalStorage.removeTrip = function (tripId) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
@@ -94,6 +99,7 @@ var LocalStorage = /** @class */ (function () {
                 react_native_1.AsyncStorage.getAllKeys().then(function (keys) {
                     for (var _i = 0, keys_1 = keys; _i < keys_1.length; _i++) {
                         var id = keys_1[_i];
+                        console.log('cleared trip with id ' + id);
                         _this.removeTrip(id);
                     }
                 });

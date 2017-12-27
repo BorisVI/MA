@@ -4,7 +4,6 @@ import { Person } from "./person";
 
 export class LocalStorage{
 
-
     static async getAllTrips(): Promise<Trip[]> {
         return AsyncStorage.getAllKeys()
         .then((keys: string[]) => {
@@ -16,8 +15,8 @@ export class LocalStorage{
     }
     
     static async getTrip(tripId: string): Promise<Trip>{
-        var trip: Trip= AsyncStorage.getItem(tripId).then((value)=>{
-            return JSON.parse(value);
+        var trip: Trip= AsyncStorage.getItem(tripId).then((json)=>{
+            return JSON.parse(json) as Trip;
         });
         return trip;
     }
@@ -25,7 +24,11 @@ export class LocalStorage{
     static async addTrip(trip: Trip){
         AsyncStorage.setItem(trip.tripId, JSON.stringify(trip).replace(/"_/g,"\""));
     }
-
+/*
+    static async addTripTest(trip: Trip){
+        AsyncStorage.setItem(trip.tripId, JSON.stringify(trip));
+    }
+*/
     static async removeTrip(tripId: string){
         AsyncStorage.removeItem(tripId);
     }
@@ -37,6 +40,7 @@ export class LocalStorage{
     static async clearDb(){
         AsyncStorage.getAllKeys().then((keys: string[])=>{
             for(let id of keys){
+                console.log('cleared trip with id ' + id);
                 this.removeTrip(id);
             }
         });

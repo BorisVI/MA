@@ -15,13 +15,26 @@ export class Service {
         });
     }
 
-    static async addPersonToTrip(tripId: string, person: Person): Promise<Trip[]>{
-        let tripPromise = this.getTrip(tripId);
-        return tripPromise.then((trip) =>{
+    static async addPersonToTrip(tripId: string, firstName: string, lastName: string): Promise<void>{
+        this.getTrip(tripId).then((trip) =>{
             let t = this.getNewTrip(trip);
-            t.addPerson(person);
+            this.getLargestPersonIdFromTrip(tripId).then((index)=>{
+                return t.addPerson(new Person(index, firstName, lastName));
+            })
             LocalStorage.updateTrip(t);
-            return this.getAllTrips();
+        });
+    }
+
+    static async getLargestPersonIdFromTrip(tripId: string): Promise<string>{
+        return this.getTrip(tripId).then((trip)=>{
+            let highest = 0;
+            let participants = trip.participants;
+            for(let person of participants){
+                if(Number(person.personId) > highest){
+                    highest = Number(person.personId);
+                }
+            }
+            return String(highest + 1);
         });
     }
 
@@ -81,7 +94,9 @@ export class Service {
     }
 
     static async getTripTest(tripId: string): Promise<Trip> {
-        return LocalStorage.getTrip(tripId);
+        return LocalStorage.getTrip(tripId).then((trip) =>{
+            return this.getNewTrip(trip);
+        });
     }
 
     static async getTrip(tripId: string): Promise<Trip> {

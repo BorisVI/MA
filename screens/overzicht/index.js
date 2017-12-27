@@ -24,22 +24,18 @@ import { Person } from '../../domain/person';
     //this.storage = {db: new LocalStorage()};
     // let storage = new LocalStorage();
     //let storage = new LocalStorage();
-    let person1 = new Person('Peelman', 'Kevin');
-    let person2 = new Person('Vanzegbroeck', 'Thomas');
-    let person3 = new Person('Van Ingelgom', 'Boris');
-    let person4 = new Person('Van den Brande', 'Jordy');
-    let person5 = new Person('Vanzegbroeck', 'Thomas');
-    let trip1 = new Trip('1','trip 1', '2017-12-26', '2017-12-26');
+    //let person1 = new Person('Peelman', 'Kevin');
+    //let person2 = new Person('Vanzegbroeck', 'Thomas');
+    //let person3 = new Person('Van Ingelgom', 'Boris');
+    //let person4 = new Person('Van den Brande', 'Jordy');
+    //let person5 = new Person('Vanzegbroeck', 'Thomas');
+    let trip1 = new Trip('1','trip 123', '2017-12-26', '2017-12-26');
     let trip2 = new Trip('2','trip ezahbv', new Date(), new Date());
     let trip3 = new Trip('3','trip 3', new Date(), new Date());
 
     Service.addTripTest(trip1);
-    let tripTest = Service.getTripTest('1');
-    tripTest.then((trip)=>{
-      console.log(trip);
-      console.log(trip.tripId);
-      trip.addPerson(person1);
-    });
+    Service.addPersonToTrip(trip1.tripId, 'Kevin', 'Peelman');
+
     //trip1.addPerson(person1);
     //trip1.addPerson(person2);
     //trip1.addPerson(person3);
