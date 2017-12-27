@@ -36,7 +36,7 @@ export class PersonInfo extends Component {
         {
           var fname =tt.firstName+ ' '+ tt.lastName;
           //console.log('jeeej '+ fname);
-           items.push({key: fname});
+           items.push({key: fname, id: tt.personId});
         }
         this.setState({persons: items});
       });
@@ -70,7 +70,7 @@ export class PersonInfo extends Component {
       <FlatList
           data={this.state.persons}
           extraData={this.state}
-          renderItem={({item}) => <TableRow style={styles.row} title={item.key} key={item.key} showArrow={true}  onPress={() => this.goToPerson(item.key)}></TableRow>}
+          renderItem={({item}) => <TableRow style={styles.row} title={item.key} key={item.id} showArrow={true}  onPress={() => this.goToPerson(item.id, item.key)}></TableRow>}
         />
      
       <View style={styles.buttonStyle}>
@@ -83,8 +83,9 @@ export class PersonInfo extends Component {
     </View>
     );
   }
-  goToPerson(name){
-    this.props.navigation.navigate('Person', {name})
+  goToPerson(personId, fname){
+    let tripId = this.props.navigation.state.params.tripId;
+    this.props.navigation.navigate('Person', {personId, fname, tripId})
   }
   AddPerson()
   {

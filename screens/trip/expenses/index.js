@@ -29,9 +29,11 @@ class ExpenseInfo extends Component {
     var items =[];    
       Service.getTrip(this.state.id).then((trip)=>{
        // console.log('hfezu9 '+trip);
+       
      for(let p of trip.expenses){
       // console.log('hhh '+p.name);
-       items.push({key: p.name})
+      console.log(p); 
+      items.push({key: p.name})
      }
      //console.log(items);
      this.setState({expenses: items});
