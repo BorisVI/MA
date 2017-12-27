@@ -12,6 +12,20 @@ var Trip = /** @class */ (function () {
         this.endDate = endDate;
         this.standardCurrency = "EUR";
     }
+    Trip.prototype.getExpensesFromPerson = function (personId) {
+        var map = new typescript_map_1.TSMap();
+        for (var _i = 0, _a = this.expenses; _i < _a.length; _i++) {
+            var e = _a[_i];
+            var toPay = e.consumers.get(personId);
+            var payed = 0;
+            if (e.payers.has(personId)) {
+                payed += e.payers.get(personId);
+            }
+            var balance = payed - toPay;
+            map.set(e.name, [toPay, payed, balance]);
+        }
+        return map;
+    };
     Trip.prototype.getExpensesByCategory = function () {
         var map = new typescript_map_1.TSMap();
         for (var _i = 0, _a = this.expenses; _i < _a.length; _i++) {

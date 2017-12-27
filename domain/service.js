@@ -42,6 +42,19 @@ var expense_1 = require("./expense");
 var Service = /** @class */ (function () {
     function Service() {
     }
+    Service.getExpensesPerPerson = function (tripId, personId) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            var tripPromise;
+            return __generator(this, function (_a) {
+                tripPromise = this.getTrip(tripId);
+                return [2 /*return*/, tripPromise.then(function (trip) {
+                        var t = _this.getNewTrip(trip);
+                        return t.getExpensesFromPerson(personId);
+                    })];
+            });
+        });
+    };
     Service.getExpensesByCategory = function (tripId) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;

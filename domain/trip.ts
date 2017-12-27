@@ -20,6 +20,20 @@ export class Trip{
 		this.standardCurrency = "EUR";
 	}
 
+	getExpensesFromPerson(personId: string): TSMap<string, number[]>{
+		let map = new TSMap<string,number[]>();
+		for(let e of this.expenses){
+			let toPay = e.consumers.get(personId);
+			let payed = 0;
+			if(e.payers.has(personId)){
+				payed += e.payers.get(personId);
+			}
+			let balance = payed - toPay;
+			map.set(e.name, [toPay,payed,balance]);
+		}
+		return map;
+	}
+
 	getExpensesByCategory(): TSMap<string, number>{
 		let map = new TSMap<string,number>();
 		for(let e of this.expenses){
