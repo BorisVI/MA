@@ -42,11 +42,13 @@ var Service = /** @class */ (function () {
     }
     Service.getExpensesSummary = function (tripId) {
         return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
             var tripPromise;
             return __generator(this, function (_a) {
                 tripPromise = this.getTrip(tripId);
                 return [2 /*return*/, tripPromise.then(function (trip) {
-                        return trip.getExpensesSummary();
+                        var t = _this.getNewTrip(trip);
+                        return t.getExpensesSummary();
                     })];
             });
         });
@@ -56,24 +58,9 @@ var Service = /** @class */ (function () {
             var _this = this;
             var tripPromise;
             return __generator(this, function (_a) {
-                console.log(tripId);
                 tripPromise = this.getTrip(tripId);
                 return [2 /*return*/, tripPromise.then(function (trip) {
-                        //console.log('bzfeipzqbf '+ person);
-                        //console.log('jiezdsjfezi'+trip.getExpensesSummary());
-                        var t = new trip_1.Trip(trip.id, trip.name, trip.startdate, trip.enddate);
-                        for (var _i = 0, _a = trip.expenses; _i < _a.length; _i++) {
-                            var exp = _a[_i];
-                            t.addExpense(exp);
-                        }
-                        for (var _b = 0, _c = trip.currencies; _b < _c.length; _b++) {
-                            var cur = _c[_b];
-                            t.addCurrency(cur);
-                        }
-                        for (var _d = 0, _e = trip.participants; _d < _e.length; _d++) {
-                            var par = _e[_d];
-                            t.addPerson(par);
-                        }
+                        var t = _this.getNewTrip(trip);
                         t.addPerson(person);
                         localStorage_1.LocalStorage.updateTrip(t);
                         return _this.getAllTrips();
@@ -83,66 +70,76 @@ var Service = /** @class */ (function () {
     };
     Service.removePersonFromTrip = function (tripId, person) {
         return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
             var tripPromise;
             return __generator(this, function (_a) {
                 tripPromise = this.getTrip(tripId);
-                tripPromise.then(function (trip) {
-                    trip.removePerson(person);
-                    localStorage_1.LocalStorage.updateTrip(trip);
-                });
-                return [2 /*return*/];
+                return [2 /*return*/, tripPromise.then(function (trip) {
+                        var t = _this.getNewTrip(trip);
+                        t.removePerson(person);
+                        localStorage_1.LocalStorage.updateTrip(t);
+                        return _this.getAllTrips();
+                    })];
             });
         });
     };
     Service.addExpenseToTrip = function (tripId, expense) {
         return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
             var tripPromise;
             return __generator(this, function (_a) {
                 tripPromise = this.getTrip(tripId);
-                tripPromise.then(function (trip) {
-                    trip.addExpense(expense);
-                    localStorage_1.LocalStorage.updateTrip(trip);
-                });
-                return [2 /*return*/];
+                return [2 /*return*/, tripPromise.then(function (trip) {
+                        var t = _this.getNewTrip(trip);
+                        t.addExpense(expense);
+                        localStorage_1.LocalStorage.updateTrip(t);
+                        return _this.getAllTrips();
+                    })];
             });
         });
     };
     Service.removeExpenseFromTrip = function (tripId, expense) {
         return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
             var tripPromise;
             return __generator(this, function (_a) {
                 tripPromise = this.getTrip(tripId);
-                tripPromise.then(function (trip) {
-                    trip.removeExpense(expense);
-                    localStorage_1.LocalStorage.updateTrip(trip);
-                });
-                return [2 /*return*/];
+                return [2 /*return*/, tripPromise.then(function (trip) {
+                        var t = _this.getNewTrip(trip);
+                        t.removeExpense(expense);
+                        localStorage_1.LocalStorage.updateTrip(t);
+                        return _this.getAllTrips();
+                    })];
             });
         });
     };
     Service.addCurrencyToTrip = function (tripId, currency) {
         return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
             var tripPromise;
             return __generator(this, function (_a) {
                 tripPromise = this.getTrip(tripId);
-                tripPromise.then(function (trip) {
-                    trip.addCurrency(currency);
-                    localStorage_1.LocalStorage.updateTrip(trip);
-                });
-                return [2 /*return*/];
+                return [2 /*return*/, tripPromise.then(function (trip) {
+                        var t = _this.getNewTrip(trip);
+                        t.addCurrency(currency);
+                        localStorage_1.LocalStorage.updateTrip(t);
+                        return _this.getAllTrips();
+                    })];
             });
         });
     };
     Service.removeCurrencyFromTrip = function (tripId, currency) {
         return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
             var tripPromise;
             return __generator(this, function (_a) {
                 tripPromise = this.getTrip(tripId);
-                tripPromise.then(function (trip) {
-                    trip.removeCurrency(currency);
-                    localStorage_1.LocalStorage.updateTrip(trip);
-                });
-                return [2 /*return*/];
+                return [2 /*return*/, tripPromise.then(function (trip) {
+                        var t = _this.getNewTrip(trip);
+                        t.removeCurrency(currency);
+                        localStorage_1.LocalStorage.updateTrip(t);
+                        return _this.getAllTrips();
+                    })];
             });
         });
     };
@@ -152,11 +149,7 @@ var Service = /** @class */ (function () {
                 return [2 /*return*/, localStorage_1.LocalStorage.getAllTrips().then(function (trips) {
                         for (var _i = 0, trips_1 = trips; _i < trips_1.length; _i++) {
                             var trip = trips_1[_i];
-                            //console.log('hbefzup '+ trip.id);
                             if (trip.id == tripId) {
-                                //  console.log('rfo'+ trip.getExpensesSummary());
-                                //console.log('ojgrnor '+ trip);
-                                // console.log('efzihb'+ trip.id);
                                 return trip;
                             }
                         }
@@ -203,6 +196,22 @@ var Service = /** @class */ (function () {
                 return [2 /*return*/];
             });
         });
+    };
+    Service.getNewTrip = function (trip) {
+        var t = new trip_1.Trip(trip.id, trip.name, trip.startdate, trip.enddate);
+        for (var _i = 0, _a = trip.expenses; _i < _a.length; _i++) {
+            var exp = _a[_i];
+            t.addExpense(exp);
+        }
+        for (var _b = 0, _c = trip.currencies; _b < _c.length; _b++) {
+            var cur = _c[_b];
+            t.addCurrency(cur);
+        }
+        for (var _d = 0, _e = trip.participants; _d < _e.length; _d++) {
+            var par = _e[_d];
+            t.addPerson(par);
+        }
+        return t;
     };
     return Service;
 }());

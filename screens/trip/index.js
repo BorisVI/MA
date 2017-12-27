@@ -13,7 +13,7 @@ export class TripInfo extends Component {
   constructor(props){
     super(props);
     this.trips = {id : this.props.navigation.state.params.tripId};
-    this.state ={id: this.props.navigation.state.params.trip,name: '',startdate: '', enddate:''};
+    this.state ={id: this.props.navigation.state.params.trip,name: '',startdate: '', enddate:'',sumdata:[]};
    // console.log("id: "+this.trips.id);
     Service.getTrip(this.trips.id).then((trip)=>{
       //let t = JSON.parse(trip);
@@ -23,6 +23,10 @@ export class TripInfo extends Component {
       this.setState({enddate: trip.enddate});
     });
     //console.log(this.props.navigation.state.params.tripId);
+  }
+  loadSummary()
+  {
+    
   }
   static navigationOptions = {
     

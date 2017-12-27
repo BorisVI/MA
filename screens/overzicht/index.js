@@ -76,24 +76,18 @@ import { Person } from '../../domain/person';
     });*/
   }
   handleOnNavigateBack= (b) => {
-   //console.log("yess");
     this.storeTripsLocaly();
   }
   storeTripsLocaly() 
   {
     Service.getAllTrips().then((trips) =>
     {
-      // this.items.trips = [];
        var array = [];
        for(let t of trips )
        {
          array.push({key: t.id, name: t.name});
-        // console.log('result_: ' + t._id + ', ' + t._name + ', ' + t.startdate + ', ' + t.enddate + ', ' + t.participants + ', ' + t.expenses + ', ' + t.currencies);
-         //console.log('result: ' + t.id + ', ' + t.name + ', ' + t.startdate + ', ' + t.enddate + ', ' + t.participants + ', ' + t.expenses + ', ' + t.currencies);
        }
        this.setState({trips: array});
-       //console.log(this.localitems.trips);
-       //console.log(">>>>>>>>>>>>>>>>>>>>>"+`${JSON.stringify(this.localitems)}`);
      });
   }
   static navigationOptions = {
@@ -136,7 +130,6 @@ import { Person } from '../../domain/person';
   }
   fillList()
   {
-    //unused method, gebruiken om iets te testen als ik die 2 undefined uit menb db krijg 
     items=[];
     for(let item of this.state.trips)
     {
@@ -146,14 +139,11 @@ import { Person } from '../../domain/person';
   }
   goToAdd()
   {
-    //let db = this.storage.db;
     this.props.navigation.navigate('Add', {onNavigateBack: this.handleOnNavigateBack});
 
   }
   goToTrip(tripId)
   {
-    //this.props.id = tripId; 
-    //let db = this.storage.db;
     this.props.navigation.navigate('Trip',{tripId});
   }
 

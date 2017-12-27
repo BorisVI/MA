@@ -14,7 +14,6 @@ export default class AddPersonScreen extends Component {
   constructor(props){
     super(props);
     this.state = {id: this.props.navigation.state.params.tripId,firstname: '', name: ''};
-    //console.log('fehibpfe'+this.props.navigation.state.params.tripId);
    
   }
   static navigationOptions = {
@@ -45,7 +44,6 @@ export default class AddPersonScreen extends Component {
   {
     if(this.state.name.trim() != ''&& this.state.firstname.trim()!= '')
     {
-      console.log(this.state.firstname);
     let p = new Person(this.state.firstname, this.state.name);
     //var alerttext= 'Trip naam: ' +`${this.state.name}` + ', Datum van de trip: ' +`${this.state.date}`;
     //Alert.alert(t);

@@ -19,14 +19,11 @@ class ExpenseInfo extends Component {
   componentDidMount()
   {
     this.loadExpenses();
-    //console.log(this.expenses);
   }
   loadExpenses()
   {
     var items =[];    
       Service.getTrip(this.state.id).then((trip)=>{
-      //let t = JSON.parse(trip);
-     // console.log(t);
      for(let p of trip.expenses){
        items.push({key: name})
      }
@@ -36,7 +33,6 @@ class ExpenseInfo extends Component {
   setState(state)
   {
     super.setState(state);
-    console.log(`Set state to ${JSON.stringify(state)}`);
   }
   static navigationOptions = {
     
@@ -45,7 +41,6 @@ class ExpenseInfo extends Component {
     headerTintColor :'#fff',
   };
   render() {
-   // const id = this.trip.id;
     const tableHead = ['Name', 'Amount already paid', 'Amount due', 'Receives/stillneeds to pay'];
     const tableData = [
       ['John', '120', '30', '90'],
@@ -75,7 +70,8 @@ class ExpenseInfo extends Component {
   }
   AddExpense()
   {
-  this.props.navigation.navigate('Add')
+    let tripId = this.props.navigation.state.params.tripId;
+  this.props.navigation.navigate('Add',{tripId});
   }
 }
  const styles = StyleSheet.create(

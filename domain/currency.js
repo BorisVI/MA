@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Currency = /** @class */ (function () {
     function Currency(name) {
         this._name = name;
-        this.update();
+        // this.update();
     }
     Currency.prototype.update = function () {
         var json = 'https://api.fixer.io/latest?base=' + this._name;

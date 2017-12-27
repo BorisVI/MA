@@ -7,7 +7,7 @@ export class Currency{
     private _rateToCurrencies : TSMap<string,number>;
     constructor(name: string){
         this._name = name;
-        this.update();
+       // this.update();
 
     }
 

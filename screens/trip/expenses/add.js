@@ -8,13 +8,17 @@ import DatePicker from 'react-native-datepicker';
 //import {Trip} from '../../domain/trip'
 //import Overzicht from '../overzichtscreen';
 import {LocalStorage} from '../../../domain/localStorage';
+import {Service as Service} from '../../../domain/service';
+import {Person} from '../../../domain/person';
+import {Expense} from '../../../domain/expense';
+import {Currency} from '../../../domain/currency';
+import {Category} from '../../../domain/category';
 export default class AddExpenseScreen extends Component {
   constructor(props){
     super(props);
     var datum = new Date();
     var today = datum.getFullYear() + '-' +(datum.getMonth()+1)+'-'+datum.getDate();
-    console.log(today);
-    this.state = {date: today, name: '', category : '', currency: 'EUR', particpant: 'Jordy', participants : [], payer: '', payers: [], payedamount:''};
+    this.state = {date: today, name: '',categories:[], category : '', currency: 'EUR', particpant: '', participants : [],participantconsumed: '', payer: '', payers: [], payedamount:'',trippersons:[]};
     this.datumlimits= {min: '',max:''};
     //this.max= {max: ''};
     if(datum.getMonth() >5)
@@ -34,11 +38,34 @@ export default class AddExpenseScreen extends Component {
     //this.dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1!==r2});
     //console.log(this.datumlimits.max);
     //console.log(this.datumlimits.min);
+    
+  }
+  componentDidMount()
+  {
+    this.loadTripPersons();
+    this.getAllCategories();
   }
   setState(state)
   {
     super.setState(state);
-    console.log(`Set state to ${JSON.stringify(state)}`);
+  }
+  loadTripPersons(){
+    console.log(this.props.navigation.state.params.tripId);
+    Service.getTrip(this.props.navigation.state.params.tripId).then((trip)=>{
+      var items =[];
+      var first = false;
+      for(let p of trip.participants){
+        
+        let fname = p.firstname + ' '+p.name;
+        if(!first)
+        {
+          this.setState({particpant: fname});
+          first= true;
+        }
+        items.push({key: fname, firstname: p.firstname, name: p.name});
+      }
+      this.setState({trippersons: items});
+    });
   }
   static navigationOptions = {
     
@@ -52,8 +79,12 @@ export default class AddExpenseScreen extends Component {
     <ScrollView style={styles.container}>
     <Text style={styles.dropText}>Expense name: </Text>
   <TextInput style={ {height:40} } placeholder="Type hier de naam van uw expense!" onChangeText={(text) => this.setState({name:text})}/>
-  <Text style={styles.dropText}>Category name: </Text>
-  <TextInput style={ {height:40} } placeholder="Type hier de naam van uw category!" onChangeText={(text) => this.setState({category:text})}/>
+  <Text style={styles.dropText}>Category: </Text>
+  <Picker
+  selectedValue={this.state.category}
+  onValueChange={(itemValue, itemIndex) => this.setState({category: itemValue})}>
+{this.loadPickerItemsCategory()}
+</Picker>
   <Text style={styles.dropText}>Date: </Text>
  <DatePicker
         style={{width: 200,padding:10,justifyContent: 'center'}}
@@ -92,12 +123,14 @@ export default class AddExpenseScreen extends Component {
 <Picker
   selectedValue={this.state.particpant}
   onValueChange={(itemValue, itemIndex) => this.setState({particpant: itemValue})}>
- <Picker.Item label="Jordy" value="Jordy" />
-  <Picker.Item label="Boris" value="Boris" />
-  <Picker.Item label="Kevin" value="Kevin" />
-  <Picker.Item label="Thomas" value="Thomas" />
+{this.loadPickerItems()}
 </Picker>
-
+<Text style={styles.dropText}>Amount consumed: </Text>
+  <TextInput style={ {height:40} }
+   keyboardType='numeric'
+   onChangeText={(text)=> this.onChangedNrConsumed(text)}
+   value={this.state.participantconsumed}
+   maxLength={10} />
 <Button color='#4d9280' 
  onPress={() => this.AddParticpant()}
   title="Add participant"
@@ -107,7 +140,7 @@ export default class AddExpenseScreen extends Component {
 <FlatList
         data={this.state.participants}
         extraData={this.state}
-        renderItem={({item}) => <TableRow style={styles.row} title={item.key}></TableRow>}
+        renderItem={({item}) => <Text style={styles.row}>Name: {item.key}  {"\n"}Amount consumed: {item.consumed}</Text>}
       />
      
       <Text style={styles.dropText}>Select payer: </Text>
@@ -143,12 +176,62 @@ export default class AddExpenseScreen extends Component {
     </ScrollView>
     );
   }
+  loadPickerItems()
+  {
+    items=[];
+    for(let item of this.state.trippersons){
+     //console.log(item.key);
+      items.push(<Picker.Item key={item.key} label={item.key} value={item.key}/>);
+    }
+    return items;
+  }
+  loadPickerItemsCategory()
+  {
+    items=[];
+    for(let item of this.state.categories){
+     //console.log(item.key);
+      items.push(<Picker.Item key={item.key} label={item.key} value={item.key}/>);
+    }
+    return items;
+  }
   AddPayer()
   {
     var pa = this.state.payers
     pa.push({key: this.state.payer, amount: this.state.payedamount});
+    
     this.setState({payers: pa});
-    console.log(this.state.payers)
+  }
+  getAllCategories(){
+    items=[];
+ 
+   // console.log( Category[0]);
+   //console.log('nofreonf '+Category.length);
+   var reg = new RegExp('^[0-9]+$');
+    for(var cat in Category)
+    {
+     if(cat.match(reg)){
+       items.push({key: Category[cat]});
+     }
+    }
+    console.log(items);
+    this.setState({categories: items});
+    let b = Category[0];
+    this.setState({category: b})
+  }
+  onChangedNrConsumed(text){
+    let newText = '';
+    let numbers = '0123456789';
+
+    for (var i=0; i < text.length; i++) {
+        if(numbers.indexOf(text[i]) > -1 ) {
+            newText = newText + text[i];
+        }
+        else {
+            // your call back function
+            Alert.alert("please enter numbers only");
+        }
+    }
+    this.setState({ participantconsumed: newText });
   }
   onChangedNr(text){
     let newText = '';
@@ -164,7 +247,6 @@ export default class AddExpenseScreen extends Component {
         }
     }
     this.setState({ payedamount: newText });
-    console.log(this.state.payedamount);
   }
   renderPar(){
    
@@ -173,7 +255,6 @@ export default class AddExpenseScreen extends Component {
      
       items.push(<Picker.Item key={item.key} label={item.key} value={item.key}/>);
     }
-    console.log('test4');
     return items;
   }
   AddParticpant(){
@@ -186,26 +267,67 @@ export default class AddExpenseScreen extends Component {
       }
     }
     if(!bam){
-    p.push({key: this.state.particpant});
+    p.push({key: this.state.particpant, consumed: this.state.participantconsumed});
     this.setState({participants:p});
     this.setState({payer: this.state.particpant})
-    console.log(this.state.participants);
   }
   }
   AddExpense()
   {
-   /* if(this.state.name != '')
-    {
-     // let tid = this.state.name+ this.state.date;
-    //let t = new Trip(tid,this.state.name,this.state.startdate, this.state.enddate);
-    //var alerttext= 'Trip naam: ' +`${this.state.name}` + ', Datum van de trip: ' +`${this.state.date}`;
-    //Alert.alert(t);
-    
-    console.log(t.id + ' ' + t.name + ' ' + t.startdate + ' '+ t.enddate);
-   this.props.navigation.goBack();
-    }else{
-      Alert.alert('Naam mag niet worden leeg gelaten');
-    }*/
+    var typescript_map_1 = require("../../../node_modules/typescript-map");
+     parlist  = new typescript_map_1.TSMap();
+     for(let p of this.state.participants)
+     {
+      var res = p.key.split(" ");
+      var firstname = res[0];
+      var lastname= '';
+      for(i =1; i < res.length;i++)
+      {
+        if(i == 1)
+        {
+          lastname+= res[i];
+        } 
+        else
+        {
+          lastname += ' '+ res[i];
+        }
+      }
+     // console.log(firstname+' ' +lastname);
+      let person = new Person(firstname,lastname);
+     parlist.set(person,p.consumed);
+     }
+     payerslist = new typescript_map_1.TSMap();
+     for(let payer of this.state.payers)
+     {
+      var rese = payer.key.split(' ');
+      var firstnamee = rese[0];
+      var lastnamee= '';
+      for(i=1; i < rese.length;i++)
+      {
+        //console.log('nRZO%ND '+ rese.length);
+        //console.log('jrje '+i);
+       // console.log(i+ ' '+ rese[i]);
+        if(i == 1)
+        {
+         // console.log('rfbnpeziqnfi '+ rese[i]);
+          lastnamee+= rese[i];
+        } 
+        else
+        {
+         // console.log('rfbnpeziqnfi '+ rese[i]);
+          lastnamee += ' '+ rese[i];
+        }
+      }
+      //console.log('nfzjmr '+ firstnamee + ' ' + lastnamee);
+      let persone = new Person(firstnamee,lastnamee);
+     // console.log('tel me op');
+     payerslist.set(persone,payer.amount);
+     }
+     let cur = new Currency(this.state.currency);
+     let exp = new Expense(this.state.name, this.state.date,payerslist,parlist,this.state.category, cur);
+
+     //console.log(payerslist.size());
+  
   }
 }
  const styles = StyleSheet.create(
