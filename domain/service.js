@@ -235,18 +235,22 @@ var Service = /** @class */ (function () {
     Service.getNewTrip = function (trip) {
         var t = new trip_1.Trip(trip.tripId, trip.tripName, trip.startDate, trip.endDate);
         var _loop_1 = function (exp) {
-            var expense = new expense_1.Expense(exp.ExpenseId, exp.name, exp.date, exp.currency);
+            var expense = new expense_1.Expense(exp.expenseId, exp.name, exp.date, exp.currency);
             expense.category = exp.category;
             var consumers;
             var payers;
-            exp.consumers.forEach(function (value, key) {
-                consumers.set(key, value);
-            });
-            expense.consumers = consumers;
-            exp.payers.forEach(function (value, key) {
-                payers.set(key, value);
-            });
-            expense.payers = payers;
+            if (JSON.stringify(exp).includes('consumers')) {
+                exp.consumers.forEach(function (value, key) {
+                    consumers.set(key, value);
+                });
+                expense.consumers = consumers;
+            }
+            if (JSON.stringify(exp).includes('payers')) {
+                exp.payers.forEach(function (value, key) {
+                    payers.set(key, value);
+                });
+                expense.payers = payers;
+            }
             t.addExpense(expense);
         };
         for (var _i = 0, _a = trip.expenses; _i < _a.length; _i++) {

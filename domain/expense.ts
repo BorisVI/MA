@@ -5,7 +5,7 @@ import {Category} from "./category";
 
 export class Expense{
 
-    private _ExpenseId: string;
+    private _expenseId: string;
     private _name : string;
     private _date: Date;
     private _loans: Array<Loan>;
@@ -15,7 +15,7 @@ export class Expense{
     private _currency : string;
 
     constructor(id:string,name: string, date: Date, currency : string){
-        this.ExpenseId=id;
+        this.expenseId=id;
         this.name = name;
         this.date = date;
         this.category = Category.Misc;
@@ -25,7 +25,7 @@ export class Expense{
     }
 
     equals(e: Expense): boolean{
-        return e.ExpenseId == this.ExpenseId;
+        return e.expenseId == this.expenseId;
     }
 
     /*
@@ -112,11 +112,11 @@ export class Expense{
         return sum;
     }
 
-    public get ExpenseId(): string {
-		return this._ExpenseId;
+    public get expenseId(): string {
+		return this._expenseId;
     }
-	public set ExpenseId(value: string) {
-		this._ExpenseId = value;
+	public set expenseId(value: string) {
+		this._expenseId = value;
 	}
 
 	public get loans(): Array<Loan> {

@@ -37,10 +37,10 @@ export class Trip{
 	getExpensesByCategory(): TSMap<string, number>{
 		let map = new TSMap<string,number>();
 		for(let e of this.expenses){
-			if(map.has(e.ExpenseId)){
-				map.set(e.ExpenseId, 0);
+			if(map.has(e.expenseId)){
+				map.set(e.expenseId, 0);
 			}
-			map.set(e.ExpenseId, map.get(e.ExpenseId) + e.getTotalconsumers());
+			map.set(e.expenseId, map.get(e.expenseId) + e.getTotalconsumers());
 		}
 		return map;
 	}
@@ -67,8 +67,8 @@ export class Trip{
 	getLargestExpenseId(): string{
         let highest = 0;
         for(let expense of this.expenses){
-            if(Number(expense.ExpenseId) > highest){
-                highest = Number(expense.ExpenseId);
+            if(Number(expense.expenseId) > highest){
+                highest = Number(expense.expenseId);
             }
         }
         return String(highest + 1);
@@ -97,7 +97,7 @@ export class Trip{
     }
 
     removeExpense(id: string){
-        this.expenses.splice(this.expenses.findIndex(e => e.ExpenseId == id),1);
+        this.expenses.splice(this.expenses.findIndex(e => e.expenseId == id),1);
     }
 
     removePerson(id : string){
