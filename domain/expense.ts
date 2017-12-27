@@ -8,9 +8,9 @@ export class Expense{
     private _expenseId: string;
     private _name : string;
     private _date: Date;
-    private _loans: Array<Loan>;
-    private _payers: TSMap<string,number>; //betalers (person,aantal)
-    private _consumers: TSMap<string,number>; //Verbuikers (person,aantal)
+    private _loans: Array<Loan> = new Array<Loan>();
+    private _payers: TSMap<string,number> = new TSMap<string, number>(); //betalers (person,aantal)
+    private _consumers: TSMap<string,number> = new TSMap<string, number>(); //Verbuikers (person,aantal)
     private _category : Category;
     private _currency : string;
 
