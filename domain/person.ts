@@ -1,20 +1,41 @@
 export class Person {
-	private _firstname : string;
-	private _name : string;
-	constructor(firstname: string, name: string){
-		this._firstname =firstname;
-		this._name=name;
+
+	private _personId: string;
+	private _lastName : string;
+	private _firstName : string;
+
+
+
+	constructor(id:string,firstName: string, lastName: string){
+		this.personId=id;
+		this.firstName =firstName;
+		this.lastName=lastName;
 	}
 
-	get firstName(): string{
-		return this._firstname;
+	public get personId(): string {
+		return this._personId;
+	}
+	public set personId(value: string) {
+		this._personId = value;
 	}
 
-	get name(): string{
-		return this._name;
+
+	public get firstName(): string {
+		return this._firstName;
+	}
+	public set firstName(value: string) {
+		this._firstName = value;
+	}
+
+
+	public get lastName(): string {
+		return this._lastName;
+	}
+	public set lastName(value: string) {
+		this._lastName = value;
 	}
 
 	equals(p: Person): boolean{
-		return(p._firstname == this._firstname && p._name == this._name);
+		return p.personId==this.personId;
 	}
 }

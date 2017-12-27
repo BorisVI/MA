@@ -149,7 +149,7 @@ var Service = /** @class */ (function () {
                 return [2 /*return*/, localStorage_1.LocalStorage.getAllTrips().then(function (trips) {
                         for (var _i = 0, trips_1 = trips; _i < trips_1.length; _i++) {
                             var trip = trips_1[_i];
-                            if (trip.id == tripId) {
+                            if (trip.tripId == tripId) {
                                 return trip;
                             }
                         }
@@ -169,7 +169,7 @@ var Service = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 localStorage_1.LocalStorage.addTrip(trip);
-                return [2 /*return*/];
+                return [2 /*return*/, this.getAllTrips()];
             });
         });
     };
@@ -177,7 +177,7 @@ var Service = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 localStorage_1.LocalStorage.removeTrip(tripId);
-                return [2 /*return*/];
+                return [2 /*return*/, this.getAllTrips()];
             });
         });
     };
@@ -185,7 +185,7 @@ var Service = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 localStorage_1.LocalStorage.updateTrip(trip);
-                return [2 /*return*/];
+                return [2 /*return*/, this.getAllTrips()];
             });
         });
     };
@@ -198,7 +198,7 @@ var Service = /** @class */ (function () {
         });
     };
     Service.getNewTrip = function (trip) {
-        var t = new trip_1.Trip(trip.id, trip.name, trip.startdate, trip.enddate);
+        var t = new trip_1.Trip(trip.tripId, trip.tripName, trip.startDate, trip.endDate);
         for (var _i = 0, _a = trip.expenses; _i < _a.length; _i++) {
             var exp = _a[_i];
             t.addExpense(exp);
@@ -212,6 +212,9 @@ var Service = /** @class */ (function () {
             t.addPerson(par);
         }
         return t;
+    };
+    Service.deepEqual = function (a, b) {
+        return JSON.stringify(a) == JSON.stringify(b);
     };
     return Service;
 }());

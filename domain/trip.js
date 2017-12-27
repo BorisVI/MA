@@ -2,22 +2,22 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var typescript_map_1 = require("../node_modules/typescript-map");
 var Trip = /** @class */ (function () {
-    function Trip(id, name, startDate, endDate) {
+    function Trip(tripId, name, startDate, endDate) {
         this._participants = new Array();
         this._expenses = new Array();
         this._currencies = new Array();
-        this._id = id;
-        this._name = name;
-        this._startdate = startDate;
-        this._enddate = endDate;
+        this.tripId = tripId;
+        this.tripName = name;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
     Trip.prototype.getExpensesSummary = function () {
         var _this = this;
         var map = new typescript_map_1.TSMap();
         var _loop_1 = function (i) {
-            this_1._expenses[i].participants.forEach(function (value, key) {
+            this_1._expenses[i].consumers.forEach(function (value, key) {
                 var total;
-                if (map.has(key.firstName + " " + key.name)) {
+                if (map.has(key)) {
                     total[0] = value[0];
                     total[1] = value[1];
                 }
@@ -25,11 +25,11 @@ var Trip = /** @class */ (function () {
                 if (_this._expenses[i].payers.has(key)) {
                     total[1] += _this._expenses[i].payers.get(key);
                 }
-                map.set(key.firstName + " " + key.name, total);
+                map.set(key, total);
             });
         };
         var this_1 = this;
-        for (var i = 1; i < this._expenses.length; i++) {
+        for (var i = 0; i < this._expenses.length; i++) {
             _loop_1(i);
         }
         return map;
@@ -86,12 +86,12 @@ var Trip = /** @class */ (function () {
         }
         return index;
     };
-    Object.defineProperty(Trip.prototype, "id", {
+    Object.defineProperty(Trip.prototype, "tripId", {
         get: function () {
-            return this._id;
+            return this._tripId;
         },
         set: function (value) {
-            this._id = value;
+            this._tripId = value;
         },
         enumerable: true,
         configurable: true
@@ -126,32 +126,32 @@ var Trip = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Trip.prototype, "startdate", {
+    Object.defineProperty(Trip.prototype, "startDate", {
         get: function () {
-            return this._startdate;
+            return this._startDate;
         },
         set: function (value) {
-            this._startdate = value;
+            this._startDate = value;
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Trip.prototype, "enddate", {
+    Object.defineProperty(Trip.prototype, "endDate", {
         get: function () {
-            return this._enddate;
+            return this._endDate;
         },
         set: function (value) {
-            this._enddate = value;
+            this._endDate = value;
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Trip.prototype, "name", {
+    Object.defineProperty(Trip.prototype, "tripName", {
         get: function () {
-            return this._name;
+            return this._tripName;
         },
         set: function (value) {
-            this._name = value;
+            this._tripName = value;
         },
         enumerable: true,
         configurable: true

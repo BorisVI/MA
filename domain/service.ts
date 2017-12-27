@@ -79,7 +79,7 @@ export class Service {
         return LocalStorage.getAllTrips().then((trips)=>{
              for(let trip of trips)
              {
-                 if(trip.id == tripId)
+                 if(trip.tripId == tripId)
                  {
                      return trip;
                  }
@@ -92,16 +92,19 @@ export class Service {
         return LocalStorage.getAllTrips();
     }
 
-    static async addTrip(trip: Trip){
+    static async addTrip(trip: Trip): Promise<Trip[]>{
         LocalStorage.addTrip(trip);
+        return this.getAllTrips();
     }
 
-    static async removeTrip(tripId: string){
+    static async removeTrip(tripId: string): Promise<Trip[]>{
         LocalStorage.removeTrip(tripId);
+        return this.getAllTrips();
     }
 
-    static async updateTrip(trip: Trip){
+    static async updateTrip(trip: Trip): Promise<Trip[]>{
         LocalStorage.updateTrip(trip);
+        return this.getAllTrips();
     }
 
     static async clearDb(){
@@ -109,7 +112,7 @@ export class Service {
     }
 
     static getNewTrip(trip: Trip): Trip{
-        let t = new Trip(trip.id, trip.name, trip.startdate, trip.enddate);
+        let t = new Trip(trip.tripId, trip.tripName, trip.startDate, trip.endDate);
         for(let exp of trip.expenses)
         {
             t.addExpense(exp);
@@ -123,5 +126,9 @@ export class Service {
             t.addPerson(par);
         }
         return t;
+    }
+
+    static deepEqual(a:Object,b:Object): Boolean{
+        return JSON.stringify(a) == JSON.stringify(b);
     }
 }
