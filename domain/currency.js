@@ -1,44 +1,51 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Currency = /** @class */ (function () {
-    function Currency(name) {
+    function Currency(tag, name) {
+        this._currencyId = tag;
         this._name = name;
         // this.update();
     }
     Currency.prototype.update = function () {
-        var json = 'https://api.fixer.io/latest?base=' + this._name;
-        var jsonobj = JSON.parse(json);
-        for (var entry in jsonobj.rates) {
+        /*const json = 'https://api.fixer.io/latest?base='+ this._name;
+        let jsonobj = JSON.parse(json);
+        for(let entry in jsonobj.rates){
             console.log(entry);
             //TODO correctly read json, requires testing
-        }
+        }*/
     };
+    Object.defineProperty(Currency.prototype, "rateToCurrencies", {
+        get: function () {
+            return this._rateToCurrencies;
+        },
+        set: function (value) {
+            this._rateToCurrencies = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(Currency.prototype, "name", {
         get: function () {
             return this._name;
         },
-        set: function (name) {
-            this._name = name;
+        set: function (value) {
+            this._name = value;
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Currency.prototype, "rateToCurrecies", {
-        set: function (rateToCurrecies) {
-            this._rateToCurrencies = rateToCurrecies;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Currency.prototype, "rateToCurrencies", {
+    Object.defineProperty(Currency.prototype, "currencyId", {
         get: function () {
-            return this._rateToCurrencies;
+            return this._currencyId;
+        },
+        set: function (value) {
+            this._currencyId = value;
         },
         enumerable: true,
         configurable: true
     });
     Currency.prototype.equals = function (c) {
-        return c.name == this._name;
+        return c.currencyId == this.currencyId;
     };
     return Currency;
 }());
