@@ -36,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var localStorage_1 = require("./localStorage");
+var trip_1 = require("./trip");
 var Service = /** @class */ (function () {
     function Service() {
     }
@@ -43,7 +44,7 @@ var Service = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var tripPromise;
             return __generator(this, function (_a) {
-                tripPromise = localStorage_1.LocalStorage.getTrip(tripId);
+                tripPromise = this.getTrip(tripId);
                 return [2 /*return*/, tripPromise.then(function (trip) {
                         return trip.getExpensesSummary();
                     })];
@@ -52,14 +53,31 @@ var Service = /** @class */ (function () {
     };
     Service.addPersonToTrip = function (tripId, person) {
         return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
             var tripPromise;
             return __generator(this, function (_a) {
-                tripPromise = localStorage_1.LocalStorage.getTrip(tripId);
-                tripPromise.then(function (trip) {
-                    trip.addPerson(person);
-                    localStorage_1.LocalStorage.updateTrip(trip);
-                });
-                return [2 /*return*/];
+                console.log(tripId);
+                tripPromise = this.getTrip(tripId);
+                return [2 /*return*/, tripPromise.then(function (trip) {
+                        //console.log('bzfeipzqbf '+ person);
+                        //console.log('jiezdsjfezi'+trip.getExpensesSummary());
+                        var t = new trip_1.Trip(trip.id, trip.name, trip.startdate, trip.enddate);
+                        for (var _i = 0, _a = trip.expenses; _i < _a.length; _i++) {
+                            var exp = _a[_i];
+                            t.addExpense(exp);
+                        }
+                        for (var _b = 0, _c = trip.currencies; _b < _c.length; _b++) {
+                            var cur = _c[_b];
+                            t.addCurrency(cur);
+                        }
+                        for (var _d = 0, _e = trip.participants; _d < _e.length; _d++) {
+                            var par = _e[_d];
+                            t.addPerson(par);
+                        }
+                        t.addPerson(person);
+                        localStorage_1.LocalStorage.updateTrip(t);
+                        return _this.getAllTrips();
+                    })];
             });
         });
     };
@@ -67,7 +85,7 @@ var Service = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var tripPromise;
             return __generator(this, function (_a) {
-                tripPromise = localStorage_1.LocalStorage.getTrip(tripId);
+                tripPromise = this.getTrip(tripId);
                 tripPromise.then(function (trip) {
                     trip.removePerson(person);
                     localStorage_1.LocalStorage.updateTrip(trip);
@@ -80,7 +98,7 @@ var Service = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var tripPromise;
             return __generator(this, function (_a) {
-                tripPromise = localStorage_1.LocalStorage.getTrip(tripId);
+                tripPromise = this.getTrip(tripId);
                 tripPromise.then(function (trip) {
                     trip.addExpense(expense);
                     localStorage_1.LocalStorage.updateTrip(trip);
@@ -93,7 +111,7 @@ var Service = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var tripPromise;
             return __generator(this, function (_a) {
-                tripPromise = localStorage_1.LocalStorage.getTrip(tripId);
+                tripPromise = this.getTrip(tripId);
                 tripPromise.then(function (trip) {
                     trip.removeExpense(expense);
                     localStorage_1.LocalStorage.updateTrip(trip);
@@ -106,7 +124,7 @@ var Service = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var tripPromise;
             return __generator(this, function (_a) {
-                tripPromise = localStorage_1.LocalStorage.getTrip(tripId);
+                tripPromise = this.getTrip(tripId);
                 tripPromise.then(function (trip) {
                     trip.addCurrency(currency);
                     localStorage_1.LocalStorage.updateTrip(trip);
@@ -119,7 +137,7 @@ var Service = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var tripPromise;
             return __generator(this, function (_a) {
-                tripPromise = localStorage_1.LocalStorage.getTrip(tripId);
+                tripPromise = this.getTrip(tripId);
                 tripPromise.then(function (trip) {
                     trip.removeCurrency(currency);
                     localStorage_1.LocalStorage.updateTrip(trip);
@@ -131,7 +149,19 @@ var Service = /** @class */ (function () {
     Service.getTrip = function (tripId) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, localStorage_1.LocalStorage.getTrip(tripId)];
+                return [2 /*return*/, localStorage_1.LocalStorage.getAllTrips().then(function (trips) {
+                        for (var _i = 0, trips_1 = trips; _i < trips_1.length; _i++) {
+                            var trip = trips_1[_i];
+                            //console.log('hbefzup '+ trip.id);
+                            if (trip.id == tripId) {
+                                //  console.log('rfo'+ trip.getExpensesSummary());
+                                //console.log('ojgrnor '+ trip);
+                                // console.log('efzihb'+ trip.id);
+                                return trip;
+                            }
+                        }
+                        return null;
+                    })];
             });
         });
     };

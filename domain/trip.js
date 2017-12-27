@@ -38,6 +38,7 @@ var Trip = /** @class */ (function () {
         this._expenses.push(expense);
     };
     Trip.prototype.addPerson = function (person) {
+        //console.log(person);
         this._participants.push(person);
     };
     Trip.prototype.addCurrency = function (currency) {
