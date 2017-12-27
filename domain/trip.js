@@ -30,10 +30,10 @@ var Trip = /** @class */ (function () {
         var map = new typescript_map_1.TSMap();
         for (var _i = 0, _a = this.expenses; _i < _a.length; _i++) {
             var e = _a[_i];
-            if (map.has(e.ExpenseId)) {
-                map.set(e.ExpenseId, 0);
+            if (map.has(e.expenseId)) {
+                map.set(e.expenseId, 0);
             }
-            map.set(e.ExpenseId, map.get(e.ExpenseId) + e.getTotalconsumers());
+            map.set(e.expenseId, map.get(e.expenseId) + e.getTotalconsumers());
         }
         return map;
     };
@@ -64,8 +64,8 @@ var Trip = /** @class */ (function () {
         var highest = 0;
         for (var _i = 0, _a = this.expenses; _i < _a.length; _i++) {
             var expense = _a[_i];
-            if (Number(expense.ExpenseId) > highest) {
-                highest = Number(expense.ExpenseId);
+            if (Number(expense.expenseId) > highest) {
+                highest = Number(expense.expenseId);
             }
         }
         return String(highest + 1);
@@ -90,7 +90,7 @@ var Trip = /** @class */ (function () {
         this.currencies.push(currency);
     };
     Trip.prototype.removeExpense = function (id) {
-        this.expenses.splice(this.expenses.findIndex(function (e) { return e.ExpenseId == id; }), 1);
+        this.expenses.splice(this.expenses.findIndex(function (e) { return e.expenseId == id; }), 1);
     };
     Trip.prototype.removePerson = function (id) {
         this.participants.splice(this.participants.findIndex(function (p) { return p.personId == id; }), 1);

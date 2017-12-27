@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var category_1 = require("./category");
 var Expense = /** @class */ (function () {
     function Expense(id, name, date, currency) {
-        this.ExpenseId = id;
+        this.expenseId = id;
         this.name = name;
         this.date = date;
         this.category = category_1.Category.Misc;
@@ -12,7 +12,7 @@ var Expense = /** @class */ (function () {
         this.consumers = consumers;*/
     }
     Expense.prototype.equals = function (e) {
-        return e.ExpenseId == this.ExpenseId;
+        return e.expenseId == this.expenseId;
     };
     /*
     CalculateLoans(){
@@ -94,12 +94,12 @@ var Expense = /** @class */ (function () {
         });
         return sum;
     };
-    Object.defineProperty(Expense.prototype, "ExpenseId", {
+    Object.defineProperty(Expense.prototype, "expenseId", {
         get: function () {
-            return this._ExpenseId;
+            return this._expenseId;
         },
         set: function (value) {
-            this._ExpenseId = value;
+            this._expenseId = value;
         },
         enumerable: true,
         configurable: true
