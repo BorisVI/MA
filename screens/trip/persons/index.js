@@ -7,7 +7,7 @@ import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-ta
 import AddPersonScreen from './add';
 import {Service as Service} from '../../../domain/service';
 import {Trip} from '../../../domain/trip';
-
+import PersonOverview, { PersonOveriew } from './overview';
 export class PersonInfo extends Component {
 
 
@@ -37,7 +37,7 @@ export class PersonInfo extends Component {
         for(let tt of  trip.participants)
         {
          console.log('babyyyyyyy'); 
-          var fname =tt.name+ ' '+ tt.firstname;
+          var fname =tt.firstname+ ' '+ tt.name;
           console.log(fname);
            items.push({key: fname});
         }
@@ -171,7 +171,7 @@ export class PersonInfo extends Component {
     },
     Person:
     {
-      screen: AddPersonScreen,
+      screen: PersonOveriew,
     },
     
   },
