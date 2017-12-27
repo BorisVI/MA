@@ -1,5 +1,4 @@
 import { TSMap } from "../node_modules/typescript-map";
-import { Currency } from "./currency";
 import { Expense } from "./expense";
 import { Person } from "./person";
 export class Trip{
@@ -7,8 +6,7 @@ export class Trip{
     private _tripId : string;
     private _participants : Array<Person> = new Array();
     private _expenses : Array<Expense> = new Array();
-	private _currencies : Array<Currency> = new Array();
-	private _standardCurrency : Currency;
+	private _currencies : Array<string> = new Array();
     private _startDate : Date;
     private _endDate : Date;
 	private _tripName : string;
@@ -18,7 +16,6 @@ export class Trip{
         this.tripName = name;
         this.startDate = startDate;
 		this.endDate = endDate;
-		this.standardCurrency = new Currency('EUR', 'Euro')
 	}
 	
 	getExpensesSummary(): TSMap<string, number[]>{
@@ -68,7 +65,7 @@ export class Trip{
         this.participants.push(person);
     }
 
-    addCurrency(currency : Currency){
+    addCurrency(currency : string){
         this.currencies.push(currency);
     }
 
@@ -81,7 +78,7 @@ export class Trip{
     }
 
     removeCurrency(id : string){
-        this.currencies.splice(this.currencies.findIndex(c => c.currencyId == id),1);
+        this.currencies.splice(this.currencies.findIndex(c => c == id),1);
 	}
 
 	public get tripId(): string {
@@ -108,11 +105,11 @@ export class Trip{
 		this._expenses = value;
 	}
 
-	public get currencies(): Array<Currency> {
+	public get currencies(): Array<string> {
 		return this._currencies;
 	}
 
-	public set currencies(value: Array<Currency>) {
+	public set currencies(value: Array<string>) {
 		this._currencies = value;
 	}
 
@@ -138,14 +135,6 @@ export class Trip{
 
 	public set tripName(value: string) {
 		this._tripName = value;
-	}
-	
-	public get standardCurrency(): Currency {
-		return this._standardCurrency;
-	}
-
-	public set standardCurrency(value: Currency) {
-		this._standardCurrency = value;
 	}
 
 	equals(t : Trip): Boolean {
