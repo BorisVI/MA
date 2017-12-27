@@ -16,9 +16,12 @@ var Trip = /** @class */ (function () {
         var map = new typescript_map_1.TSMap();
         for (var _i = 0, _a = this.expenses; _i < _a.length; _i++) {
             var e = _a[_i];
-            var toPay = e.consumers.get(personId);
+            var toPay = 0;
+            if (e.consumers.get(personId) != null) {
+                toPay += e.consumers.get(personId);
+            }
             var payed = 0;
-            if (e.payers.has(personId)) {
+            if (e.payers != null && e.payers.has(personId)) {
                 payed += e.payers.get(personId);
             }
             var balance = payed - toPay;
