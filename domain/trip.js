@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var typescript_map_1 = require("../node_modules/typescript-map");
+var currency_1 = require("./currency");
 var Trip = /** @class */ (function () {
     function Trip(tripId, name, startDate, endDate) {
         this._participants = new Array();
@@ -10,6 +11,7 @@ var Trip = /** @class */ (function () {
         this.tripName = name;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.standardCurrency = new currency_1.Currency('Euro');
     }
     Trip.prototype.getExpensesSummary = function () {
         var _this = this;
@@ -34,6 +36,16 @@ var Trip = /** @class */ (function () {
         }
         return map;
     };
+    Trip.prototype.getLargestExpenseId = function () {
+        var highest = 0;
+        for (var _i = 0, _a = this.expenses; _i < _a.length; _i++) {
+            var expense = _a[_i];
+            if (Number(expense.ExpenseId) > highest) {
+                highest = Number(expense.ExpenseId);
+            }
+        }
+        return String(highest + 1);
+    };
     Trip.prototype.getLargestPersonId = function () {
         var highest = 0;
         for (var _i = 0, _a = this.participants; _i < _a.length; _i++) {
@@ -53,14 +65,14 @@ var Trip = /** @class */ (function () {
     Trip.prototype.addCurrency = function (currency) {
         this.currencies.push(currency);
     };
-    Trip.prototype.removeExpense = function (expense) {
-        this.expenses.splice(this.expenses.findIndex(function (e) { return e.ExpenseId == expense.ExpenseId; }), 1);
+    Trip.prototype.removeExpense = function (id) {
+        this.expenses.splice(this.expenses.findIndex(function (e) { return e.ExpenseId == id; }), 1);
     };
-    Trip.prototype.removePerson = function (person) {
-        this.participants.splice(this.participants.findIndex(function (p) { return p.personId == person.personId; }), 1);
+    Trip.prototype.removePerson = function (id) {
+        this.participants.splice(this.participants.findIndex(function (p) { return p.personId == id; }), 1);
     };
-    Trip.prototype.removeCurrency = function (currency) {
-        this.currencies.splice(this.currencies.findIndex(function (c) { return c.name == currency.name; }), 1);
+    Trip.prototype.removeCurrency = function (name) {
+        this.currencies.splice(this.currencies.findIndex(function (c) { return c.name == name; }), 1);
     };
     Object.defineProperty(Trip.prototype, "tripId", {
         get: function () {
@@ -128,6 +140,16 @@ var Trip = /** @class */ (function () {
         },
         set: function (value) {
             this._tripName = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Trip.prototype, "standardCurrency", {
+        get: function () {
+            return this._standardCurrency;
+        },
+        set: function (value) {
+            this._standardCurrency = value;
         },
         enumerable: true,
         configurable: true

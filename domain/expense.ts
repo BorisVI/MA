@@ -15,14 +15,14 @@ export class Expense{
     private _category : Category;
     private _currency : Currency;
 
-    constructor(id:string,name: string, date: Date, payers: TSMap<string, number>, consumers: TSMap<string, number>, category : Category, currency: Currency){
+    constructor(id:string,name: string, date: Date, currency : Currency){
         this.ExpenseId=id;
         this.name = name;
         this.date = date;
-        this.payers = payers;
-        this.consumers = consumers;
-        this.category = category;
+        this.category = Category.Misc;
         this.currency = currency;
+        /*this.payers = payers;
+        this.consumers = consumers;*/
     }
 
     equals(e: Expense): boolean{

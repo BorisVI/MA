@@ -27,7 +27,7 @@ import { Person } from '../../domain/person';
 
     Service.addTrip(trip1);
     Service.addPersonToTrip(trip1.tripId, 'Kevin', 'Peelman');
-    Service.getTripTest('1').then((trip)=>{
+    Service.getTrip('1').then((trip)=>{
       console.log(trip.tripName);
       trip.getExpensesSummary();
     });
