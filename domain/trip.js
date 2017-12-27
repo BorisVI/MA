@@ -17,7 +17,7 @@ var Trip = /** @class */ (function () {
         for (var _i = 0, _a = this.expenses; _i < _a.length; _i++) {
             var e = _a[_i];
             var toPay = 0;
-            if (e.consumers.get(personId) != null) {
+            if (e.consumers != null) {
                 toPay += e.consumers.get(personId);
             }
             var payed = 0;

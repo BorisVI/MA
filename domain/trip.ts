@@ -24,7 +24,7 @@ export class Trip{
 		let map = new TSMap<string,number[]>();
 		for(let e of this.expenses){
 			let toPay = 0;
-			if(e.consumers.get(personId) != null){
+			if(e.consumers != null){
 				toPay += e.consumers.get(personId);
 			}
 			let payed = 0;
