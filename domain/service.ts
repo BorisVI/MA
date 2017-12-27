@@ -42,7 +42,7 @@ export class Service {
     static async addExpenseToTrip(tripId: string, name: string, date: Date): Promise<void>{
         this.getTrip(tripId).then((trip) =>{
             let t = this.getNewTrip(trip);
-            t.addExpense(new Expense(t.getLargestExpenseId(), name, date, t.standardCurrency));
+            //t.addExpense(new Expense(t.getLargestExpenseId(), name, date, t.standardCurrency));
             LocalStorage.updateTrip(t);
         });
     }

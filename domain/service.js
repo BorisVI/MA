@@ -38,11 +38,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var localStorage_1 = require("./localStorage");
 var trip_1 = require("./trip");
 var person_1 = require("./person");
-var expense_1 = require("./expense");
 var currency_1 = require("./currency");
 var Service = /** @class */ (function () {
     function Service() {
     }
+    Service.getExpensesByCategory = function (tripId) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            var tripPromise;
+            return __generator(this, function (_a) {
+                tripPromise = this.getTrip(tripId);
+                return [2 /*return*/, tripPromise.then(function (trip) {
+                        var t = _this.getNewTrip(trip);
+                        return t.getExpensesByCategory();
+                    })];
+            });
+        });
+    };
     Service.getExpensesSummary = function (tripId) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
@@ -88,7 +100,7 @@ var Service = /** @class */ (function () {
             return __generator(this, function (_a) {
                 this.getTrip(tripId).then(function (trip) {
                     var t = _this.getNewTrip(trip);
-                    t.addExpense(new expense_1.Expense(t.getLargestExpenseId(), name, date, t.standardCurrency));
+                    //t.addExpense(new Expense(t.getLargestExpenseId(), name, date, t.standardCurrency));
                     localStorage_1.LocalStorage.updateTrip(t);
                 });
                 return [2 /*return*/];
