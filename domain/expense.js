@@ -1,8 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var typescript_map_1 = require("../node_modules/typescript-map");
 var category_1 = require("./category");
 var Expense = /** @class */ (function () {
     function Expense(id, name, date, currency) {
+        this._loans = new Array();
+        this._payers = new typescript_map_1.TSMap(); //betalers (person,aantal)
+        this._consumers = new typescript_map_1.TSMap(); //Verbuikers (person,aantal)
         this.expenseId = id;
         this.name = name;
         this.date = date;

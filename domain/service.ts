@@ -120,14 +120,14 @@ export class Service {
                 exp.consumers.forEach((value: number, key: string) => {
                     consumers.set(key, value);
                 });
-                expense.consumers = consumers;
             }
+            expense.consumers = consumers;
             if(JSON.stringify(exp).includes('payers')){
                 exp.payers.forEach((value: number, key: string) => {
                     payers.set(key, value);
-                });
-                expense.payers = payers;
+                });   
             }
+            expense.payers = payers;
             t.addExpense(expense);
         }
         for(let cur of trip.currencies)

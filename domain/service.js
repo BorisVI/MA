@@ -244,14 +244,14 @@ var Service = /** @class */ (function () {
                 exp.consumers.forEach(function (value, key) {
                     consumers.set(key, value);
                 });
-                expense.consumers = consumers;
             }
+            expense.consumers = consumers;
             if (JSON.stringify(exp).includes('payers')) {
                 exp.payers.forEach(function (value, key) {
                     payers.set(key, value);
                 });
-                expense.payers = payers;
             }
+            expense.payers = payers;
             t.addExpense(expense);
         };
         for (var _i = 0, _a = trip.expenses; _i < _a.length; _i++) {
