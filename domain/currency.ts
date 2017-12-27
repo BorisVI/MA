@@ -20,7 +20,7 @@ export class Currency{
         }
     }
 
-    set name(name:string){
+     set name(name:string){
         this._name = name;
      }
      set rateToCurrecies(rateToCurrecies:TSMap<string,number>){
@@ -35,7 +35,7 @@ export class Currency{
      }
 
      equals(c : Currency): boolean{
-         return c._name == this._name; 
+         return c.name == this._name; 
      }
 
 }

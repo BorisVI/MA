@@ -14,9 +14,16 @@ export class LocalStorage{
             return result.map((r) => { return JSON.parse(r[1]) as Trip; });
         });
     }
+    
+    static async getTrip(tripId: string): Promise<Trip>{
+        var trip: Trip= AsyncStorage.getItem(tripId).then((value)=>{
+            return JSON.parse(value);
+        });
+        return trip;
+    }
 
     static async addTrip(trip: Trip){
-        AsyncStorage.setItem(trip.id, JSON.stringify(trip).replace(/"_/g,"\""));
+        AsyncStorage.setItem(trip.tripId, JSON.stringify(trip).replace(/"_/g,"\""));
     }
 
     static async removeTrip(tripId: string){
@@ -31,15 +38,9 @@ export class LocalStorage{
         this.getAllTrips().then((trips: Trip[]) => {
             for(let trip of trips)
             {
-                this.removeTrip(trip.id);     
+                this.removeTrip(trip.tripId);     
             }
         });
     }
     
-    static async getTrip(tripId: string): Promise<Trip>{
-        var trip: Trip= AsyncStorage.getItem(tripId).then((value)=>{
-            return JSON.parse(value);
-        });
-        return trip;
-    }
 }

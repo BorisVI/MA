@@ -5,33 +5,36 @@ import { Loan } from "./loan";
 import {Category} from "./category";
 
 export class Expense{
+
+    private _ExpenseId: string;
     private _name : string;
     private _date: Date;
     private _loans: Array<Loan>;
-    private _payers: TSMap<Person,number>;
-    private _participants: TSMap<Person,number>;
+    private _payers: TSMap<string,number>; //betalers (person,aantal)
+    private _consumers: TSMap<string,number>; //Verbuikers (person,aantal)
     private _category : Category;
     private _currency : Currency;
 
-    constructor(name: string, date: Date, payers: TSMap<Person, number>, participants: TSMap<Person, number>, category : Category, Currency: Currency){
-        this._name = name;
-        this._date = date;
-        this._payers = payers;
-        this._participants = participants;
-        this._category = category;
-        this._currency = Currency;
-        this.CalculateLoans();
+    constructor(id:string,name: string, date: Date, payers: TSMap<string, number>, consumers: TSMap<string, number>, category : Category, currency: Currency){
+        this.ExpenseId=id;
+        this.name = name;
+        this.date = date;
+        this.payers = payers;
+        this.consumers = consumers;
+        this.category = category;
+        this.currency = currency;
     }
 
     equals(e: Expense): boolean{
-        return e._name == this._name;
+        return e.ExpenseId == this.ExpenseId;
     }
 
+    /*
     CalculateLoans(){
         if(this.isValidAmounts){
             let mapOver = new TSMap<Person,number>();
             let mapUnder = new TSMap<Person,number>();
-            this._participants.forEach((value: number, key: Person) =>{
+            this._consumers.forEach((value: number, key: Person) =>{
                 var amount = 0;
                 if(this._payers.has(key)){
                     amount = this._payers.get(key) - value;
@@ -46,8 +49,8 @@ export class Expense{
                 var topay = 0;
                 var canreceive = 0;
                 var amount = 0;
-                var payer = new Person("","");
-                var receiver = new Person("","");
+                var payer = new Person("","","");
+                var receiver = new Person("","","");
                 var found = false;
                 mapUnder.forEach((value: number, key: Person) =>{
                     if(value != 0 && !found){
@@ -78,7 +81,9 @@ export class Expense{
         }else{
             console.log("error on creating loans, unequal amount payers/receivers");
         }
+
     }
+    */
 
     getTotal(){
         if(this.isValidAmounts){
@@ -89,24 +94,31 @@ export class Expense{
     }
 
     isValidAmounts(){
-        return this.getTotalPayers == this.getTotalParticipants;
+        return this.getTotalPayers == this.getTotalconsumers;
     }
 
     getTotalPayers(){
         var sum = 0;
-        this._payers.forEach((value: number, key: Person) =>{
+        this._payers.forEach((value: number, key: string) =>{
             sum += value;
         });
         return sum;
     }
 
-    getTotalParticipants(){
+    getTotalconsumers(){
         var sum = 0;
-        this._participants.forEach((value: number, key: Person) =>{
+        this._consumers.forEach((value: number, key: string) =>{
             sum += value;
         });
         return sum;
     }
+
+    public get ExpenseId(): string {
+		return this._ExpenseId;
+    }
+	public set ExpenseId(value: string) {
+		this._ExpenseId = value;
+	}
 
 	public get loans(): Array<Loan> {
 		return this._loans;
@@ -124,20 +136,20 @@ export class Expense{
 		this._date = value;
 	}
 
-	public get payers(): TSMap<Person,number> {
+	public get payers(): TSMap<string,number> {
 		return this._payers;
 	}
 
-	public set payers(value: TSMap<Person,number>) {
+	public set payers(value: TSMap<string,number>) {
 		this._payers = value;
 	}
 
-	public get participants(): TSMap<Person,number> {
-		return this._participants;
+	public get consumers(): TSMap<string,number> {
+		return this._consumers;
 	}
 
-	public set participants(value: TSMap<Person,number>) {
-		this._participants = value;
+	public set consumers(value: TSMap<string,number>) {
+		this._consumers = value;
 	}
 
 	public get category(): Category {
@@ -162,5 +174,5 @@ export class Expense{
 
 	public set name(value: string) {
 		this._name = value;
-	}
+    }
 }

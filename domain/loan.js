@@ -1,28 +1,29 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Loan = /** @class */ (function () {
-    function Loan(receiver, payer, amount) {
-        this._payed = false;
-        this._amount = amount;
-        this._receiver = receiver;
+    function Loan(id, receiver, payer, amount) {
+        this.loanId = id;
+        this.payed = false;
+        this.amount = amount;
+        this.receiver = receiver;
         this.payer = payer;
     }
-    Object.defineProperty(Loan.prototype, "receiver", {
+    Object.defineProperty(Loan.prototype, "loanId", {
         get: function () {
-            return this._receiver;
+            return this._loanId;
         },
-        set: function (person) {
-            this._receiver = person;
+        set: function (value) {
+            this._loanId = value;
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Loan.prototype, "payer", {
+    Object.defineProperty(Loan.prototype, "payed", {
         get: function () {
-            return this._payer;
+            return this._payed;
         },
-        set: function (person) {
-            this._payer = person;
+        set: function (value) {
+            this._payed = value;
         },
         enumerable: true,
         configurable: true
@@ -31,22 +32,32 @@ var Loan = /** @class */ (function () {
         get: function () {
             return this._amount;
         },
-        set: function (amount) {
-            this._amount = amount;
+        set: function (value) {
+            this._amount = value;
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Loan.prototype, "payed", {
-        set: function (payed) {
-            this._payed = payed;
+    Object.defineProperty(Loan.prototype, "receiver", {
+        get: function () {
+            return this._receiver;
+        },
+        set: function (value) {
+            this._receiver = value;
         },
         enumerable: true,
         configurable: true
     });
-    Loan.prototype.isPayed = function () {
-        return this._payed;
-    };
+    Object.defineProperty(Loan.prototype, "payer", {
+        get: function () {
+            return this._payer;
+        },
+        set: function (value) {
+            this._payer = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     return Loan;
 }());
 exports.Loan = Loan;

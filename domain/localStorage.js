@@ -52,10 +52,21 @@ var LocalStorage = /** @class */ (function () {
             });
         });
     };
+    LocalStorage.getTrip = function (tripId) {
+        return __awaiter(this, void 0, void 0, function () {
+            var trip;
+            return __generator(this, function (_a) {
+                trip = react_native_1.AsyncStorage.getItem(tripId).then(function (value) {
+                    return JSON.parse(value);
+                });
+                return [2 /*return*/, trip];
+            });
+        });
+    };
     LocalStorage.addTrip = function (trip) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                react_native_1.AsyncStorage.setItem(trip.id, JSON.stringify(trip).replace(/"_/g, "\""));
+                react_native_1.AsyncStorage.setItem(trip.tripId, JSON.stringify(trip).replace(/"_/g, "\""));
                 return [2 /*return*/];
             });
         });
@@ -83,21 +94,10 @@ var LocalStorage = /** @class */ (function () {
                 this.getAllTrips().then(function (trips) {
                     for (var _i = 0, trips_1 = trips; _i < trips_1.length; _i++) {
                         var trip = trips_1[_i];
-                        _this.removeTrip(trip.id);
+                        _this.removeTrip(trip.tripId);
                     }
                 });
                 return [2 /*return*/];
-            });
-        });
-    };
-    LocalStorage.getTrip = function (tripId) {
-        return __awaiter(this, void 0, void 0, function () {
-            var trip;
-            return __generator(this, function (_a) {
-                trip = react_native_1.AsyncStorage.getItem(tripId).then(function (value) {
-                    return JSON.parse(value);
-                });
-                return [2 /*return*/, trip];
             });
         });
     };
