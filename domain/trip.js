@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var typescript_map_1 = require("../node_modules/typescript-map");
-var currency_1 = require("./currency");
 var Trip = /** @class */ (function () {
     function Trip(tripId, name, startDate, endDate) {
         this._participants = new Array();
@@ -11,7 +10,7 @@ var Trip = /** @class */ (function () {
         this.tripName = name;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.standardCurrency = new currency_1.Currency('EUR', 'Euro');
+        this.standardCurrency = "EUR";
     }
     Trip.prototype.getExpensesSummary = function () {
         var _this = this;
@@ -72,7 +71,7 @@ var Trip = /** @class */ (function () {
         this.participants.splice(this.participants.findIndex(function (p) { return p.personId == id; }), 1);
     };
     Trip.prototype.removeCurrency = function (id) {
-        this.currencies.splice(this.currencies.findIndex(function (c) { return c.currencyId == id; }), 1);
+        this.currencies.splice(this.currencies.findIndex(function (c) { return c == id; }), 1);
     };
     Object.defineProperty(Trip.prototype, "tripId", {
         get: function () {

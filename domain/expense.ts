@@ -1,5 +1,4 @@
 import { TSMap } from "../node_modules/typescript-map";
-import { Currency } from "./currency";
 import { Person } from "./person";
 import { Loan } from "./loan";
 import {Category} from "./category";
@@ -13,9 +12,9 @@ export class Expense{
     private _payers: TSMap<string,number>; //betalers (person,aantal)
     private _consumers: TSMap<string,number>; //Verbuikers (person,aantal)
     private _category : Category;
-    private _currency : Currency;
+    private _currency : string;
 
-    constructor(id:string,name: string, date: Date, currency : Currency){
+    constructor(id:string,name: string, date: Date, currency : string){
         this.ExpenseId=id;
         this.name = name;
         this.date = date;
@@ -160,11 +159,11 @@ export class Expense{
 		this._category = value;
 	}
 
-	public get currency(): Currency {
+	public get currency(): string {
 		return this._currency;
 	}
 
-	public set currency(value: Currency) {
+	public set currency(value: string) {
 		this._currency = value;
 	}
 
