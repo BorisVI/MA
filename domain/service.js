@@ -339,39 +339,47 @@ var Service = /** @class */ (function () {
         });
     };
     Service.getNewTrip = function (trip) {
-        var t = new trip_1.Trip(trip.tripId, trip.tripName, trip.startDate, trip.endDate);
-        for (var _i = 0, _a = trip.expenses; _i < _a.length; _i++) {
-            var exp = _a[_i];
-            var expense = new expense_1.Expense(exp.expenseId, exp.name, exp.date, exp.currency);
-            expense.category = exp.category;
-            var consumers = new typescript_map_1.TSMap();
-            var payers = new typescript_map_1.TSMap();
-            if (exp.consumers != null) {
-                for (var _b = 0, _c = Object.keys(exp.consumers); _b < _c.length; _b++) {
-                    var k = _c[_b];
-                    consumers.set(k, exp.consumers[k]);
+        var test = trip instanceof trip_1.Trip;
+        if (test) {
+            return trip;
+        }
+        else {
+            var t = new trip_1.Trip(trip.tripId, trip.tripName, trip.startDate, trip.endDate);
+            for (var _i = 0, _a = trip.expenses; _i < _a.length; _i++) {
+                var exp = _a[_i];
+                var expense = new expense_1.Expense(exp.expenseId, exp.name, exp.date, exp.currency);
+                expense.category = exp.category;
+                var consumers = new typescript_map_1.TSMap();
+                var payers = new typescript_map_1.TSMap();
+                if (exp.consumers != null) {
+                    console.log('expenses not null');
+                    for (var _b = 0, _c = Object.keys(exp.consumers); _b < _c.length; _b++) {
+                        var k = _c[_b];
+                        consumers.set(k, exp.consumers[k]);
+                    }
                 }
-            }
-            if (exp.payers != null) {
-                for (var _d = 0, _e = Object.keys(exp.payers); _d < _e.length; _d++) {
-                    var k = _e[_d];
-                    payers.set(k, exp.payers[k]);
+                if (exp.payers != null) {
+                    console.log('payers not null');
+                    for (var _d = 0, _e = Object.keys(exp.payers); _d < _e.length; _d++) {
+                        var k = _e[_d];
+                        payers.set(k, exp.payers[k]);
+                    }
                 }
+                expense.consumers = consumers;
+                expense.payers = payers;
+                t.addExpense(expense);
             }
-            expense.consumers = consumers;
-            expense.payers = payers;
-            t.addExpense(expense);
+            for (var _f = 0, _g = trip.currencies; _f < _g.length; _f++) {
+                var cur = _g[_f];
+                t.addCurrency(cur);
+            }
+            for (var _h = 0, _j = trip.participants; _h < _j.length; _h++) {
+                var par = _j[_h];
+                var person = new person_1.Person(par.personId, par.firstName, par.lastName);
+                t.addPerson(person);
+            }
+            return t;
         }
-        for (var _f = 0, _g = trip.currencies; _f < _g.length; _f++) {
-            var cur = _g[_f];
-            t.addCurrency(cur);
-        }
-        for (var _h = 0, _j = trip.participants; _h < _j.length; _h++) {
-            var par = _j[_h];
-            var person = new person_1.Person(par.personId, par.firstName, par.lastName);
-            t.addPerson(person);
-        }
-        return t;
     };
     Service.deepEqual = function (a, b) {
         return JSON.stringify(a) == JSON.stringify(b);
