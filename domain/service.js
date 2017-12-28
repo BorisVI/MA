@@ -287,6 +287,22 @@ var Service = /** @class */ (function () {
     Service.getAllCurrencyTypes = function () {
         return localStorage_1.LocalStorage.getAllCurrenciesPossible();
     };
+    Service.overWriteCurrency = function (currencyTag, value) {
+        return localStorage_1.LocalStorage.overwriteCurrency(currencyTag, value);
+    };
+    Service.getCurrencyValue = function (currencyTag) {
+        return localStorage_1.LocalStorage.getCurrencyValue(currencyTag);
+    };
+    Service.convertAmountFromEuroTo = function (currencyTag, amount) {
+        return this.getCurrencyValue(currencyTag).then(function (value) {
+            return amount * value[1];
+        });
+    };
+    Service.converAmoountToEuroFrom = function (currencyTag, amount) {
+        return this.getCurrencyValue(currencyTag).then(function (value) {
+            return amount / value[1];
+        });
+    };
     Service.clearTripDb = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {

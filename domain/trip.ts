@@ -108,8 +108,16 @@ export class Trip{
         this.expenses.push(expense);
     }
 
-    addPerson(person : Person){
-        this.participants.push(person);
+    addPerson(person : Person):Boolean{
+		for(let i=0;i<this.participants.length;i++){
+			if(this.participants[i].firstName!=person.firstName&&this.participants[i].lastName!=person.lastName){
+				if(this.participants[i].personId!=person.personId){
+					this.participants.push(person);
+					return true;
+				}
+			}
+		}
+		return false;
     }
 
     addCurrency(currency : string){

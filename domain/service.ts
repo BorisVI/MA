@@ -64,11 +64,12 @@ export class Service {
         });
     }
 
-    static async addPersonToTrip(tripId: string, firstName: string, lastName: string): Promise<void>{
-        await this.getTrip(tripId).then((trip) =>{
+    static async addPersonToTrip(tripId: string, firstName: string, lastName: string): Promise<Boolean>{
+        return await this.getTrip(tripId).then((trip) =>{
             let t = this.getNewTrip(trip);
-            t.addPerson(new Person(t.getLargestPersonId(), firstName, lastName));
+            let valid=t.addPerson(new Person(t.getLargestPersonId(), firstName, lastName));
             this.updateTrip(t);
+            return valid;
         });
     }
 
@@ -136,6 +137,25 @@ export class Service {
 
     static getAllCurrencyTypes(): Array<string>{
         return LocalStorage.getAllCurrenciesPossible();
+    }
+
+    static overWriteCurrency(currencyTag:string, value:number):Promise<void>{
+        return LocalStorage.overwriteCurrency(currencyTag,value);
+    }
+
+    static getCurrencyValue(currencyTag:string):Promise<[string,number]>{
+        return LocalStorage.getCurrencyValue(currencyTag);
+    }
+
+    static convertAmountFromEuroTo(currencyTag:string,amount:number):Promise<number>{
+        return this.getCurrencyValue(currencyTag).then((value)=>{
+            return amount*value[1];
+        });    
+    }
+    static converAmoountToEuroFrom(currencyTag:string,amount:number):Promise<number>{
+        return this.getCurrencyValue(currencyTag).then((value)=>{
+            return amount/value[1];
+        });
     }
 
     static async clearTripDb(){
