@@ -131,6 +131,10 @@ export class Service {
         return LocalStorage.updateTrip(trip);
     }
 
+    static getAllCurrencyTypes(): Array<string>{
+        return LocalStorage.getAllCurrenciesPossible();
+    }
+
     static async clearTripDb(){
         LocalStorage.clearTripDb();
     }
@@ -172,7 +176,6 @@ export class Service {
         }
         return t;
     }
-
     static deepEqual(a:Object,b:Object): Boolean{
         return JSON.stringify(a) == JSON.stringify(b);
     }

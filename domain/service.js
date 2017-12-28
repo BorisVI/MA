@@ -281,6 +281,9 @@ var Service = /** @class */ (function () {
             });
         });
     };
+    Service.getAllCurrencyTypes = function () {
+        return localStorage_1.LocalStorage.getAllCurrenciesPossible();
+    };
     Service.clearTripDb = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
