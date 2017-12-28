@@ -102,7 +102,7 @@ import { Person } from '../../domain/person';
   }
   goToTrip(tripId)
   {
-    this.props.navigation.navigate('Trip',{tripId});
+    this.props.navigation.navigate('Trip',{tripId,onNavigateBack: this.handleOnNavigateBack});
   }
 
 }
