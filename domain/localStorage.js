@@ -108,6 +108,124 @@ var LocalStorage = /** @class */ (function () {
             });
         });
     };
+    LocalStorage.getAllCurrenciesPossible = function () {
+        var list = ["AUD", "BGN", "BRL", "CAD", "CHF", "CNY", "CZK", "DKK", "EUR", "GBP", "HKD", "HRK", "HUF", "IDR", "ILS", "INR", "JPY", "KRW", "MXN", "MYR", "NOK", "NZD", "PHP", "PLN", "RON", "RUB", "SEK", "SGD", "THB", "TRY", "USD", "ZAR"];
+        return list;
+    };
+    LocalStorage.getAllCurrencyValuesHard = function () {
+        var list = Array();
+        list = [["AUD", 1.5316], ["BGN", 1.9558], ["BRL", 3.9196], ["CAD", 1.5028], ["CHF", 1.1772], ["CNY", 7.7975], ["CZK", 25.84], ["DKK", 7.445], ["EUR", 1], ["GBP", 0.88593], ["HKD", 9.2953], ["HRK", 7.5398], ["HUF", 310.99], ["IDR", 16123.0], ["ILS", 4.1432], ["INR", 76.312], ["JPY", 134.7], ["KRW", 1277.7], ["MXN", 23.522], ["MYR", 4.8481], ["NOK", 9.8605], ["NZD", 1.6825], ["PHP", 59.43], ["PLN", 4.1884], ["RON", 4.6499], ["RUB", 68.597], ["SEK", 9.8727], ["SGD", 1.5937], ["THB", 39.027], ["TRY", 4.5475], ["USD", 1.1895], ["ZAR", 14.811]];
+        return list;
+    };
+    LocalStorage.addAllCurrenciesAndValues = function (list) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, react_native_1.AsyncStorage.setItem("currencyValues", JSON.stringify(list))];
+            });
+        });
+    };
+    LocalStorage.getAllCurrenciesAndValues = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, react_native_1.AsyncStorage.getItem("currencyValues").then(function (json) {
+                        return JSON.parse(json);
+                    })];
+            });
+        });
+    };
+    LocalStorage.initializeCurrencies = function (online) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.getAllCurrenciesAndValues().then(function (list) {
+                            if (list != null && list.length != 0) {
+                                if (online) {
+                                    console.log(("TODO WRITE ONLINE REST REQUEST: https://api.fixer.io/latest?base=EUR"));
+                                }
+                                else {
+                                    _this.addAllCurrenciesAndValues(_this.getAllCurrencyValuesHard());
+                                }
+                            }
+                        })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    LocalStorage.setCurrencyValue = function (currencyTag, value) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.getAllCurrenciesAndValues().then(function (list) {
+                        for (var i = 0; i < list.length; i++) {
+                            if (list[i][0] == currencyTag) {
+                                list[i][1] = value;
+                                _this.addAllCurrenciesAndValues(list);
+                                return;
+                            }
+                        }
+                    })];
+            });
+        });
+    };
+    LocalStorage.setAllCurrencyStatussesHard = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var list, result, i;
+            return __generator(this, function (_a) {
+                list = this.getAllCurrenciesPossible();
+                result = Array();
+                for (i = 0; i < list.length; i++) {
+                    result.push([list[i], false]);
+                }
+                return [2 /*return*/, react_native_1.AsyncStorage.setItem("currencyStatus", result)];
+            });
+        });
+    };
+    LocalStorage.getAllCurrencyStatusses = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, react_native_1.AsyncStorage.getItem("currencyStatus").then(function (list) {
+                        return JSON.parse(list);
+                    })];
+            });
+        });
+    };
+    LocalStorage.addAllCurrencyStatusses = function (list) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, react_native_1.AsyncStorage.setItem("currencyStatus", JSON.stringify(list))];
+            });
+        });
+    };
+    LocalStorage.overwriteCurrency = function (currencyTag, value) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                this.getAllCurrencyStatusses().then(function (list) {
+                    for (var i = 0; i < list.length; i++) {
+                        if (list[i][0] == currencyTag) {
+                            list[i][1] = true;
+                        }
+                    }
+                    _this.addAllCurrencyStatusses(list);
+                    return;
+                });
+                this.getAllCurrenciesAndValues().then(function (list) {
+                    for (var i = 0; i < list.length; i++) {
+                        if (list[i][0] == currencyTag) {
+                            list[i][1] = value;
+                        }
+                    }
+                    _this.addAllCurrenciesAndValues(list);
+                    return;
+                });
+                return [2 /*return*/];
+            });
+        });
+    };
     LocalStorage.clearTripDb = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
