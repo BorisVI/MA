@@ -12,6 +12,15 @@ var Trip = /** @class */ (function () {
         this.endDate = endDate;
         this.standardCurrency = "EUR";
     }
+    Trip.prototype.getPersonFromId = function (personId) {
+        for (var _i = 0, _a = this.participants; _i < _a.length; _i++) {
+            var p = _a[_i];
+            if (p.personId == personId) {
+                return p;
+            }
+        }
+        return null;
+    };
     Trip.prototype.getExpensesFromPerson = function (personId) {
         var map = new typescript_map_1.TSMap();
         for (var _i = 0, _a = this.expenses; _i < _a.length; _i++) {
