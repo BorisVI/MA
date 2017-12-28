@@ -3,8 +3,19 @@ import { TSMap } from "../node_modules/typescript-map";
 import { Trip } from "./trip";
 import { Person } from "./person";
 import { Expense } from "./expense";
+import { Category } from "./category";
 
 export class Service {
+
+    static async editExpenseFromTrip(tripId: string, expenseId: string, name: string, date: Date, currency: string, category: Category ): Promise<void>{
+        let expense = new Expense(expenseId, name, date, currency);
+        expense.category = category;
+        await this.getTrip(tripId).then((trip)=>{
+            let t = this.getNewTrip(trip);
+            t.editExpense(expense);
+            LocalStorage.updateTrip(t);
+        });
+    }
 
     static async getExpensesPerPerson(tripId: string, personId: string): Promise<TSMap<string, number[]>> {
         let tripPromise = this.getTrip(tripId);

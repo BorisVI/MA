@@ -87,6 +87,11 @@ export class Trip{
         return String(highest + 1);
 	}
 
+	editExpense(expense: Expense){
+		this.removeExpense(expense.expenseId);
+		this.addExpense(expense);
+	}
+
     addExpense(expense: Expense){
         this.expenses.push(expense);
     }

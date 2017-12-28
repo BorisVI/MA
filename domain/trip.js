@@ -83,6 +83,10 @@ var Trip = /** @class */ (function () {
         }
         return String(highest + 1);
     };
+    Trip.prototype.editExpense = function (expense) {
+        this.removeExpense(expense.expenseId);
+        this.addExpense(expense);
+    };
     Trip.prototype.addExpense = function (expense) {
         this.expenses.push(expense);
     };
