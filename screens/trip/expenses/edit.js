@@ -17,23 +17,8 @@ export default class EditExpenseScreen extends Component {
     super(props);
     var datum = new Date();
     var today = datum.getFullYear() + '-' +(datum.getMonth()+1)+'-'+datum.getDate();
-    this.state = {date: today, name: '',categories:[], category : '', currency: 'EUR', particpant: '', participants : [],participantconsumed: '', payer: '', payers: [], payedamount:'',trippersons:[]};
-    this.datumlimits= {min: '',max:''};
-    //this.max= {max: ''};
-    if(datum.getMonth() >5)
-    {
-     var varmonth = (datum.getMonth() + 7) -12
-      this.datumlimits.max= (datum.getFullYear()+1) + '-'+varmonth+'-'+datum.getDate();
-      this.datumlimits.min =datum.getFullYear() + '-' +(datum.getMonth())+'-'+datum.getDate();
-    } else if(datum.getMonth()==0)
-    {
-      this.datumlimits.max= (datum.getFullYear()) + '-' +(datum.getMonth()+7)+'-'+datum.getDate();
-      this.datumlimits.min=(datum.getFullYear()-1) + '-' +'12'+'-'+datum.getDate();
-    } else
-    {
-      this.datumlimits.max= (datum.getFullYear()) + '-' +(datum.getMonth()+7)+'-'+datum.getDate();
-      this.datumlimits.min=(datum.getFullYear()) + '-' +(datum.getMonth())+'-'+datum.getDate();
-    }
+    this.state = {startDateTrip: '', endDateTrip: '',date: '', name: '',categories:[], category : '', currency: 'EUR', particpant: '', participants : [],participantconsumed: '', payer: '', payers: [], payedamount:'',trippersons:[]};
+   
     //this.dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1!==r2});
     //console.log(this.datumlimits.max);
     //console.log(this.datumlimits.min);
