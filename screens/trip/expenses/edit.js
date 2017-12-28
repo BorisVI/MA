@@ -30,7 +30,7 @@ export default class EditExpenseScreen extends Component {
     this.getStates();
     this.getAllCategories();
     
-    //this.getAllCurrencies();
+    this.getAllCurrencies();
   }
   setState(state)
   {
@@ -48,7 +48,7 @@ export default class EditExpenseScreen extends Component {
       this.setState({date: expense.date});
       this.setState({category: expense.category});
       this.setState({currency: expense.currency});
-      console.log(expense);
+      //console.log(expense);
     });
   }
   getAllCategories(){
@@ -66,11 +66,10 @@ export default class EditExpenseScreen extends Component {
   }
   getAllCurrencies()
   {
-    
-   /* CurrencyLocalStorage.getAllCurrenciesPossible().then((currencies)=>{
+    let list = Service.getAllCurrencyTypes();
       var first= false;
       items =[];
-      for(let c of currencies)
+      for(let c of list)
       {
        if(!first)
        {
@@ -79,12 +78,13 @@ export default class EditExpenseScreen extends Component {
        }
        items.push({key: c});
       }
+      //console.log('bhi '+ items);
       this.setState({currencies: items});
-    });*/
+  
   }
   static navigationOptions = {
     
-    title:'Add expense',
+    title:'Edit expense',
     headerStyle: { backgroundColor: '#4d9280', borderWidth: 0, shadowColor: 'transparent'},
     headerTintColor :'#fff',
   };
@@ -130,8 +130,7 @@ export default class EditExpenseScreen extends Component {
 <Picker
   selectedValue={this.state.currency}
   onValueChange={(itemValue, itemIndex) => this.setState({currency: itemValue})}>
-  <Picker.Item label="EUR" value="EUR"/> 
-  <Picker.Item label="USD" value="USD"/> 
+ { this.loadPickerItemsCurrency() }
 </Picker>
 <View style={styles.buttonStyle}>
       <Button color='#4d9280' 

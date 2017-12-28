@@ -18,7 +18,7 @@ class ExpenseOveriew extends Component {
     this.loadExpenseInfo();
   }
   handleOnNavigateBack= (b) => {
-   this.loadExpenseInfo()
+   this.loadExpenseInfo();
   }
   loadExpenseInfo()
   {

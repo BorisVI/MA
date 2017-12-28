@@ -14,7 +14,7 @@ export default class AddExpense extends Component {
     var datum = new Date();
     var today = datum.getFullYear() + '-' +(datum.getMonth()+1)+'-'+datum.getDate();
     this.state = {date: '', name: '',id: this.props.navigation.state.params.tripId,startDateTrip: '', endDateTrip:''};
-    this.datumlimits= {min: '',max:''};
+    //this.datumlimits= {min: '',max:''};
     //this.max= {max: ''};
     /*if(datum.getMonth() >5)
     {
@@ -35,7 +35,7 @@ export default class AddExpense extends Component {
       this.setState({startDateTrip: trip.startDate});
       this.setState({endDateTrip: trip.endDate});
     });
-    console.log(this.datumlimits.min+ ','+ this.datumlimits.max);
+   // console.log(this.datumlimits.min+ ','+ this.datumlimits.max);
   }
   setState(state)
   {
