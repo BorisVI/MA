@@ -200,6 +200,20 @@ var LocalStorage = /** @class */ (function () {
             });
         });
     };
+    LocalStorage.getCurrencyValue = function (currencyTag) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, react_native_1.AsyncStorage.getAllCurrenciesAndValues().then(function (list) {
+                        for (var i = 0; i < list.length; i++) {
+                            if (list[i][0] == currencyTag) {
+                                return [currencyTag, list[i][1]];
+                            }
+                        }
+                        return [null, 0];
+                    })];
+            });
+        });
+    };
     LocalStorage.overwriteCurrency = function (currencyTag, value) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;

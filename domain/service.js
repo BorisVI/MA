@@ -99,6 +99,9 @@ var Service = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.getTrip(tripId).then(function (trip) {
                             var t = _this.getNewTrip(trip);
                             t.getExpenseById(expenseId).payers = payers;
+                            payers.forEach(function (value, key) {
+                                console.log('bam: ' + value + ',' + key);
+                            });
                             _this.updateTrip(t);
                         })];
                     case 1:
@@ -283,6 +286,22 @@ var Service = /** @class */ (function () {
     };
     Service.getAllCurrencyTypes = function () {
         return localStorage_1.LocalStorage.getAllCurrenciesPossible();
+    };
+    Service.overWriteCurrency = function (currencyTag, value) {
+        return localStorage_1.LocalStorage.overwriteCurrency(currencyTag, value);
+    };
+    Service.getCurrencyValue = function (currencyTag) {
+        return localStorage_1.LocalStorage.getCurrencyValue(currencyTag);
+    };
+    Service.convertAmountFromEuroTo = function (currencyTag, amount) {
+        return this.getCurrencyValue(currencyTag).then(function (value) {
+            return amount * value[1];
+        });
+    };
+    Service.converAmoountToEuroFrom = function (currencyTag, amount) {
+        return this.getCurrencyValue(currencyTag).then(function (value) {
+            return amount / value[1];
+        });
     };
     Service.clearTripDb = function () {
         return __awaiter(this, void 0, void 0, function () {

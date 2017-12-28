@@ -24,12 +24,15 @@ export class Trip{
 		let map = new TSMap<string,number[]>();
 		for(let e of this.expenses){
 			let toPay = 0;
+			//console.log(e.consumers);
 			if(e.consumers != null){
 				toPay += e.consumers.get(personId);
+				console.log('hh '+e.consumers.get(personId));
 			}
 			let payed = 0;
 			if(e.payers != null && e.payers.has(personId)){
 				payed += e.payers.get(personId);
+				console.log('hibhbip'+e.payers.get(personId));
 			}
 			let balance = payed - toPay;
 			map.set(e.name, [toPay,payed,balance]);
@@ -105,8 +108,16 @@ export class Trip{
         this.expenses.push(expense);
     }
 
-    addPerson(person : Person){
-        this.participants.push(person);
+    addPerson(person : Person):Boolean{
+		for(let i=0;i<this.participants.length;i++){
+			if(this.participants[i].firstName!=person.firstName&&this.participants[i].lastName!=person.lastName){
+				if(this.participants[i].personId!=person.personId){
+					this.participants.push(person);
+					return true;
+				}
+			}
+		}
+		return false;
     }
 
     addCurrency(currency : string){

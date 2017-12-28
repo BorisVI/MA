@@ -51,7 +51,7 @@ export class LocalStorage{
     }
 
     static getAllCurrenciesPossible():Array<string>{
-        let list: Array<string>=["AUD","BGN","BRL","CAD","CHF","CNY","CZK","DKK","EUR","GBP","HKD","HRK","HUF","IDR","ILS","INR","JPY","KRW","MXN","MYR","NOK","NZD","PHP","PLN","RON","RUB","SEK","SGD","THB","TRY","USD","ZAR"];
+        let list: string[]=["AUD","BGN","BRL","CAD","CHF","CNY","CZK","DKK","EUR","GBP","HKD","HRK","HUF","IDR","ILS","INR","JPY","KRW","MXN","MYR","NOK","NZD","PHP","PLN","RON","RUB","SEK","SGD","THB","TRY","USD","ZAR"];
         return list;
     }
     static getAllCurrencyValuesHard():Array<[string,number]>{
@@ -102,6 +102,7 @@ export class LocalStorage{
         }
         return AsyncStorage.setItem("currencyStatus",result);
     }
+
     static async getAllCurrencyStatusses():Promise<Array<[string,Boolean]>>{
         return AsyncStorage.getItem("currencyStatus").then((list)=>{
             return JSON.parse(list) as Array<[string,Boolean]>;
@@ -110,6 +111,17 @@ export class LocalStorage{
 
     static async addAllCurrencyStatusses(list:Array<[string,Boolean]>):Promise<void>{
         return AsyncStorage.setItem("currencyStatus",JSON.stringify(list));
+    }
+
+    static async getCurrencyValue(currencyTag:string):Promise<[string,number]>{
+        return AsyncStorage.getAllCurrenciesAndValues().then((list)=>{
+            for(let i=0;i < list.length;i++){
+                if(list[i][0]==currencyTag){
+                    return [currencyTag,list[i][1]];
+                }
+            }
+            return [null,0];
+        });
     }
 
     static async overwriteCurrency(currencyTag:string,value:number):Promise<void>{
