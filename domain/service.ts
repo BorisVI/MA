@@ -36,6 +36,9 @@ export class Service {
         await this.getTrip(tripId).then((trip)=>{
             let t = this.getNewTrip(trip);
             t.getExpenseById(expenseId).payers = payers;
+            payers.forEach((value, key)=>{
+                console.log('bam: '+ value+ ','+ key);
+            });
             this.updateTrip(t);
         });
     }

@@ -41,7 +41,7 @@ export default class AddConsumerScreen extends Component {
   }
   static navigationOptions = {
     
-    title:'Add a person',
+    title:'Add consumers',
     headerStyle: { backgroundColor: '#4d9280', borderWidth: 0, shadowColor: 'transparent'},
     headerTintColor :'#fff',
   };

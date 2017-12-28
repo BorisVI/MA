@@ -41,7 +41,7 @@ export default class AddPayersScreen extends Component {
   }
   static navigationOptions = {
     
-    title:'Add a person',
+    title:'Add payers',
     headerStyle: { backgroundColor: '#4d9280', borderWidth: 0, shadowColor: 'transparent'},
     headerTintColor :'#fff',
   };
@@ -58,17 +58,17 @@ export default class AddPayersScreen extends Component {
   <TextInput style={ {height:40} }
    keyboardType='numeric'
    onChangeText={(text)=> this.onChangedNrPayed(text)}
-   value={this.state.participantconsumed}
+   value={this.state.participantpayed}
    maxLength={10} />
 <Button color='#4d9280' 
  onPress={() => this.AddPayer()}
-  title="Add consumer"  
+  title="Add payer"  
 />
-<Text style={styles.dropText}>Participants: </Text>
+<Text style={styles.dropText}>Payers: </Text>
 <FlatList
         data={this.state.payers}
         extraData={this.state}
-        renderItem={({item}) => <Text style={styles.row}>Name: {item.key}  {"\n"}Amount payed: {item.consumed}</Text>}
+        renderItem={({item}) => <Text style={styles.row}>Name: {item.key}  {"\n"}Amount payed: {item.payed}</Text>}
       />
   <View style={styles.buttonStyle}>
       <Button color='#4d9280' 
@@ -132,7 +132,7 @@ export default class AddPayersScreen extends Component {
   AddPayer()
   {
  
-    items = this.state.consumers;
+    items = this.state.payers;
     let notinit= false
     for(let t of items)
     {
@@ -141,10 +141,10 @@ export default class AddPayersScreen extends Component {
             notinit = true;
         }
     }
-    if(!notinit && this.state.participantconsumed.trim() != ''){
+    if(!notinit && this.state.participantpayed.trim() != ''){
 
-        items.push({key: this.state.selectedParticipant, id: this.state.selectedParticipantId, consumed: this.state.participantconsumed});
-        this.setState({consumers: items});
+        items.push({key: this.state.selectedParticipant, id: this.state.selectedParticipantId, payed: this.state.participantpayed});
+        this.setState({payers: items});
     }
 
   }
@@ -154,8 +154,9 @@ export default class AddPayersScreen extends Component {
     payerslist = new typescript_map_1.TSMap();
     for(let payer of this.state.payers)
     {
-        payerslist.set(consumer.id,consumer.consumed);
+        payerslist.set(payer.id,payer.payed);
     }
+    console.log(payerslist);
     
     Service.addPayersToExpense(this.state.tripId,this.state.expenseId, payerslist).then(()=>{
         this.props.navigation.state.params.onNavigateBack(true);
