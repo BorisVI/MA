@@ -19,11 +19,23 @@ export default class AddPayersScreen extends Component {
   componentDidMount()
   {
       this.loadParticipantsList();
+      this.loadPayerslist();
   }
   setState(state)
   {
       super.setState(state);
       console.log(`Set state to ${JSON.stringify(state)}`);
+  }
+  loadPayerslist()
+  {
+    Service.getPayersFromExpense(this.state.tripId, this.state.expenseId).then((payers)=>{
+      items =[];
+      payers.forEach((value, key)=>{
+        var fname = key[1]+ ' '+ key[2];
+        items.push({key: fname, id: key[0], payed: value});
+      });
+      this.setState({payers: items});
+    });
   }
   loadParticipantsList()
   {
@@ -131,22 +143,26 @@ export default class AddPayersScreen extends Component {
   }
   AddPayer()
   {
- 
+    if(this.state.participantpayed.trim() != ''){
+
+    
     items = this.state.payers;
-    let notinit= false
+    let init= false
+    var counter = 0;
     for(let t of items)
     {
         if(t.id == this.state.selectedParticipantId)
         {
-            notinit = true;
+          items[counter]= {key: this.state.selectedParticipant, id: this.state.selectedParticipantId, payed: this.state.participantpayed};
+          init = true;
         }
+        counter++;
     }
-    if(!notinit && this.state.participantpayed.trim() != ''){
-
+    if(!init){
         items.push({key: this.state.selectedParticipant, id: this.state.selectedParticipantId, payed: this.state.participantpayed});
-        this.setState({payers: items});
-    }
-
+      }
+    this.setState({payers: items});
+  }
   }
   AddPayersToTrip()
   {

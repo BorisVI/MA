@@ -43,9 +43,12 @@ export default class AddConsumerScreen extends Component {
   loadConsumerslist()
   {
     Service.getConsumersFromExpense(this.state.tripId, this.state.expenseId).then((consumers)=>{
+      items =[];
       consumers.forEach((value, key)=>{
-        console.log(key+','+value);
+        var fname = key[1]+ ' '+ key[2];
+        items.push({key: fname, id: key[0], consumed: value});
       });
+      this.setState({consumers: items});
     });
   }
   static navigationOptions = {
@@ -140,24 +143,25 @@ export default class AddConsumerScreen extends Component {
   }
   AddConsumer()
   {
- 
+    if(this.state.participantconsumed.trim() != ''){
     items = this.state.consumers;
-    let notinit= false
+    let init= false
     var counter =0;
     for(let t of items)
     {
         if(t.id == this.state.selectedParticipantId)
         {
          items[counter]= {key: this.state.selectedParticipant, id: this.state.selectedParticipantId, consumed: this.state.participantconsumed};
+         init=true;
         }
         counter++;
     }
-    if(!notinit && this.state.participantconsumed.trim() != ''){
+    if(!init){
 
         items.push({key: this.state.selectedParticipant, id: this.state.selectedParticipantId, consumed: this.state.participantconsumed});
-        this.setState({consumers: items});
     }
-
+    this.setState({consumers: items});
+  }
   }
   AddConsumersToTrip()
   {
@@ -165,6 +169,7 @@ export default class AddConsumerScreen extends Component {
     consumerslist = new typescript_map_1.TSMap();
     for(let consumer of this.state.consumers)
     {
+     // console.log(consumer.consumed);
         consumerslist.set(consumer.id,consumer.consumed);
     }
     Service.addConsumersToExpense(this.state.tripId,this.state.expenseId, consumerslist).then(()=>{
