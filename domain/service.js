@@ -203,24 +203,21 @@ var Service = /** @class */ (function () {
     Service.addTrip = function (trip) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                localStorage_1.LocalStorage.addTrip(trip);
-                return [2 /*return*/, this.getAllTrips()];
+                return [2 /*return*/, localStorage_1.LocalStorage.addTrip(trip)];
             });
         });
     };
     Service.removeTrip = function (tripId) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                localStorage_1.LocalStorage.removeTrip(tripId);
-                return [2 /*return*/, this.getAllTrips()];
+                return [2 /*return*/, localStorage_1.LocalStorage.removeTrip(tripId)];
             });
         });
     };
     Service.updateTrip = function (trip) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                localStorage_1.LocalStorage.updateTrip(trip);
-                return [2 /*return*/, this.getAllTrips()];
+                return [2 /*return*/, localStorage_1.LocalStorage.updateTrip(trip)];
             });
         });
     };

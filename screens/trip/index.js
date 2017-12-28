@@ -5,8 +5,10 @@ import TableRow from 'react-native-table-row';
 import { TabNavigator } from 'react-navigation';
 import ExpensesScreen from './expenses';
 import PersonsScreen from './persons';
+import {OverzichtInfo} from '../overzicht';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import {Service as Service} from '../../domain/service';
+import { NavigationActions } from 'react-navigation';
 export class TripInfo extends Component {
 
 
@@ -63,12 +65,14 @@ export class TripInfo extends Component {
     );
   }
   deleteTrip(){
-    console.log('fedhnzuozfedonhd'+ this.state.id);
+   // console.log('fedhnzuozfedonhd'+ this.state.id);
     Service.removeTrip(this.state.id).then(()=>{
-      console.log('efdazhib');
+      //console.log('efdazhib');
       this.props.navigation.state.params.onNavigateBack(true);
-      this.props.navigation.goBack();
+      this.props.navigation.goBack(null);
+      //console.log('hzfeuR');
     });
+   // console.log('cfyvigubh');
   }
   goToPerson(personId)
   {
@@ -80,6 +84,7 @@ export class TripInfo extends Component {
     this.props.navigation.navigate('ExpenseInfo',{expenseId});
   }
 }
+
  const styles = StyleSheet.create(
       { 
       viewTable:

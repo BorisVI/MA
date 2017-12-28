@@ -15,12 +15,14 @@ import { Service as Service} from '../../domain/service';
 import { Trip } from '../../domain/trip';
 import {connect} from 'react-redux'
 import { Person } from '../../domain/person';
+import {NavigationActions } from 'react-navigation';
 
  class OverzichtInfo extends React.Component{
    constructor(props)
    {
     super(props);
-    Service.clearTripDb();
+    //Service.clearDb();
+    //Service.clearTripDb();
     let trip1 = new Trip('1','trip 123', '2017-12-26', '2017-12-26');
     let trip2 = new Trip('2','trip ezahbv', new Date(), new Date());
     let trip3 = new Trip('3','trip 3', new Date(), new Date());
@@ -34,15 +36,19 @@ import { Person } from '../../domain/person';
     });*/
 
     this.state = {trips: []};
+    //console.log('hehe');
     this.storeTripsLocaly();
+    //console.log('jnbfgszro');
   }
   handleOnNavigateBack= (b) => {
     this.storeTripsLocaly();
   }
   storeTripsLocaly() 
   {
+   // console.log('hybuezaf');
     Service.getAllTrips().then((trips) =>
     {
+      console.log('njefoza');
        var array = [];
        for(let t of trips )
        {
@@ -107,6 +113,7 @@ import { Person } from '../../domain/person';
   }
 
 }
+
 const styles = StyleSheet.create(
   { 
   container: {
