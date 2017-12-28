@@ -23,16 +23,18 @@ export class Trip{
 	getExpensesFromPerson(personId: string): TSMap<string, number[]>{
 		let map = new TSMap<string,number[]>();
 		for(let e of this.expenses){
+			//console.log('payers: ' + e.payers.size + ' ' + e.payers);
+			//console.log('consumers: ' + e.consumers.size + ' ' + e.consumers);
 			let toPay = 0;
 			//console.log(e.consumers);
 			if(e.consumers != null){
 				toPay += e.consumers.get(personId);
-				console.log('hh '+e.consumers.get(personId));
+				//console.log('hh '+e.consumers.get(personId));
 			}
 			let payed = 0;
 			if(e.payers != null && e.payers.has(personId)){
 				payed += e.payers.get(personId);
-				console.log('hibhbip'+e.payers.get(personId));
+				//console.log('hibhbip'+e.payers.get(personId));
 			}
 			let balance = payed - toPay;
 			map.set(e.name, [toPay,payed,balance]);
@@ -46,7 +48,7 @@ export class Trip{
 			if(map.has(e.expenseId)){
 				map.set(e.expenseId, 0);
 			}
-			map.set(e.expenseId, map.get(e.expenseId) + e.getTotalconsumers());
+			map.set(e.expenseId, map.get(e.expenseId) + e.getTotalConsumers());
 		}
 		return map;
 	}

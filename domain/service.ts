@@ -7,6 +7,20 @@ import { Category } from "./category";
 
 export class Service {
 
+    static async getConsumersFromExpense(tripId: string, expenseId: string): Promise<TSMap<string, number>>{
+        return this.getTrip(tripId).then((trip)=>{
+            let t = this.getNewTrip(trip);
+            return t.getExpenseById(expenseId).consumers;
+        });
+    }
+
+    static async getPayersFromExpense(tripId: string, expenseId: string): Promise<TSMap<string, number>>{
+        return this.getTrip(tripId).then((trip)=>{
+            let t = this.getNewTrip(trip);
+            return t.getExpenseById(expenseId).payers;
+        });
+    }
+
     static async getExpenseById(tripId: string, expenseId: string): Promise<Expense>{
         return this.getTrip(tripId).then((trip)=>{
             let t = this.getNewTrip(trip);
@@ -36,9 +50,6 @@ export class Service {
         await this.getTrip(tripId).then((trip)=>{
             let t = this.getNewTrip(trip);
             t.getExpenseById(expenseId).payers = payers;
-            payers.forEach((value, key)=>{
-                console.log('bam: '+ value+ ','+ key);
-            });
             this.updateTrip(t);
         });
     }
@@ -172,19 +183,19 @@ export class Service {
         {
             let expense = new Expense(exp.expenseId, exp.name, exp.date, exp.currency);
             expense.category = exp.category;
-            let consumers : TSMap<string, number>;
-            let payers : TSMap<string, number>;
-            if(exp.consumers != null && exp.consumers.length > 0){
-                exp.consumers.forEach((value: number, key: string) => {
-                    consumers.set(key, value);
-                });
+            let consumers : TSMap<string, number> = new TSMap<string, number>();
+            let payers : TSMap<string, number> = new TSMap<string, number>();
+            if(exp.consumers != null){
+               for(let k of Object.keys(exp.consumers)){
+                    consumers.set(k, exp.consumers[k]);
+                }
+            }
+            if(exp.payers != null){
+                for(let k of Object.keys(exp.payers)){
+                    payers.set(k, exp.payers[k]);
+                }
             }
             expense.consumers = consumers;
-            if(exp.payers != null && exp.payers.length > 0){
-                exp.payers.forEach((value: number, key: string) => {
-                    payers.set(key, value);
-                });   
-            }
             expense.payers = payers;
             t.addExpense(expense);
         }

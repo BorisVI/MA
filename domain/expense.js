@@ -82,7 +82,7 @@ var Expense = /** @class */ (function () {
         }
     };
     Expense.prototype.isValidAmounts = function () {
-        return this.getTotalPayers == this.getTotalconsumers;
+        return this.getTotalPayers == this.getTotalConsumers;
     };
     Expense.prototype.getTotalPayers = function () {
         var sum = 0;
@@ -91,7 +91,7 @@ var Expense = /** @class */ (function () {
         });
         return sum;
     };
-    Expense.prototype.getTotalconsumers = function () {
+    Expense.prototype.getTotalConsumers = function () {
         var sum = 0;
         this._consumers.forEach(function (value, key) {
             sum += value;

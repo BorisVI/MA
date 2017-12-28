@@ -36,12 +36,35 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var localStorage_1 = require("./localStorage");
+var typescript_map_1 = require("../node_modules/typescript-map");
 var trip_1 = require("./trip");
 var person_1 = require("./person");
 var expense_1 = require("./expense");
 var Service = /** @class */ (function () {
     function Service() {
     }
+    Service.getConsumersFromExpense = function (tripId, expenseId) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.getTrip(tripId).then(function (trip) {
+                        var t = _this.getNewTrip(trip);
+                        return t.getExpenseById(expenseId).consumers;
+                    })];
+            });
+        });
+    };
+    Service.getPayersFromExpense = function (tripId, expenseId) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.getTrip(tripId).then(function (trip) {
+                        var t = _this.getNewTrip(trip);
+                        return t.getExpenseById(expenseId).payers;
+                    })];
+            });
+        });
+    };
     Service.getExpenseById = function (tripId, expenseId) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
@@ -99,9 +122,6 @@ var Service = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.getTrip(tripId).then(function (trip) {
                             var t = _this.getNewTrip(trip);
                             t.getExpenseById(expenseId).payers = payers;
-                            payers.forEach(function (value, key) {
-                                console.log('bam: ' + value + ',' + key);
-                            });
                             _this.updateTrip(t);
                         })];
                     case 1:
@@ -151,12 +171,11 @@ var Service = /** @class */ (function () {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.getTrip(tripId).then(function (trip) {
                             var t = _this.getNewTrip(trip);
-                            t.addPerson(new person_1.Person(t.getLargestPersonId(), firstName, lastName));
+                            var valid = t.addPerson(new person_1.Person(t.getLargestPersonId(), firstName, lastName));
                             _this.updateTrip(t);
+                            return valid;
                         })];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/];
+                    case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
@@ -321,35 +340,34 @@ var Service = /** @class */ (function () {
     };
     Service.getNewTrip = function (trip) {
         var t = new trip_1.Trip(trip.tripId, trip.tripName, trip.startDate, trip.endDate);
-        var _loop_1 = function (exp) {
-            var expense = new expense_1.Expense(exp.expenseId, exp.name, exp.date, exp.currency);
-            expense.category = exp.category;
-            var consumers;
-            var payers;
-            if (exp.consumers != null && exp.consumers.length > 0) {
-                exp.consumers.forEach(function (value, key) {
-                    consumers.set(key, value);
-                });
-            }
-            expense.consumers = consumers;
-            if (exp.payers != null && exp.payers.length > 0) {
-                exp.payers.forEach(function (value, key) {
-                    payers.set(key, value);
-                });
-            }
-            expense.payers = payers;
-            t.addExpense(expense);
-        };
         for (var _i = 0, _a = trip.expenses; _i < _a.length; _i++) {
             var exp = _a[_i];
-            _loop_1(exp);
+            var expense = new expense_1.Expense(exp.expenseId, exp.name, exp.date, exp.currency);
+            expense.category = exp.category;
+            var consumers = new typescript_map_1.TSMap();
+            var payers = new typescript_map_1.TSMap();
+            if (exp.consumers != null) {
+                for (var _b = 0, _c = Object.keys(exp.consumers); _b < _c.length; _b++) {
+                    var k = _c[_b];
+                    consumers.set(k, exp.consumers[k]);
+                }
+            }
+            if (exp.payers != null) {
+                for (var _d = 0, _e = Object.keys(exp.payers); _d < _e.length; _d++) {
+                    var k = _e[_d];
+                    payers.set(k, exp.payers[k]);
+                }
+            }
+            expense.consumers = consumers;
+            expense.payers = payers;
+            t.addExpense(expense);
         }
-        for (var _b = 0, _c = trip.currencies; _b < _c.length; _b++) {
-            var cur = _c[_b];
+        for (var _f = 0, _g = trip.currencies; _f < _g.length; _f++) {
+            var cur = _g[_f];
             t.addCurrency(cur);
         }
-        for (var _d = 0, _e = trip.participants; _d < _e.length; _d++) {
-            var par = _e[_d];
+        for (var _h = 0, _j = trip.participants; _h < _j.length; _h++) {
+            var par = _j[_h];
             var person = new person_1.Person(par.personId, par.firstName, par.lastName);
             t.addPerson(person);
         }

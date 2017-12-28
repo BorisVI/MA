@@ -16,16 +16,18 @@ var Trip = /** @class */ (function () {
         var map = new typescript_map_1.TSMap();
         for (var _i = 0, _a = this.expenses; _i < _a.length; _i++) {
             var e = _a[_i];
+            //console.log('payers: ' + e.payers.size + ' ' + e.payers);
+            //console.log('consumers: ' + e.consumers.size + ' ' + e.consumers);
             var toPay = 0;
             //console.log(e.consumers);
             if (e.consumers != null) {
                 toPay += e.consumers.get(personId);
-                console.log('hh ' + e.consumers.get(personId));
+                //console.log('hh '+e.consumers.get(personId));
             }
             var payed = 0;
             if (e.payers != null && e.payers.has(personId)) {
                 payed += e.payers.get(personId);
-                console.log('hibhbip' + e.payers.get(personId));
+                //console.log('hibhbip'+e.payers.get(personId));
             }
             var balance = payed - toPay;
             map.set(e.name, [toPay, payed, balance]);
@@ -39,7 +41,7 @@ var Trip = /** @class */ (function () {
             if (map.has(e.expenseId)) {
                 map.set(e.expenseId, 0);
             }
-            map.set(e.expenseId, map.get(e.expenseId) + e.getTotalconsumers());
+            map.set(e.expenseId, map.get(e.expenseId) + e.getTotalConsumers());
         }
         return map;
     };
@@ -103,7 +105,16 @@ var Trip = /** @class */ (function () {
         this.expenses.push(expense);
     };
     Trip.prototype.addPerson = function (person) {
-        this.participants.push(person);
+        var canDo = true;
+        for (var i = 0; i < this.participants.length; i++) {
+            if (this.participants[i].firstName == person.firstName && this.participants[i].lastName == person.lastName) {
+                canDo = false;
+            }
+        }
+        if (canDo) {
+            this.participants.push(person);
+        }
+        return canDo;
     };
     Trip.prototype.addCurrency = function (currency) {
         this.currencies.push(currency);

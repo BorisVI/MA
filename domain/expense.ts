@@ -93,7 +93,7 @@ export class Expense{
     }
 
     isValidAmounts(){
-        return this.getTotalPayers == this.getTotalconsumers;
+        return this.getTotalPayers == this.getTotalConsumers;
     }
 
     getTotalPayers(){
@@ -104,7 +104,7 @@ export class Expense{
         return sum;
     }
 
-    getTotalconsumers(){
+    getTotalConsumers(){
         var sum = 0;
         this._consumers.forEach((value: number, key: string) =>{
             sum += value;
