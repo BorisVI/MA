@@ -6,7 +6,7 @@ import { StackNavigator } from 'react-navigation';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import{Service as Service} from '../../../domain/service';
 import AddExpenseScreen from './add';
-
+import OverviewExpenseScreen from './overview';
 
 class ExpenseInfo extends Component {
   constructor(props){
@@ -32,10 +32,10 @@ class ExpenseInfo extends Component {
        
      for(let p of trip.expenses){
       // console.log('hhh '+p.name);
-      console.log(p); 
-      items.push({key: p.name})
+      console.log('hi^fezu '+p.ExpenseId); 
+      items.push({key: p.name, id: p.ExpenseId})
      }
-     //console.log(items);
+     console.log('ihbpfzerN '+items);
      this.setState({expenses: items});
     }
   );
@@ -66,7 +66,7 @@ class ExpenseInfo extends Component {
       <FlatList
           data={this.state.expenses}
           extraData={this.state}
-          renderItem={({item}) => <TableRow style={styles.row} title={item.key} key={item.key} showArrow={true}  onPress={() => this.goToExpense(item.key)}>{console.log('bifze '+item.key)}</TableRow>}
+          renderItem={({item}) => <TableRow style={styles.row} title={item.key} key={item.key} showArrow={true}  onPress={() => this.goToExpense(item.id,item.key)}>{console.log('bifze '+item.key)}</TableRow>}
         />
       <View style={styles.buttonStyle}>
       <Button color='#4d9280' 
@@ -78,14 +78,15 @@ class ExpenseInfo extends Component {
     </View>
     );
   }
-  goToExpense(expenseId){
+  goToExpense(expenseId, expenseName)
+  {
     let tripId = this.props.navigation.state.params.tripId;
-    this.props.navigation.navigate('Expense',{tripId})
+    this.props.navigation.navigate('Expense',{tripId,expenseId,expenseName});
   }
   AddExpense()
   {
     let tripId = this.props.navigation.state.params.tripId;
-  this.props.navigation.navigate('Add',{tripId,onNavigateBack: this.handleOnNavigateBack});
+    this.props.navigation.navigate('Add',{tripId,onNavigateBack: this.handleOnNavigateBack});
   }
 }
  const styles = StyleSheet.create(
@@ -150,6 +151,7 @@ class ExpenseInfo extends Component {
         paddingTop: 10,
        
       },
+      
      
   });
   export default ExpenseInfo = StackNavigator(
@@ -166,7 +168,7 @@ class ExpenseInfo extends Component {
     },
     Expense:
     {
-      screen : AddExpenseScreen,
+      screen : OverviewExpenseScreen,
     }
     
   },
