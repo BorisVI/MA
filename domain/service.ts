@@ -17,25 +17,38 @@ export class Service {
         });
     }
 
+    static async addConsumersToExpense(tripId: string, expenseId: string, consumers: TSMap<string, number>): Promise<void>{
+        await this.getTrip(tripId).then((trip)=>{
+            let t = this.getNewTrip(trip);
+            t.getExpenseById(expenseId).consumers = consumers;
+            this.updateTrip(t);
+        });
+    }
+
+    static async addPayersToExpense(tripId: string, expenseId: string, payers: TSMap<string, number>): Promise<void>{
+        await this.getTrip(tripId).then((trip)=>{
+            let t = this.getNewTrip(trip);
+            t.getExpenseById(expenseId).payers = payers;
+            this.updateTrip(t);
+        });
+    }
+
     static async getExpensesPerPerson(tripId: string, personId: string): Promise<TSMap<string, number[]>> {
-        let tripPromise = this.getTrip(tripId);
-        return tripPromise.then((trip) =>{
+        return this.getTrip(tripId).then((trip) =>{
             let t = this.getNewTrip(trip);
             return t.getExpensesFromPerson(personId);
         });
     }
 
     static async getExpensesByCategory(tripId: string): Promise<TSMap<string, number>>{
-        let tripPromise = this.getTrip(tripId);
-        return tripPromise.then((trip) =>{
+        return this.getTrip(tripId).then((trip) =>{
             let t = this.getNewTrip(trip);
             return t.getExpensesByCategory();
         });
     }
 
     static async getExpensesSummary(tripId: string): Promise<TSMap<string, number[]>> {
-        let tripPromise = this.getTrip(tripId);
-        return tripPromise.then((trip) =>{
+        return this.getTrip(tripId).then((trip) =>{
             let t = this.getNewTrip(trip);
             return t.getExpensesSummary();
         });
@@ -45,7 +58,7 @@ export class Service {
         await this.getTrip(tripId).then((trip) =>{
             let t = this.getNewTrip(trip);
             t.addPerson(new Person(t.getLargestPersonId(), firstName, lastName));
-            LocalStorage.updateTrip(t);
+            this.updateTrip(t);
         });
     }
 
@@ -53,7 +66,7 @@ export class Service {
       await this.getTrip(tripId).then((trip)=>{
             let t = this.getNewTrip(trip);
             t.removePerson(id);
-            LocalStorage.updateTrip(t);
+            this.updateTrip(t);
         });
     }
 
@@ -61,7 +74,7 @@ export class Service {
       await this.getTrip(tripId).then((trip) =>{
             let t = this.getNewTrip(trip);
             t.addExpense(new Expense(t.getLargestExpenseId(), name, date, t.standardCurrency));
-            LocalStorage.updateTrip(t);
+            this.updateTrip(t);
         });
     }
 
@@ -69,7 +82,7 @@ export class Service {
       await this.getTrip(tripId).then((trip)=>{
             let t = this.getNewTrip(trip);
             t.removeCurrency(id);
-            LocalStorage.updateTrip(t);
+            this.updateTrip(t);
         });
     }
 
@@ -77,7 +90,7 @@ export class Service {
         await this.getTrip(tripId).then((trip) =>{
             let t = this.getNewTrip(trip);
             t.addCurrency(id);
-            LocalStorage.updateTrip(t);
+            this.updateTrip(t);
         });
     }
 
@@ -85,7 +98,7 @@ export class Service {
        await this.getTrip(tripId).then((trip)=>{
             let t = this.getNewTrip(trip);
             t.removeCurrency(name);
-            LocalStorage.updateTrip(t);
+            this.updateTrip(t);
         });
     }
 
@@ -127,7 +140,6 @@ export class Service {
             expense.category = exp.category;
             let consumers : TSMap<string, number>;
             let payers : TSMap<string, number>;
-            console.log(JSON.stringify(exp));
             if(exp.consumers != null && exp.consumers.length > 0){
                 exp.consumers.forEach((value: number, key: string) => {
                     consumers.set(key, value);

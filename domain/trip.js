@@ -83,6 +83,15 @@ var Trip = /** @class */ (function () {
         }
         return String(highest + 1);
     };
+    Trip.prototype.getExpenseById = function (expenseId) {
+        for (var _i = 0, _a = this.expenses; _i < _a.length; _i++) {
+            var e = _a[_i];
+            if (e.expenseId == expenseId) {
+                return e;
+            }
+        }
+        return null;
+    };
     Trip.prototype.editExpense = function (expense) {
         this.removeExpense(expense.expenseId);
         this.addExpense(expense);

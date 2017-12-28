@@ -63,13 +63,45 @@ var Service = /** @class */ (function () {
             });
         });
     };
+    Service.addConsumersToExpense = function (tripId, expenseId, consumers) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.getTrip(tripId).then(function (trip) {
+                            var t = _this.getNewTrip(trip);
+                            t.getExpenseById(expenseId).consumers = consumers;
+                            _this.updateTrip(t);
+                        })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Service.addPayersToExpense = function (tripId, expenseId, payers) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.getTrip(tripId).then(function (trip) {
+                            var t = _this.getNewTrip(trip);
+                            t.getExpenseById(expenseId).payers = payers;
+                            _this.updateTrip(t);
+                        })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
     Service.getExpensesPerPerson = function (tripId, personId) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
-            var tripPromise;
             return __generator(this, function (_a) {
-                tripPromise = this.getTrip(tripId);
-                return [2 /*return*/, tripPromise.then(function (trip) {
+                return [2 /*return*/, this.getTrip(tripId).then(function (trip) {
                         var t = _this.getNewTrip(trip);
                         return t.getExpensesFromPerson(personId);
                     })];
@@ -79,10 +111,8 @@ var Service = /** @class */ (function () {
     Service.getExpensesByCategory = function (tripId) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
-            var tripPromise;
             return __generator(this, function (_a) {
-                tripPromise = this.getTrip(tripId);
-                return [2 /*return*/, tripPromise.then(function (trip) {
+                return [2 /*return*/, this.getTrip(tripId).then(function (trip) {
                         var t = _this.getNewTrip(trip);
                         return t.getExpensesByCategory();
                     })];
@@ -92,10 +122,8 @@ var Service = /** @class */ (function () {
     Service.getExpensesSummary = function (tripId) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
-            var tripPromise;
             return __generator(this, function (_a) {
-                tripPromise = this.getTrip(tripId);
-                return [2 /*return*/, tripPromise.then(function (trip) {
+                return [2 /*return*/, this.getTrip(tripId).then(function (trip) {
                         var t = _this.getNewTrip(trip);
                         return t.getExpensesSummary();
                     })];
@@ -110,7 +138,7 @@ var Service = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.getTrip(tripId).then(function (trip) {
                             var t = _this.getNewTrip(trip);
                             t.addPerson(new person_1.Person(t.getLargestPersonId(), firstName, lastName));
-                            localStorage_1.LocalStorage.updateTrip(t);
+                            _this.updateTrip(t);
                         })];
                     case 1:
                         _a.sent();
@@ -127,7 +155,7 @@ var Service = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.getTrip(tripId).then(function (trip) {
                             var t = _this.getNewTrip(trip);
                             t.removePerson(id);
-                            localStorage_1.LocalStorage.updateTrip(t);
+                            _this.updateTrip(t);
                         })];
                     case 1:
                         _a.sent();
@@ -144,7 +172,7 @@ var Service = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.getTrip(tripId).then(function (trip) {
                             var t = _this.getNewTrip(trip);
                             t.addExpense(new expense_1.Expense(t.getLargestExpenseId(), name, date, t.standardCurrency));
-                            localStorage_1.LocalStorage.updateTrip(t);
+                            _this.updateTrip(t);
                         })];
                     case 1:
                         _a.sent();
@@ -161,7 +189,7 @@ var Service = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.getTrip(tripId).then(function (trip) {
                             var t = _this.getNewTrip(trip);
                             t.removeCurrency(id);
-                            localStorage_1.LocalStorage.updateTrip(t);
+                            _this.updateTrip(t);
                         })];
                     case 1:
                         _a.sent();
@@ -178,7 +206,7 @@ var Service = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.getTrip(tripId).then(function (trip) {
                             var t = _this.getNewTrip(trip);
                             t.addCurrency(id);
-                            localStorage_1.LocalStorage.updateTrip(t);
+                            _this.updateTrip(t);
                         })];
                     case 1:
                         _a.sent();
@@ -195,7 +223,7 @@ var Service = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.getTrip(tripId).then(function (trip) {
                             var t = _this.getNewTrip(trip);
                             t.removeCurrency(name);
-                            localStorage_1.LocalStorage.updateTrip(t);
+                            _this.updateTrip(t);
                         })];
                     case 1:
                         _a.sent();
@@ -265,7 +293,6 @@ var Service = /** @class */ (function () {
             expense.category = exp.category;
             var consumers;
             var payers;
-            console.log(JSON.stringify(exp));
             if (exp.consumers != null && exp.consumers.length > 0) {
                 exp.consumers.forEach(function (value, key) {
                     consumers.set(key, value);
