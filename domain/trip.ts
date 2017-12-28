@@ -87,6 +87,15 @@ export class Trip{
         return String(highest + 1);
 	}
 
+	getExpenseById(expenseId: string): Expense{
+		for(let e of this.expenses){
+			if(e.expenseId == expenseId){
+				return e;
+			}
+		}
+		return null;
+	}
+
 	editExpense(expense: Expense){
 		this.removeExpense(expense.expenseId);
 		this.addExpense(expense);
