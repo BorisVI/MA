@@ -158,9 +158,10 @@ export default class AddPayersScreen extends Component {
         }
         counter++;
     }
-    if(!init){
+    if(!init)
+    {
         items.push({key: this.state.selectedParticipant, id: this.state.selectedParticipantId, payed: this.state.participantpayed});
-      }
+    }
     this.setState({payers: items});
   }
   }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, Image, View, Text,StyleSheet } from 'react-native';
+import { AppRegistry, Image, View, Text,StyleSheet, Button } from 'react-native';
 import TableRow from 'react-native-table-row';
 
 import { TabNavigator } from 'react-navigation';
@@ -13,6 +13,10 @@ export class PersonOveriew extends Component {
    // console.log("id: "+this.trips.id);
     //console.log(this.props.navigation.state.params.tripId);
    // console.log(this.state.trip+' , '+ this.state.personId);
+    
+  }
+  componentDidMount()
+  {
     Service.getExpensesPerPerson(this.state.trip,this.state.personId).then((response)=>{
       console.log(response);
     })
@@ -39,8 +43,19 @@ export class PersonOveriew extends Component {
           <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
           <Rows data={tableData} style={styles.row} textStyle={styles.text}/>
       </Table>
+      <View style={styles.buttonStyle}>
+      <Button color='#4d9280' 
+ onPress={() => this.refreshScreen()}
+  title="Refresh"
+  
+/>
+  </View>
     </View>
     );
+  }
+  refreshScreen()
+  {
+    this.componentDidMount();
   }
 }
  const styles = StyleSheet.create(
@@ -93,6 +108,11 @@ export class PersonOveriew extends Component {
       },
      row: { height: 30 
       },
+      buttonStyle: {
+        marginTop: 10,
+        paddingTop: 10,
+       
+      }
      
   });
   export default PersonOveriew;
