@@ -88,19 +88,16 @@ export class Service {
         return LocalStorage.getAllTrips();
     }
 
-    static async addTrip(trip: Trip): Promise<Trip[]>{
-        LocalStorage.addTrip(trip);
-        return this.getAllTrips();
+    static async addTrip(trip: Trip): Promise<void>{
+        return LocalStorage.addTrip(trip);
     }
 
-    static async removeTrip(tripId: string): Promise<Trip[]>{
-        LocalStorage.removeTrip(tripId);
-        return this.getAllTrips();
+    static async removeTrip(tripId: string): Promise<void>{
+        return LocalStorage.removeTrip(tripId);
     }
 
-    static async updateTrip(trip: Trip): Promise<Trip[]>{
-        LocalStorage.updateTrip(trip);
-        return this.getAllTrips();
+    static async updateTrip(trip: Trip): Promise<void>{
+        return LocalStorage.updateTrip(trip);
     }
 
     static async clearTripDb(){
