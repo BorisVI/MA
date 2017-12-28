@@ -224,6 +224,14 @@ var Service = /** @class */ (function () {
             });
         });
     };
+    Service.clearTripDb = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                localStorage_1.LocalStorage.clearTripDb();
+                return [2 /*return*/];
+            });
+        });
+    };
     Service.clearDb = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
@@ -240,13 +248,13 @@ var Service = /** @class */ (function () {
             var consumers;
             var payers;
             console.log(JSON.stringify(exp));
-            if (JSON.stringify(exp).includes('consumers')) {
+            if (exp.consumers != null && exp.consumers.length > 0) {
                 exp.consumers.forEach(function (value, key) {
                     consumers.set(key, value);
                 });
             }
             expense.consumers = consumers;
-            if (JSON.stringify(exp).includes('payers')) {
+            if (exp.payers != null && exp.payers.length > 0) {
                 exp.payers.forEach(function (value, key) {
                     payers.set(key, value);
                 });

@@ -103,6 +103,10 @@ export class Service {
         return this.getAllTrips();
     }
 
+    static async clearTripDb(){
+        LocalStorage.clearTripDb();
+    }
+
     static async clearDb(){
         LocalStorage.clearDb();
     }
@@ -116,13 +120,13 @@ export class Service {
             let consumers : TSMap<string, number>;
             let payers : TSMap<string, number>;
             console.log(JSON.stringify(exp));
-            if(JSON.stringify(exp).includes('consumers')){
+            if(exp.consumers != null && exp.consumers.length > 0){
                 exp.consumers.forEach((value: number, key: string) => {
                     consumers.set(key, value);
                 });
             }
             expense.consumers = consumers;
-            if(JSON.stringify(exp).includes('payers')){
+            if(exp.payers != null && exp.payers.length > 0){
                 exp.payers.forEach((value: number, key: string) => {
                     payers.set(key, value);
                 });   
