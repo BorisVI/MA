@@ -7,6 +7,13 @@ import { Category } from "./category";
 
 export class Service {
 
+    static async getExpenseById(tripId: string, expenseId: string): Promise<Expense>{
+        return this.getTrip(tripId).then((trip)=>{
+            let t = this.getNewTrip(trip);
+            return t.getExpenseById(expenseId);
+        });
+    }
+
     static async editExpenseFromTrip(tripId: string, expenseId: string, name: string, date: Date, currency: string, category: Category ): Promise<void>{
         let expense = new Expense(expenseId, name, date, currency);
         expense.category = category;
