@@ -143,6 +143,17 @@ export class Service {
         return LocalStorage.getCurrencyValue(currencyTag);
     }
 
+    static convertAmountFromEuroTo(currencyTag:string,amount:number):Promise<number>{
+        return this.getCurrencyValue(currencyTag).then((value)=>{
+            return amount*value[1];
+        });    
+    }
+    static converAmoountToEuroFrom(currencyTag:string,amount:number):Promise<number>{
+        return this.getCurrencyValue(currencyTag).then((value)=>{
+            return amount/value[1];
+        });
+    }
+
     static async clearTripDb(){
         LocalStorage.clearTripDb();
     }
