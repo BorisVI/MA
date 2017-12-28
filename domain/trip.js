@@ -17,12 +17,15 @@ var Trip = /** @class */ (function () {
         for (var _i = 0, _a = this.expenses; _i < _a.length; _i++) {
             var e = _a[_i];
             var toPay = 0;
+            //console.log(e.consumers);
             if (e.consumers != null) {
                 toPay += e.consumers.get(personId);
+                console.log('hh ' + e.consumers.get(personId));
             }
             var payed = 0;
             if (e.payers != null && e.payers.has(personId)) {
                 payed += e.payers.get(personId);
+                console.log('hibhbip' + e.payers.get(personId));
             }
             var balance = payed - toPay;
             map.set(e.name, [toPay, payed, balance]);

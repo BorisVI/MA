@@ -95,7 +95,7 @@ export default class AddTrip extends Component {
       <Button color='#4d9280' 
  onPress={() => this.AddTrip()}
   title="Voeg trip toe"
-  
+
 />
   </View>
     </View>

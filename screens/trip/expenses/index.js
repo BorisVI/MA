@@ -35,7 +35,7 @@ class ExpenseInfo extends Component {
      // console.log('hi^fezu '+p.expenseId); 
       items.push({key: p.name, id: p.expenseId})
      }
-     console.log('ihbpfzerN '+items);
+    // console.log('ihbpfzerN '+items);
      this.setState({expenses: items});
     }
   );

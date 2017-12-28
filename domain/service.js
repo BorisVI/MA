@@ -99,6 +99,9 @@ var Service = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.getTrip(tripId).then(function (trip) {
                             var t = _this.getNewTrip(trip);
                             t.getExpenseById(expenseId).payers = payers;
+                            payers.forEach(function (value, key) {
+                                console.log('bam: ' + value + ',' + key);
+                            });
                             _this.updateTrip(t);
                         })];
                     case 1:

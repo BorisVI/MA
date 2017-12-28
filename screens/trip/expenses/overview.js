@@ -6,6 +6,8 @@ import { StackNavigator } from 'react-navigation';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import {Service as Service} from '../../../domain/service';
 import EditExpenseScreen from './edit';
+import AddConsumerScreen from './addConsumer';
+import AddPayersScreen from './addPayers';
 class ExpenseOveriew extends Component {
 
   constructor(props){
@@ -53,8 +55,26 @@ class ExpenseOveriew extends Component {
       <View style={styles.buttonStyle}>
         <Button color='#4d9280' onPress={() => this.editExpense()} title="Edit expense" />
       </View>
+      <View style={styles.buttonStyle}>
+        <Button color='#4d9280' onPress={() => this.addConsumer()} title="add consumers" />
+      </View>
+      <View style={styles.buttonStyle}>
+        <Button color='#4d9280' onPress={() => this.addPayers()} title="add payers" />
+      </View>
     </View>
+    
     );
+  }
+  addConsumer(){
+    let tripId = this.state.tripId;
+    let expenseId = this.state.expenseId;
+    this.props.navigation.navigate('Consumer',{tripId, expenseId,onNavigateBack: this.handleOnNavigateBack})
+  }
+  addPayers()
+  {
+    let tripId = this.state.tripId;
+    let expenseId = this.state.expenseId;
+    this.props.navigation.navigate('Payer',{tripId, expenseId,onNavigateBack: this.handleOnNavigateBack})
   }
   editExpense()
   {
@@ -132,6 +152,14 @@ class ExpenseOveriew extends Component {
     {
       screen: EditExpenseScreen,
       
+    },
+    Consumer:
+    {
+      screen: AddConsumerScreen,
+    },
+    Payer:
+    {
+      screen: AddPayersScreen,
     },
     
     
