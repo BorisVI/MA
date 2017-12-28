@@ -61,11 +61,12 @@ export class Service {
         });
     }
 
-    static async addPersonToTrip(tripId: string, firstName: string, lastName: string): Promise<void>{
-        await this.getTrip(tripId).then((trip) =>{
+    static async addPersonToTrip(tripId: string, firstName: string, lastName: string): Promise<Boolean>{
+        return await this.getTrip(tripId).then((trip) =>{
             let t = this.getNewTrip(trip);
-            t.addPerson(new Person(t.getLargestPersonId(), firstName, lastName));
+            let valid=t.addPerson(new Person(t.getLargestPersonId(), firstName, lastName));
             this.updateTrip(t);
+            return valid;
         });
     }
 
