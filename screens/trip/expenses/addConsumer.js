@@ -19,6 +19,7 @@ export default class AddConsumerScreen extends Component {
   componentDidMount()
   {
       this.loadParticipantsList();
+      this.loadConsumerslist();
   }
   setState(state)
   {
@@ -37,6 +38,14 @@ export default class AddConsumerScreen extends Component {
         this.setState({participants: items});
    
         this.setState({selectedParticipant: this.state.participants[0].key, selectedParticipantId: this.state.participants[0].id});
+    });
+  }
+  loadConsumerslist()
+  {
+    Service.getConsumersFromExpense(this.state.tripId, this.state.expenseId).then((consumers)=>{
+      consumers.forEach((value, key)=>{
+        console.log(key+','+value);
+      });
     });
   }
   static navigationOptions = {
@@ -64,7 +73,7 @@ export default class AddConsumerScreen extends Component {
  onPress={() => this.AddConsumer()}
   title="Add consumer"  
 />
-<Text style={styles.dropText}>Participants: </Text>
+<Text style={styles.dropText}>Consumers: </Text>
 <FlatList
         data={this.state.consumers}
         extraData={this.state}
@@ -134,12 +143,14 @@ export default class AddConsumerScreen extends Component {
  
     items = this.state.consumers;
     let notinit= false
+    var counter =0;
     for(let t of items)
     {
         if(t.id == this.state.selectedParticipantId)
         {
-            notinit = true;
+         items[counter]= {key: this.state.selectedParticipant, id: this.state.selectedParticipantId, consumed: this.state.participantconsumed};
         }
+        counter++;
     }
     if(!notinit && this.state.participantconsumed.trim() != ''){
 
