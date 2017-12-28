@@ -109,15 +109,16 @@ export class Trip{
     }
 
     addPerson(person : Person):Boolean{
+		let canDo=true;
 		for(let i=0;i<this.participants.length;i++){
-			if(this.participants[i].firstName!=person.firstName&&this.participants[i].lastName!=person.lastName){
-				if(this.participants[i].personId!=person.personId){
-					this.participants.push(person);
-					return true;
-				}
+			if(this.participants[i].firstName==person.firstName&&this.participants[i].lastName==person.lastName){
+				canDo=false;
 			}
 		}
-		return false;
+		if(canDo){
+			this.participants.push(person);
+		}
+		return canDo;
     }
 
     addCurrency(currency : string){
