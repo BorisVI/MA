@@ -14,7 +14,7 @@ export class PersonOveriew extends Component {
     //console.log(this.props.navigation.state.params.tripId);
    // console.log(this.state.trip+' , '+ this.state.personId);
     Service.getExpensesPerPerson(this.state.trip,this.state.personId).then((response)=>{
-      console.log(response);
+      //console.log(response);
     })
   }
   static navigationOptions = {

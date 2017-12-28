@@ -48,7 +48,7 @@ import {NavigationActions } from 'react-navigation';
    // console.log('hybuezaf');
     Service.getAllTrips().then((trips) =>
     {
-      console.log('njefoza');
+      //console.log('njefoza');
        var array = [];
        for(let t of trips )
        {
@@ -98,7 +98,7 @@ import {NavigationActions } from 'react-navigation';
   delete(tripid)
   {
     Service.removeTrip(tripid).then(()=>{
-      //console.log('efdazhib');
+     // console.log('delete: '+ tripid);
       this.handleOnNavigateBack(true);
       //console.log('hzfeuR');
     });
