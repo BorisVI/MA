@@ -32,8 +32,8 @@ class ExpenseInfo extends Component {
        
      for(let p of trip.expenses){
       // console.log('hhh '+p.name);
-      console.log('hi^fezu '+p.ExpenseId); 
-      items.push({key: p.name, id: p.ExpenseId})
+     // console.log('hi^fezu '+p.expenseId); 
+      items.push({key: p.name, id: p.expenseId})
      }
      console.log('ihbpfzerN '+items);
      this.setState({expenses: items});
@@ -81,6 +81,7 @@ class ExpenseInfo extends Component {
   goToExpense(expenseId, expenseName)
   {
     let tripId = this.props.navigation.state.params.tripId;
+    console.log('srdcfvgbh '+ expenseId);
     this.props.navigation.navigate('Expense',{tripId,expenseId,expenseName});
   }
   AddExpense()

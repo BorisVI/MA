@@ -12,13 +12,13 @@ import {Service as Service} from '../../../domain/service';
 import {Person} from '../../../domain/person';
 import {Expense} from '../../../domain/expense';
 import {Category} from '../../../domain/category';
-import {CurrencyLocalStorage as CurrencyLocalStorage} from '../../../domain/currencyLocalStorage';
+
 export default class EditExpenseScreen extends Component {
   constructor(props){
     super(props);
     var datum = new Date();
     var today = datum.getFullYear() + '-' +(datum.getMonth()+1)+'-'+datum.getDate();
-    this.state = {tripId: this.props.navigation.state.params.tripId,expenseId: this.props.navigation.state.params.expenseId,startDateTrip: '', endDateTrip: '',date: '', name: '',categories:[], category : '', currency: '', currencies:[]};
+    this.state = {tripId: this.props.navigation.state.params.tripId, expenseId: this.props.navigation.state.params.expenseId,startDateTrip: '', endDateTrip: '',date: '', name: '',categories:[], category : '', currency: '', currencies:[]};
    
     //this.dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1!==r2});
     //console.log(this.datumlimits.max);
@@ -29,7 +29,8 @@ export default class EditExpenseScreen extends Component {
   {
     this.getStates();
     this.getAllCategories();
-    this.getAllCurrencies();
+    
+    //this.getAllCurrencies();
   }
   setState(state)
   {
@@ -41,10 +42,13 @@ export default class EditExpenseScreen extends Component {
     Service.getTrip(this.state.tripId).then((trip)=>{
       this.setState({startDateTrip: trip.startDate});
       this.setState({endDateTrip: trip.endDate});
+      this.setState({currency: trip.standardCurrency});
       for(let e of trip.expenses)
       {
+       // console.log('dxcfygh '+e.expenseId+ ' , '+ this.state.expenseId);
         if(e.expenseId == this.state.expenseId)
         {
+          //console.log('efzbiphu '+e.name);
           this.setState({name: e.name});
           this.setState({date: e.date})
         }
@@ -60,7 +64,7 @@ export default class EditExpenseScreen extends Component {
         items.push({key: Category[cat]});
       }
     }
-    console.log(items);
+    //console.log(items);
     this.setState({categories: items});
     let b = Category[0];
     this.setState({category: b})
@@ -68,7 +72,7 @@ export default class EditExpenseScreen extends Component {
   getAllCurrencies()
   {
     
-    CurrencyLocalStorage.getAllCurrenciesPossible().then((currencies)=>{
+   /* CurrencyLocalStorage.getAllCurrenciesPossible().then((currencies)=>{
       var first= false;
       items =[];
       for(let c of currencies)
@@ -81,7 +85,7 @@ export default class EditExpenseScreen extends Component {
        items.push({key: c});
       }
       this.setState({currencies: items});
-    });
+    });*/
   }
   static navigationOptions = {
     
@@ -94,7 +98,7 @@ export default class EditExpenseScreen extends Component {
     return (
     <ScrollView style={styles.container}>
     <Text style={styles.dropText}>Expense name: </Text>
-  <TextInput style={ {height:40} } placeholder="Type hier de naam van uw expense!" onChangeText={(text) => this.setState({name:text})}/>
+  <TextInput style={ {height:40} } value={this.state.name} placeholder="Type hier de naam van uw expense!" onChangeText={(text) => this.setState({name:text})}/>
   <Text style={styles.dropText}>Category: </Text>
   <Picker
   selectedValue={this.state.category}
@@ -131,7 +135,8 @@ export default class EditExpenseScreen extends Component {
 <Picker
   selectedValue={this.state.currency}
   onValueChange={(itemValue, itemIndex) => this.setState({currency: itemValue})}>
-  {this.loadPickerItemsCurrency()}
+  <Picker.Item label="EUR" value="EUR"/> 
+  <Picker.Item label="USD" value="USD"/> 
 </Picker>
 <View style={styles.buttonStyle}>
       <Button color='#4d9280' 

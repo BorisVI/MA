@@ -10,11 +10,13 @@ class ExpenseOveriew extends Component {
 
   constructor(props){
     super(props);
-    this.state ={tripId: this.props.navigation.state.params.tripId,expenseId: this.props.navigation.state.params.expenseId, name: this.props.navigation.state.params.expenseName,tableData:[]};
+    this.state ={tripId: this.props.navigation.state.params.tripId, expenseId: this.props.navigation.state.params.expenseId, name: this.props.navigation.state.params.expenseName,tableData:[]};
     //console.log(this.state.tripId+ " , "+ this.state.expenseId);
-
+    
   }
-  
+  handleOnNavigateBack= (b) => {
+   // this.loadExpenses();
+  }
   static navigationOptions = {
     
     title:'Expense Details',
@@ -47,6 +49,7 @@ class ExpenseOveriew extends Component {
   {
       let tripId = this.state.tripId;
       let expenseId = this.state.expenseId;
+     
       this.props.navigation.navigate('Edit', {tripId, expenseId});
   }
 }
