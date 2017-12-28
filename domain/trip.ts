@@ -32,18 +32,13 @@ export class Trip{
 	getExpensesFromPerson(personId: string): TSMap<string, number[]>{
 		let map = new TSMap<string,number[]>();
 		for(let e of this.expenses){
-			//console.log('payers: ' + e.payers.size + ' ' + e.payers);
-			//console.log('consumers: ' + e.consumers.size + ' ' + e.consumers);
-			let toPay = 0;
-			//console.log(e.consumers);
-			if(e.consumers != null){
-				toPay += e.consumers.get(personId);
-				//console.log('hh '+e.consumers.get(personId));
+			let toPay : number;
+			if(e.consumers != null && e.consumers.has(personId)){
+				toPay = Number(e.consumers.get(personId));
 			}
-			let payed = 0;
+			let payed : number;
 			if(e.payers != null && e.payers.has(personId)){
-				payed += e.payers.get(personId);
-				//console.log('hibhbip'+e.payers.get(personId));
+				payed = Number(e.payers.get(personId));
 			}
 			let balance = payed - toPay;
 			map.set(e.name, [toPay,payed,balance]);

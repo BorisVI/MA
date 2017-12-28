@@ -25,18 +25,13 @@ var Trip = /** @class */ (function () {
         var map = new typescript_map_1.TSMap();
         for (var _i = 0, _a = this.expenses; _i < _a.length; _i++) {
             var e = _a[_i];
-            //console.log('payers: ' + e.payers.size + ' ' + e.payers);
-            //console.log('consumers: ' + e.consumers.size + ' ' + e.consumers);
-            var toPay = 0;
-            //console.log(e.consumers);
-            if (e.consumers != null) {
-                toPay += e.consumers.get(personId);
-                //console.log('hh '+e.consumers.get(personId));
+            var toPay = void 0;
+            if (e.consumers != null && e.consumers.has(personId)) {
+                toPay = Number(e.consumers.get(personId));
             }
-            var payed = 0;
+            var payed = void 0;
             if (e.payers != null && e.payers.has(personId)) {
-                payed += e.payers.get(personId);
-                //console.log('hibhbip'+e.payers.get(personId));
+                payed = Number(e.payers.get(personId));
             }
             var balance = payed - toPay;
             map.set(e.name, [toPay, payed, balance]);
