@@ -20,6 +20,15 @@ export class Trip{
 		this.standardCurrency = "EUR";
 	}
 
+	getPersonFromId(personId: string): Person{
+		for(let p of this.participants){
+			if(p.personId == personId){
+				return p;
+			}
+		}
+		return null;
+	}
+
 	getExpensesFromPerson(personId: string): TSMap<string, number[]>{
 		let map = new TSMap<string,number[]>();
 		for(let e of this.expenses){

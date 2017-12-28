@@ -49,7 +49,12 @@ var Service = /** @class */ (function () {
             return __generator(this, function (_a) {
                 return [2 /*return*/, this.getTrip(tripId).then(function (trip) {
                         var t = _this.getNewTrip(trip);
-                        return t.getExpenseById(expenseId).consumers;
+                        var map = new typescript_map_1.TSMap();
+                        t.getExpenseById(expenseId).consumers.forEach(function (value, key) {
+                            var p = t.getPersonFromId(key);
+                            map.set([p.personId, p.firstName, p.lastName], value);
+                        });
+                        return map;
                     })];
             });
         });

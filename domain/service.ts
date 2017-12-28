@@ -7,10 +7,15 @@ import { Category } from "./category";
 
 export class Service {
 
-    static async getConsumersFromExpense(tripId: string, expenseId: string): Promise<TSMap<string, number>>{
+    static async getConsumersFromExpense(tripId: string, expenseId: string): Promise<TSMap<string[], number>>{
         return this.getTrip(tripId).then((trip)=>{
             let t = this.getNewTrip(trip);
-            return t.getExpenseById(expenseId).consumers;
+            let map = new TSMap<string[], number>();
+            t.getExpenseById(expenseId).consumers.forEach((value: number, key: string) =>{
+                let p = t.getPersonFromId(key);
+                map.set([p.personId,p.firstName,p.lastName],value);
+            });
+            return map;
         });
     }
 
