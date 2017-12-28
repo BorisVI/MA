@@ -12,12 +12,13 @@ import {Service as Service} from '../../../domain/service';
 import {Person} from '../../../domain/person';
 import {Expense} from '../../../domain/expense';
 import {Category} from '../../../domain/category';
+import {CurrencyLocalStorage as CurrencyLocalStorage} from '../../../domain/currencyLocalStorage';
 export default class EditExpenseScreen extends Component {
   constructor(props){
     super(props);
     var datum = new Date();
     var today = datum.getFullYear() + '-' +(datum.getMonth()+1)+'-'+datum.getDate();
-    this.state = {startDateTrip: '', endDateTrip: '',date: '', name: '',categories:[], category : '', currency: 'EUR', particpant: '', participants : [],participantconsumed: '', payer: '', payers: [], payedamount:'',trippersons:[]};
+    this.state = {tripId: this.props.navigation.state.params.tripId,expenseId: this.props.navigation.state.params.expenseId,startDateTrip: '', endDateTrip: '',date: '', name: '',categories:[], category : '', currency: '', currencies:[]};
    
     //this.dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1!==r2});
     //console.log(this.datumlimits.max);
@@ -26,30 +27,60 @@ export default class EditExpenseScreen extends Component {
   }
   componentDidMount()
   {
-    this.loadTripPersons();
+    this.getStates();
     this.getAllCategories();
+    this.getAllCurrencies();
   }
   setState(state)
   {
     super.setState(state);
     console.log(`Set state to ${JSON.stringify(state)}`);
   }
-  loadTripPersons(){
-    console.log(this.props.navigation.state.params.tripId);
-    Service.getTrip(this.props.navigation.state.params.tripId).then((trip)=>{
-      var items =[];
-      var first = false;
-      for(let p of trip.participants){
-        
-        let fname = p.firstname + ' '+p.name;
-        if(!first)
+  getStates()
+  {
+    Service.getTrip(this.state.tripId).then((trip)=>{
+      this.setState({startDateTrip: trip.startDate});
+      this.setState({endDateTrip: trip.endDate});
+      for(let e of trip.expenses)
+      {
+        if(e.expenseId == this.state.expenseId)
         {
-          this.setState({particpant: fname});
-          first= true;
+          this.setState({name: e.name});
+          this.setState({date: e.date})
         }
-        items.push({key: fname, firstname: p.firstname, name: p.name});
       }
-      this.setState({trippersons: items});
+    });
+  }
+  getAllCategories(){
+    items=[];
+    var reg = new RegExp('^[0-9]+$');
+    for(var cat in Category)
+    {
+      if(cat.match(reg)){
+        items.push({key: Category[cat]});
+      }
+    }
+    console.log(items);
+    this.setState({categories: items});
+    let b = Category[0];
+    this.setState({category: b})
+  }
+  getAllCurrencies()
+  {
+    
+    CurrencyLocalStorage.getAllCurrenciesPossible().then((currencies)=>{
+      var first= false;
+      items =[];
+      for(let c of currencies)
+      {
+       if(!first)
+       {
+         first= true;
+         this.setState({currency: c});
+       }
+       items.push({key: c});
+      }
+      this.setState({currencies: items});
     });
   }
   static navigationOptions = {
@@ -77,8 +108,8 @@ export default class EditExpenseScreen extends Component {
         mode="date"
         placeholder="select date"
         format="YYYY-MM-DD"
-        minDate={this.datumlimits.min}
-        maxDate={this.datumlimits.max}
+        minDate={this.state.startDateTrip}
+        maxDate={this.state.endDateTrip}
         confirmBtnText="Confirm"
         cancelBtnText="Cancel"
         customStyles={{
@@ -100,75 +131,24 @@ export default class EditExpenseScreen extends Component {
 <Picker
   selectedValue={this.state.currency}
   onValueChange={(itemValue, itemIndex) => this.setState({currency: itemValue})}>
-  <Picker.Item label="EUR" value="EUR" />
-  <Picker.Item label="USD" value="USD" />
+  {this.loadPickerItemsCurrency()}
 </Picker>
-<Text style={styles.dropText}>Select participants: </Text>
-
-<Picker
-  selectedValue={this.state.particpant}
-  onValueChange={(itemValue, itemIndex) => this.setState({particpant: itemValue})}>
-{this.loadPickerItems()}
-</Picker>
-<Text style={styles.dropText}>Amount consumed: </Text>
-  <TextInput style={ {height:40} }
-   keyboardType='numeric'
-   onChangeText={(text)=> this.onChangedNrConsumed(text)}
-   value={this.state.participantconsumed}
-   maxLength={10} />
-<Button color='#4d9280' 
- onPress={() => this.AddParticpant()}
-  title="Add participant"
-  
-/>
-<Text style={styles.dropText}>Participants: </Text>
-<FlatList
-        data={this.state.participants}
-        extraData={this.state}
-        renderItem={({item}) => <Text style={styles.row}>Name: {item.key}  {"\n"}Amount consumed: {item.consumed}</Text>}
-      />
-     
-      <Text style={styles.dropText}>Select payer: </Text>
-      <Picker selectedValue={this.state.payer}
-  onValueChange={(itemValue, itemIndex) => this.setState({payer: itemValue})}
-  >
-  {this.renderPar()}
-  </Picker>
-  <Text style={styles.dropText}>Amount payed: </Text>
-  <TextInput style={ {height:40} }
-   keyboardType='numeric'
-   onChangeText={(text)=> this.onChangedNr(text)}
-   value={this.state.payedamount}
-   maxLength={10} />
-   <Button color='#4d9280' 
- onPress={() => this.AddPayer()}
-  title="Add Payer"
-  
-/>
-  <Text style={styles.dropText}>Payers: </Text>
-  <FlatList
-          data={this.state.payers}
-          extraData={this.state}
-          renderItem={({item}) => <Text style={styles.row}>Name: {item.key}    Amount payed: {item.amount}</Text>}
-        />
-  <View style={styles.buttonStyle}>
+<View style={styles.buttonStyle}>
       <Button color='#4d9280' 
- onPress={() => this.AddExpense()}
+ onPress={() => this.editExpense()}
   title="Voeg expense toe"
   
 />
-  </View>
+</View>
     </ScrollView>
     );
   }
-  loadPickerItems()
+  editExpense()
   {
-    items=[];
-    for(let item of this.state.trippersons){
-     //console.log(item.key);
-      items.push(<Picker.Item key={item.key} label={item.key} value={item.key}/>);
-    }
-    return items;
+    Service.editExpenseFromTrip(this.state.tripId, this.state.expenseId,this.state.name, this.state.date, this.state.currency, this.state.category).then(()=>{
+      this.props.navigation.state.params.onNavigateBack(true);
+      this.props.navigation.goBack();
+    });
   }
   loadPickerItemsCategory()
   {
@@ -179,140 +159,14 @@ export default class EditExpenseScreen extends Component {
     }
     return items;
   }
-  AddPayer()
+  loadPickerItemsCurrency()
   {
-    var pa = this.state.payers
-    pa.push({key: this.state.payer, amount: this.state.payedamount});
-    
-    this.setState({payers: pa});
-  }
-  getAllCategories(){
     items=[];
- 
-   // console.log( Category[0]);
-   //console.log('nofreonf '+Category.length);
-   var reg = new RegExp('^[0-9]+$');
-    for(var cat in Category)
-    {
-     if(cat.match(reg)){
-       items.push({key: Category[cat]});
-     }
-    }
-    console.log(items);
-    this.setState({categories: items});
-    let b = Category[0];
-    this.setState({category: b})
-  }
-  onChangedNrConsumed(text){
-    let newText = '';
-    let numbers = '0123456789';
-
-    for (var i=0; i < text.length; i++) {
-        if(numbers.indexOf(text[i]) > -1 ) {
-            newText = newText + text[i];
-        }
-        else {
-            // your call back function
-            Alert.alert("please enter numbers only");
-        }
-    }
-    this.setState({ participantconsumed: newText });
-  }
-  onChangedNr(text){
-    let newText = '';
-    let numbers = '0123456789';
-
-    for (var i=0; i < text.length; i++) {
-        if(numbers.indexOf(text[i]) > -1 ) {
-            newText = newText + text[i];
-        }
-        else {
-            // your call back function
-            Alert.alert("please enter numbers only");
-        }
-    }
-    this.setState({ payedamount: newText });
-  }
-  renderPar(){
-   
-    items=[];
-    for(let item of this.state.participants){
-     
+    for(let item of this.state.currencies){
+     //console.log(item.key);
       items.push(<Picker.Item key={item.key} label={item.key} value={item.key}/>);
     }
     return items;
-  }
-  AddParticpant(){
-    var p = this.state.participants;
-    var bam = false;
-    for(let item of this.state.participants)
-    {
-      if(item.key == this.state.particpant){
-        bam = true;
-      }
-    }
-    if(!bam){
-    p.push({key: this.state.particpant, consumed: this.state.participantconsumed});
-    this.setState({participants:p});
-    this.setState({payer: this.state.particpant})
-  }
-  }
-  AddExpense()
-  {
-    var typescript_map_1 = require("../../../node_modules/typescript-map");
-     parlist  = new typescript_map_1.TSMap();
-     for(let p of this.state.participants)
-     {
-      var res = p.key.split(" ");
-      var firstname = res[0];
-      var lastname= '';
-      for(i =1; i < res.length;i++)
-      {
-        if(i == 1)
-        {
-          lastname+= res[i];
-        } 
-        else
-        {
-          lastname += ' '+ res[i];
-        }
-      }
-     // console.log(firstname+' ' +lastname);
-      let person = new Person(firstname,lastname);
-     parlist.set(person,p.consumed);
-     }
-     payerslist = new typescript_map_1.TSMap();
-     for(let payer of this.state.payers)
-     {
-      var rese = payer.key.split(' ');
-      var firstnamee = rese[0];
-      var lastnamee= '';
-      for(i=1; i < rese.length;i++)
-      {
-        //console.log('nRZO%ND '+ rese.length);
-        //console.log('jrje '+i);
-       // console.log(i+ ' '+ rese[i]);
-        if(i == 1)
-        {
-         // console.log('rfbnpeziqnfi '+ rese[i]);
-          lastnamee+= rese[i];
-        } 
-        else
-        {
-         // console.log('rfbnpeziqnfi '+ rese[i]);
-          lastnamee += ' '+ rese[i];
-        }
-      }
-      //console.log('nfzjmr '+ firstnamee + ' ' + lastnamee);
-      let persone = new Person(firstnamee,lastnamee);
-     // console.log('tel me op');
-     payerslist.set(persone,payer.amount);
-     }
-     
-     let exp = new Expense(this.state.name, this.state.date,payerslist,parlist,this.state.category, currency);
-     
-     //console.log(payerslist.size());
-  
   }
 }
  const styles = StyleSheet.create(
