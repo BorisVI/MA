@@ -10,12 +10,22 @@ class ExpenseOveriew extends Component {
 
   constructor(props){
     super(props);
-    this.state ={tripId: this.props.navigation.state.params.tripId, expenseId: this.props.navigation.state.params.expenseId, name: this.props.navigation.state.params.expenseName,tableData:[]};
+    this.state ={tripId: this.props.navigation.state.params.tripId, expenseId: this.props.navigation.state.params.expenseId,name:'',date:'', tableData:[]};
     //console.log(this.state.tripId+ " , "+ this.state.expenseId);
     
   }
+  componentDidMount(){
+    this.loadExpenseInfo();
+  }
   handleOnNavigateBack= (b) => {
-   // this.loadExpenses();
+   this.loadExpenseInfo()
+  }
+  loadExpenseInfo()
+  {
+    Service.getExpenseById(this.state.tripId, this.state.expenseId).then((expense)=>{
+      this.setState({name: expense.name});
+      this.setState({date: expense.date});
+    });
   }
   static navigationOptions = {
     
@@ -35,6 +45,7 @@ class ExpenseOveriew extends Component {
     return (
     <View>
       <Text style={styles.titleText}>Expense: {this.state.name}</Text>
+      <Text style={styles.titleText}>Date: {this.state.date}</Text>
       <Table styles={{marginTop:10, marginRight: 5, marginLeft :5}}>
           <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
           <Rows data={tableData} style={styles.row} textStyle={styles.text}/>
@@ -50,7 +61,7 @@ class ExpenseOveriew extends Component {
       let tripId = this.state.tripId;
       let expenseId = this.state.expenseId;
      
-      this.props.navigation.navigate('Edit', {tripId, expenseId});
+      this.props.navigation.navigate('Edit', {tripId, expenseId,onNavigateBack: this.handleOnNavigateBack});
   }
 }
  const styles = StyleSheet.create(

@@ -21,8 +21,8 @@ export default class EditExpenseScreen extends Component {
     this.state = {tripId: this.props.navigation.state.params.tripId, expenseId: this.props.navigation.state.params.expenseId,startDateTrip: '', endDateTrip: '',date: '', name: '',categories:[], category : '', currency: '', currencies:[]};
    
     //this.dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1!==r2});
-    //console.log(this.datumlimits.max);
-    //console.log(this.datumlimits.min);
+    //(this.datumlimits.max);
+    //(this.datumlimits.min);
     
   }
   componentDidMount()
@@ -35,24 +35,20 @@ export default class EditExpenseScreen extends Component {
   setState(state)
   {
     super.setState(state);
-    console.log(`Set state to ${JSON.stringify(state)}`);
+    (`Set state to ${JSON.stringify(state)}`);
   }
   getStates()
   {
     Service.getTrip(this.state.tripId).then((trip)=>{
       this.setState({startDateTrip: trip.startDate});
       this.setState({endDateTrip: trip.endDate});
-      this.setState({currency: trip.standardCurrency});
-      for(let e of trip.expenses)
-      {
-       // console.log('dxcfygh '+e.expenseId+ ' , '+ this.state.expenseId);
-        if(e.expenseId == this.state.expenseId)
-        {
-          //console.log('efzbiphu '+e.name);
-          this.setState({name: e.name});
-          this.setState({date: e.date})
-        }
-      }
+    });
+    Service.getExpenseById(this.state.tripId, this.state.expenseId).then((expense)=>{
+      this.setState({name: expense.name});
+      this.setState({date: expense.date});
+      this.setState({category: expense.category});
+      this.setState({currency: expense.currency});
+      console.log(expense);
     });
   }
   getAllCategories(){
@@ -64,10 +60,9 @@ export default class EditExpenseScreen extends Component {
         items.push({key: Category[cat]});
       }
     }
-    //console.log(items);
+    //(items);
     this.setState({categories: items});
     let b = Category[0];
-    this.setState({category: b})
   }
   getAllCurrencies()
   {
@@ -141,7 +136,7 @@ export default class EditExpenseScreen extends Component {
 <View style={styles.buttonStyle}>
       <Button color='#4d9280' 
  onPress={() => this.editExpense()}
-  title="Voeg expense toe"
+  title="edit expense"
   
 />
 </View>
@@ -150,6 +145,7 @@ export default class EditExpenseScreen extends Component {
   }
   editExpense()
   {
+    (this.state.tripId+' , '+ this.state.expenseId);
     Service.editExpenseFromTrip(this.state.tripId, this.state.expenseId,this.state.name, this.state.date, this.state.currency, this.state.category).then(()=>{
       this.props.navigation.state.params.onNavigateBack(true);
       this.props.navigation.goBack();
@@ -159,7 +155,7 @@ export default class EditExpenseScreen extends Component {
   {
     items=[];
     for(let item of this.state.categories){
-     //console.log(item.key);
+     //(item.key);
       items.push(<Picker.Item key={item.key} label={item.key} value={item.key}/>);
     }
     return items;
@@ -168,7 +164,7 @@ export default class EditExpenseScreen extends Component {
   {
     items=[];
     for(let item of this.state.currencies){
-     //console.log(item.key);
+     //(item.key);
       items.push(<Picker.Item key={item.key} label={item.key} value={item.key}/>);
     }
     return items;
