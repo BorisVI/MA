@@ -15,7 +15,7 @@ export class TripInfo extends Component {
   constructor(props){
     super(props);
     this.trips = {id : this.props.navigation.state.params.tripId};
-    this.state ={id: this.props.navigation.state.params.tripId,name: '',startdate: '', enddate:'',sumdata:[]};
+    this.state ={id: this.props.navigation.state.params.tripId,name: '',startdate: '', enddate:'',sumdata:[],tableData:[]};
     //console.log("id: "+this.trips.id);
     Service.getTrip(this.state.id).then((trip)=>{
       //let t = JSON.parse(trip);
@@ -25,11 +25,17 @@ export class TripInfo extends Component {
       this.setState({startdate: trip.startDate})
       this.setState({enddate: trip.endDate});
     });
+    this.loadTableData();
     //console.log(this.props.navigation.state.params.tripId);
   }
-  loadSummary()
-  {
-    
+  loadTableData(){
+    Service.getExpensesSummary(this.state.id).then((response)=>{
+      items = [];
+      response.forEach((value, key)=>{
+        items.push([key,value[1],value[0],value[2]]);
+      });
+      this.setState({tableData: items});
+    });
   }
   static navigationOptions = {
     
@@ -40,12 +46,7 @@ export class TripInfo extends Component {
   render() {
     //const id = this.trips.id;
     const tableHead = ['Name', 'Amount already paid', 'Amount due', 'Receives/stillneeds to pay'];
-    const tableData = [
-      ['John', '120', '30', '90'],
-      ['Pete', '0', '40', '40'],
-      ['Tiago', '0', '50', '50'],
-      ['Jack', '0', '0', '0'],
-    ];
+   
     return (
     <View>
       <Text style={styles.titleText}>Trip: {this.state.name}</Text>
@@ -53,7 +54,7 @@ export class TripInfo extends Component {
       <Text style={styles.objText}>End date: {this.state.enddate}</Text>
       <Table styles={{marginTop:10, marginRight: 5, marginLeft :5}}>
           <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
-          <Rows data={tableData} style={styles.row} textStyle={styles.text}/>
+          <Rows data={this.state.tableData} style={styles.row} textStyle={styles.text}/>
       </Table>
    
     </View>
