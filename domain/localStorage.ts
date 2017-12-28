@@ -112,7 +112,7 @@ export class LocalStorage{
         return AsyncStorage.setItem("currencyStatus",JSON.stringify(list));
     }
 
-    static async overwriteCurrency(currencyTag:string,value:number){
+    static async overwriteCurrency(currencyTag:string,value:number):Promise<void>{
         this.getAllCurrencyStatusses().then((list)=>{
             for(let i=0;i<list.length;i++){
                 if(list[i][0]==currencyTag){
