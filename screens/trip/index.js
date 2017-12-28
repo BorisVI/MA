@@ -55,25 +55,11 @@ export class TripInfo extends Component {
           <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
           <Rows data={tableData} style={styles.row} textStyle={styles.text}/>
       </Table>
-      <View style={styles.buttonStyle}>
-      <Button color='#4d9280' 
- onPress={() => this.deleteTrip()}
-  title="Delete the trip"
-/>
-  </View>
+   
     </View>
     );
   }
-  deleteTrip(){
-   // console.log('fedhnzuozfedonhd'+ this.state.id);
-    Service.removeTrip(this.state.id).then(()=>{
-      //console.log('efdazhib');
-      this.props.navigation.state.params.onNavigateBack(true);
-      this.props.navigation.goBack(null);
-      //console.log('hzfeuR');
-    });
-   // console.log('cfyvigubh');
-  }
+  
   goToPerson(personId)
   {
     //this.props.id = tripId; 

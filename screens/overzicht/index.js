@@ -83,7 +83,9 @@ import {NavigationActions } from 'react-navigation';
         <StatusBar hidden={true}/> 
         <FlatList
           data={this.state.trips}
-          renderItem={({item}) => <TableRow style={styles.row} title={item.name} key={item.key} showArrow={true}  onPress={() => this.goToTrip(item.key)}></TableRow>}
+          renderItem={({item}) => <TableRow style={styles.row} titleStyle={styles.rowTitle} title={item.name} key={item.key} showArrow={true} subElement={<MaterialIcons name="delete-forever" size={40}
+          style={styles.addButton}
+          onPress={() => this.delete(item.key)}/>} onPress={() => this.goToTrip(item.key)}></TableRow>}
         />
         <MaterialIcons
         name={'add-box'}
@@ -92,6 +94,14 @@ import {NavigationActions } from 'react-navigation';
         onPress={() => this.goToAdd()}/>
         </View>
     );
+  }
+  delete(tripid)
+  {
+    Service.removeTrip(tripid).then(()=>{
+      //console.log('efdazhib');
+      this.handleOnNavigateBack(true);
+      //console.log('hzfeuR');
+    });
   }
   fillList()
   {
@@ -116,6 +126,9 @@ import {NavigationActions } from 'react-navigation';
 
 const styles = StyleSheet.create(
   { 
+    rowTitle:{
+      marginLeft:40,
+    },
   container: {
   flex: 1,
   backgroundColor: '#fff',
