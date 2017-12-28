@@ -20,10 +20,11 @@ import { Person } from '../../domain/person';
    constructor(props)
    {
     super(props);
-    //Service.clearDb();
+    Service.clearTripDb();
     let trip1 = new Trip('1','trip 123', '2017-12-26', '2017-12-26');
     let trip2 = new Trip('2','trip ezahbv', new Date(), new Date());
     let trip3 = new Trip('3','trip 3', new Date(), new Date());
+    //Service.addTrip(trip1);
 
    // Service.addTrip(trip1);
     //Service.addPersonToTrip(trip1.tripId, 'Kevin', 'Peelman');

@@ -42,7 +42,7 @@ var LocalStorage = /** @class */ (function () {
     LocalStorage.getAllTrips = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, react_native_1.AsyncStorage.getAllKeys()
+                return [2 /*return*/, this.getAllTripKeys()
                         .then(function (keys) {
                         return react_native_1.AsyncStorage.multiGet(keys);
                     })
@@ -56,7 +56,7 @@ var LocalStorage = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var trip;
             return __generator(this, function (_a) {
-                trip = react_native_1.AsyncStorage.getItem(tripId).then(function (json) {
+                trip = react_native_1.AsyncStorage.getItem('trip_' + tripId).then(function (json) {
                     return JSON.parse(json);
                 });
                 return [2 /*return*/, trip];
@@ -65,8 +65,11 @@ var LocalStorage = /** @class */ (function () {
     };
     LocalStorage.addTrip = function (trip) {
         return __awaiter(this, void 0, void 0, function () {
+            var key;
             return __generator(this, function (_a) {
-                react_native_1.AsyncStorage.setItem(trip.tripId, JSON.stringify(trip).replace(/"_/g, "\""));
+                key = 'trip_' + trip.tripId;
+                console.log('add trip with key: ' + key);
+                react_native_1.AsyncStorage.setItem(key, JSON.stringify(trip).replace(/"_/g, "\""));
                 return [2 /*return*/];
             });
         });
@@ -74,7 +77,7 @@ var LocalStorage = /** @class */ (function () {
     LocalStorage.removeTrip = function (tripId) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                react_native_1.AsyncStorage.removeItem(tripId);
+                react_native_1.AsyncStorage.removeItem('trip_' + tripId);
                 return [2 /*return*/];
             });
         });
@@ -87,15 +90,44 @@ var LocalStorage = /** @class */ (function () {
             });
         });
     };
-    LocalStorage.clearDb = function () {
+    LocalStorage.getAllTripKeys = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
             return __generator(this, function (_a) {
-                react_native_1.AsyncStorage.getAllKeys().then(function (keys) {
+                return [2 /*return*/, react_native_1.AsyncStorage.getAllKeys()
+                        .then(function (keys) {
+                        return react_native_1.AsyncStorage.multiGet(keys);
+                    })
+                        .then(function (result) {
+                        return result.map(function (r, i, store) {
+                            var key = store[i][0];
+                            if (key.startsWith('trip_')) {
+                                return store[i][0];
+                            }
+                        });
+                    })];
+            });
+        });
+    };
+    LocalStorage.clearTripDb = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                this.getAllTripKeys().then(function (keys) {
                     for (var _i = 0, keys_1 = keys; _i < keys_1.length; _i++) {
                         var id = keys_1[_i];
-                        console.log('cleared trip with id ' + id);
-                        _this.removeTrip(id);
+                        react_native_1.AsyncStorage.removeItem(id);
+                    }
+                });
+                return [2 /*return*/];
+            });
+        });
+    };
+    LocalStorage.clearDb = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                react_native_1.AsyncStorage.getAllKeys().then(function (keys) {
+                    for (var _i = 0, keys_2 = keys; _i < keys_2.length; _i++) {
+                        var id = keys_2[_i];
+                        react_native_1.AsyncStorage.removeItem(id);
                     }
                 });
                 return [2 /*return*/];
