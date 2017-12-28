@@ -135,6 +135,14 @@ export class Service {
         return LocalStorage.getAllCurrenciesPossible();
     }
 
+    static overWriteCurrency(currencyTag:string, value:number):Promise<void>{
+        return LocalStorage.overwriteCurrency(currencyTag,value);
+    }
+
+    static getCurrencyValue(currencyTag:string):Promise<[string,number]>{
+        return LocalStorage.getCurrencyValue(currencyTag);
+    }
+
     static async clearTripDb(){
         LocalStorage.clearTripDb();
     }
