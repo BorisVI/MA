@@ -19,10 +19,15 @@ export class Service {
         });
     }
 
-    static async getPayersFromExpense(tripId: string, expenseId: string): Promise<TSMap<string, number>>{
+    static async getPayersFromExpense(tripId: string, expenseId: string): Promise<TSMap<string[], number>>{
         return this.getTrip(tripId).then((trip)=>{
             let t = this.getNewTrip(trip);
-            return t.getExpenseById(expenseId).payers;
+            let map = new TSMap<string[], number>();
+            t.getExpenseById(expenseId).payers.forEach((value: number, key: string) =>{
+                let p = t.getPersonFromId(key);
+                map.set([p.personId,p.firstName,p.lastName],value);
+            });
+            return map;
         });
     }
 
