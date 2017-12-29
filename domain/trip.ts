@@ -61,7 +61,7 @@ export class Trip{
 		let map = new TSMap<string,number[]>();
 		for (let i = 0; i < this.expenses.length; i++){
 			this.expenses[i].consumers.forEach((value: number, key: string) =>{
-				let total : number[];
+				let total = new  Array<number>(0,0);
 				if(map.has(key)){
 					total[0] = value[0];
 					total[1] = value[1];

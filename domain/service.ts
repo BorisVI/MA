@@ -200,13 +200,11 @@ export class Service {
                 let consumers : TSMap<string, number> = new TSMap<string, number>();
                 let payers : TSMap<string, number> = new TSMap<string, number>();
                 if(exp.consumers != null){
-                    console.log('expenses not null');
                    for(let k of Object.keys(exp.consumers)){
                         consumers.set(k, exp.consumers[k]);
                     }
                 }
                 if(exp.payers != null){
-                    console.log('payers not null');
                     for(let k of Object.keys(exp.payers)){
                         payers.set(k, exp.payers[k]);
                     }
