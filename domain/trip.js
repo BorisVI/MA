@@ -84,6 +84,25 @@ var Trip = /** @class */ (function () {
         }
         return resultMap;
     };
+    Trip.prototype.getExpenseForPersonPerDay = function (personId) {
+        var resultMap = new typescript_map_1.TSMap();
+        for (var i = 0; i < this.expenses.length; i++) {
+            var expense = this.expenses[i];
+            if (expense.consumers.has(personId)) {
+                var date = expense.date;
+                var datum = "" + date.getDate + "/" + date.getMonth + "/" + date.getFullYear;
+                var result = resultMap.get(datum);
+                if (result == null || result == 0) {
+                    resultMap.set(datum, expense.consumers.get(personId));
+                }
+                else {
+                    result += expense.consumers.get(personId);
+                    resultMap.set(datum, result);
+                }
+            }
+        }
+        return resultMap;
+    };
     Trip.prototype.getExpenseForPersonByCategory = function (personId) {
         var overnight_stay = 0;
         var transport = 0;
