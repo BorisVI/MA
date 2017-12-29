@@ -94,6 +94,7 @@ var Trip = /** @class */ (function () {
                 var date = expense.date;
                 console.log(date + "test");
                 var datum = "" + date.getDate + "-" + date.getMonth + "-" + date.getFullYear;
+                console.log(datum);
                 var result = resultMap.get(datum);
                 if (result == null || result == 0) {
                     resultMap.set(datum, expense.consumers.get(personId));
