@@ -54,15 +54,20 @@ export default class EditExpenseScreen extends Component {
   getAllCategories(){
     items=[];
     var reg = new RegExp('^[0-9]+$');
-    for(var cat in Category)
+   /* for(var cat in Category)
     {
       if(cat.match(reg)){
         items.push({key: Category[cat]});
       }
-    }
+    }*/
+   let categories = Service.getAllCatergories();
+   for(let cat of categories)
+   {
+    items.push({key: cat});
+   }
     //(items);
     this.setState({categories: items});
-    let b = Category[0];
+   // let b = Category[0];
   }
   getAllCurrencies()
   {
@@ -153,7 +158,8 @@ export default class EditExpenseScreen extends Component {
   loadPickerItemsCategory()
   {
     items=[];
-    for(let item of this.state.categories){
+    for(let item of this.state.categories)
+    {
      //(item.key);
       items.push(<Picker.Item key={item.key} label={item.key} value={item.key}/>);
     }

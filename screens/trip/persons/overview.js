@@ -33,18 +33,26 @@ export class PersonOveriew extends Component {
   getTableDataCategory()
   {
     Service.getExpenseForPersonPerCategory(this.state.trip, this.state.personId).then((response)=>{
-      console.log(response);
+      items=[];
+      response.forEach((value, key)=>{
+        
+        items.push([key,value]);
+      });
+      console.log(items);
+      this.setState({tableHead: ['Category', 'Expenses']});
+      this.setState({tableData: []});
     });
-    this.setState({tableHead: ['Category', 'Expenses']});
-    this.setState({tableData: []});
   }
   getTableDataDay()
   {
     Service.getExpenseForPersonPerDay(this.state.trip, this.state.personId).then((response)=>{
-      console.log(response);
+      items=[];
+      response.forEach((value, key)=>{
+        items.push([key,value]);
+      });
+      this.setState({tableHead: ['Day', 'Expenses']});
+      this.setState({tableData: []});
     });
-    this.setState({tableHead: ['Day', 'Expenses']});
-    this.setState({tableData: []});
   }
   static navigationOptions = {
     
