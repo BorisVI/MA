@@ -71,17 +71,6 @@ var Service = /** @class */ (function () {
             });
         });
     };
-    Service.getExpensePerPersonPerCategory = function (tripId) {
-        return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            return __generator(this, function (_a) {
-                return [2 /*return*/, this.getTrip(tripId).then(function (trip) {
-                        var t = _this.getNewTrip(trip);
-                        return t.getExpensesPerPersonPerCategory();
-                    })];
-            });
-        });
-    };
     Service.getExpenseForPersonPerCategory = function (tripId, personId) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
@@ -89,10 +78,7 @@ var Service = /** @class */ (function () {
                 return [2 /*return*/, this.getTrip(tripId).then(function (trip) {
                         var t = _this.getNewTrip(trip);
                         var person = t.getPersonFromId(personId);
-                        var value = [person.personId, person.firstName, person.lastName];
-                        var map = new typescript_map_1.TSMap();
-                        map.set(value, t.getExpenseForPersonByCategory(personId));
-                        return map;
+                        return t.getExpensesForPersonPerCategory(personId);
                     })];
             });
         });

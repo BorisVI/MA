@@ -85,12 +85,14 @@ export class Trip{
 		return map;
 	}
 	
-	getExpensesPerPersonPerCategory(): TSMap<string,[number,number,number,number,number]>{
-		let resultMap = new TSMap<string,[number,number,number,number,number]>();
-		for(let i=0;i<this.participants.length;i++){
-			let list=this.getExpenseForPersonByCategory(this.participants[i].personId);
-			resultMap.set(this.participants[i].personId,list);
-		}
+	getExpensesForPersonPerCategory(personId:string): TSMap<Category,number>{
+		let resultMap = new TSMap<Category,number>();
+		let result = this.getExpenseForPersonByCategory(personId);
+		resultMap.set(Category.OvernightStay,result[0]);
+		resultMap.set(Category.Activity,result[1]);
+		resultMap.set(Category.Food,result[2]);
+		resultMap.set(Category.Transport,result[3]);
+		resultMap.set(Category.Misc,result[4]);
 		return resultMap;
 	}
 	
