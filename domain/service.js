@@ -362,14 +362,12 @@ var Service = /** @class */ (function () {
                 var consumers = new typescript_map_1.TSMap();
                 var payers = new typescript_map_1.TSMap();
                 if (exp.consumers != null) {
-                    console.log('expenses not null');
                     for (var _b = 0, _c = Object.keys(exp.consumers); _b < _c.length; _b++) {
                         var k = _c[_b];
                         consumers.set(k, exp.consumers[k]);
                     }
                 }
                 if (exp.payers != null) {
-                    console.log('payers not null');
                     for (var _d = 0, _e = Object.keys(exp.payers); _d < _e.length; _d++) {
                         var k = _e[_d];
                         payers.set(k, exp.payers[k]);

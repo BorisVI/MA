@@ -32,6 +32,7 @@ export class TripInfo extends Component {
     Service.getExpensesSummary(this.state.id).then((response)=>{
       items = [];
       response.forEach((value, key)=>{
+                                                                    
         items.push([key,value[1],value[0],value[2]]);
       });
       this.setState({tableData: items});

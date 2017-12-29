@@ -39,10 +39,13 @@ export class PersonOveriew extends Component {
     return (
     <View>
       <Text style={styles.titleText}>Person: {this.state.fname}</Text>
-      <Table styles={{marginTop:10, marginRight: 5, marginLeft :5}}>
-          <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
-          <Rows data={this.state.tableData} extraData={this.state} style={styles.row} textStyle={styles.text}/>
-      </Table>
+      {this.state.tableData.length==0 ? <Text>This person hasn't particpated to any expense </Text>:
+     <Table styles={{marginTop:10, marginRight: 5, marginLeft :5}}>
+     <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
+     <Rows data={this.state.tableData} extraData={this.state} style={styles.row} textStyle={styles.text}/>
+     </Table>
+      }
+     
       <View style={styles.buttonStyle}>
       <Button color='#4d9280' 
  onPress={() => this.refreshScreen()}

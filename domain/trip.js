@@ -54,7 +54,7 @@ var Trip = /** @class */ (function () {
         var map = new typescript_map_1.TSMap();
         var _loop_1 = function (i) {
             this_1.expenses[i].consumers.forEach(function (value, key) {
-                var total;
+                var total = new Array(0, 0);
                 if (map.has(key)) {
                     total[0] = value[0];
                     total[1] = value[1];
