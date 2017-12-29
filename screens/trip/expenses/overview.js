@@ -30,6 +30,12 @@ class ExpenseOveriew extends Component {
       this.setState({date: expense.date});
     });
   }
+  loadTable()
+  {
+    Service.getTableByExpense(this.state.tripId, this.state.expenseId).then((response)=>{
+
+    });
+  }
   static navigationOptions = {
     
     title:'Expense Details',

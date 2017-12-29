@@ -105,7 +105,7 @@ export class TripInfo extends Component {
   }
   refreshScreen()
   {
-    this.loadTableData();
+    this.setTable(this.state.selectedTable);
   }
   goToPerson(personId)
   {
