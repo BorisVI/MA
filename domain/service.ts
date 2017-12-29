@@ -31,6 +31,16 @@ export class Service {
             return t.getExpensesPerPersonPerCategory();
         });
     }
+    static async getExpenseForPersonPerCategory(tripId:string,personId:string):Promise<TSMap<string[],number[]>>{
+        return this.getTrip(tripId).then((trip)=>{
+            let t=this.getNewTrip(trip);
+            let person=t.getPersonFromId(personId);
+            let value = [person.personId,person.firstName,person.lastName];
+            let map = new TSMap<string[],number[]>();
+            map.set(value,t.getExpenseForPersonByCategory(personId));
+            return map;
+        });
+    }
     static async getPayersFromExpense(tripId: string, expenseId: string): Promise<TSMap<string[], number>>{
         return this.getTrip(tripId).then((trip)=>{
             let t = this.getNewTrip(trip);
@@ -42,7 +52,6 @@ export class Service {
             return map;
         });
     }
-
     static async getExpenseById(tripId: string, expenseId: string): Promise<Expense>{
         return this.getTrip(tripId).then((trip)=>{
             let t = this.getNewTrip(trip);

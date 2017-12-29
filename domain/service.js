@@ -81,6 +81,21 @@ var Service = /** @class */ (function () {
             });
         });
     };
+    Service.getExpenseForPersonPerCategory = function (tripId, personId) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.getTrip(tripId).then(function (trip) {
+                        var t = _this.getNewTrip(trip);
+                        var person = t.getPersonFromId(personId);
+                        var value = [person.personId, person.firstName, person.lastName];
+                        var map = new typescript_map_1.TSMap();
+                        map.set(value, t.getExpenseForPersonByCategory(personId));
+                        return map;
+                    })];
+            });
+        });
+    };
     Service.getPayersFromExpense = function (tripId, expenseId) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
