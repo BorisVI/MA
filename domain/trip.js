@@ -127,6 +127,7 @@ var Trip = /** @class */ (function () {
                 map.set(category_1.Category[e.category], 0);
             }
             amount = Number(map.get(category_1.Category[e.category])) + Number(e.getTotalConsumers());
+            console.log(e.category.toString() + ' ' + amount);
             map.set(category_1.Category[e.category], Number(amount));
         }
         console.log(map);

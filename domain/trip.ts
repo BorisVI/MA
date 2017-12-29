@@ -135,6 +135,7 @@ export class Trip{
 				map.set(Category[e.category], 0);
 			}
 			amount = Number(map.get(Category[e.category])) + Number(e.getTotalConsumers());
+			console.log(e.category.toString() + ' ' + amount);
 			map.set(Category[e.category], Number(amount));
 		}
 		console.log(map);
