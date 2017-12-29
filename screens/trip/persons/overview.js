@@ -17,6 +17,11 @@ export class PersonOveriew extends Component {
   {
    this.setTable(this.state.selectedTable);
   }
+  setState(state)
+  {
+    super.setState(state);
+    //console.log(`Set state to ${JSON.stringify(state)}`);
+  }
   getTableDataTotal()
   {
     Service.getExpensesPerPerson(this.state.trip,this.state.personId).then((response)=>{
@@ -84,7 +89,7 @@ export class PersonOveriew extends Component {
       <View style={styles.buttonStyle}>
       <Button color='#4d9280' 
  onPress={() => this.refreshScreen()}
-  title="Refresh"
+  title="refresh"
   
 />
   </View>
@@ -93,6 +98,7 @@ export class PersonOveriew extends Component {
   }
   setTable(table)
   {
+  
     switch(table)
     {
       case 'total':
