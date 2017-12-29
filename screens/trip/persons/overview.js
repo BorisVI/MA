@@ -40,7 +40,7 @@ export class PersonOveriew extends Component {
       });
       console.log(items);
       this.setState({tableHead: ['Category', 'Expenses']});
-      this.setState({tableData: []});
+      this.setState({tableData: items});
     });
   }
   getTableDataDay()
