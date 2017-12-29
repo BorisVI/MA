@@ -327,7 +327,7 @@ var Service = /** @class */ (function () {
             return amount * value[1];
         });
     };
-    Service.converAmoountToEuroFrom = function (currencyTag, amount) {
+    Service.converAmountToEuroFrom = function (currencyTag, amount) {
         return this.getCurrencyValue(currencyTag).then(function (value) {
             return amount / value[1];
         });

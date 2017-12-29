@@ -63,7 +63,7 @@ export class Trip{
 		}
 		return map;
 	}
-	
+
 	getExpensesSummary(): TSMap<string[], number[]>{
 		let consumersMap = new TSMap<string,number>();
 		let payersMap = new TSMap<string,number>();
