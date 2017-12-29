@@ -92,7 +92,7 @@ var Trip = /** @class */ (function () {
             var expense = this.expenses[i];
             if (expense.consumers.has(personId)) {
                 var date = expense.date;
-                var datum = "" + date.getFullYear + "-" + date.getMonth + "-" + date.getDate;
+                var datum = "" + date.getDate + "-" + date.getMonth + "-" + date.getFullYear;
                 var result = resultMap.get(datum);
                 if (result == null || result == 0) {
                     resultMap.set(datum, expense.consumers.get(personId));
