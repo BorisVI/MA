@@ -22,8 +22,12 @@ export class TripInfo extends Component {
      // console.log(t);
      //console.log('jnhiûofezrg '+trip.name);
       this.setState({name: trip.tripName});
-      this.setState({startdate: trip.startDate})
-      this.setState({enddate: trip.endDate});
+      let startDate= new Date(trip.startDate);
+      let endDate = new Date(trip.endDate);
+      let europeanstartdate = startDate.getDate()+'/'+  (startDate.getMonth()+1)+'/'+  startDate.getFullYear();
+      let europeanenddate= endDate.getDate()+'/'+  (endDate.getMonth()+1)+'/'+  endDate.getFullYear();
+      this.setState({startdate: europeanstartdate})
+      this.setState({enddate: europeanenddate});
     });
     
     //console.log(this.props.navigation.state.params.tripId);

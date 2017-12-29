@@ -29,7 +29,9 @@ class ExpenseOveriew extends Component {
   {
     Service.getExpenseById(this.state.tripId, this.state.expenseId).then((expense)=>{
       this.setState({name: expense.name});
-      this.setState({date: expense.date});
+      let date = new Date(expense.date);
+      let europeandate = date.getDate()+'/'+ (date.getMonth()+1)+'/'+ date.getFullYear();
+      this.setState({date: europeandate});
     });
   }
   loadTable()

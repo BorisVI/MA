@@ -56,7 +56,7 @@ export class PersonOveriew extends Component {
         items.push([key,value]);
       });
       this.setState({tableHead: ['Day', 'Expenses']});
-      this.setState({tableData: []});
+      this.setState({tableData: items});
     });
   }
   static navigationOptions = {

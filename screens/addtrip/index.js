@@ -106,7 +106,10 @@ export default class AddTrip extends Component {
     if(this.state.name != '')
     {
     let tid = this.state.name+ this.state.startdate+ this.state.enddate;
-    let t = new Trip(tid,this.state.name,this.state.startdate, this.state.enddate);    
+    var d = new Date(this.state.startdate);
+    var dd = new Date(this.state.enddate);
+    let t = new Trip(tid,this.state.name,d, dd);
+    //:console.log('gubhiknmj'+d);    
     Service.addTrip(t).then(()=>{
       this.props.navigation.state.params.onNavigateBack(true);
       this.props.navigation.goBack();

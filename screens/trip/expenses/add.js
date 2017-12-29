@@ -94,8 +94,9 @@ export default class AddExpense extends Component {
     if(this.state.name != '')
     {
     //let tid = this.state.name+ this.state.startdate+ this.state.enddate;
-    //let t = new Trip(tid,this.state.name,this.state.startdate, this.state.enddate);    
-    Service.addExpenseToTrip(this.state.id, this.state.name, this.state.date).then(()=>{
+    //let t = new Trip(tid,this.state.name,this.state.startdate, this.state.enddate);   
+
+    Service.addExpenseToTrip(this.state.id, this.state.name, new Date(this.state.date)).then(()=>{
       this.props.navigation.state.params.onNavigateBack(true);
       this.props.navigation.goBack();
       

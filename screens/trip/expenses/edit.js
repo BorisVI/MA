@@ -150,7 +150,7 @@ export default class EditExpenseScreen extends Component {
   editExpense()
   {
     (this.state.tripId+' , '+ this.state.expenseId);
-    Service.editExpenseFromTrip(this.state.tripId, this.state.expenseId,this.state.name, this.state.date, this.state.currency, this.state.category).then(()=>{
+    Service.editExpenseFromTrip(this.state.tripId, this.state.expenseId,this.state.name, new Date(this.state.date), this.state.currency, this.state.category).then(()=>{
       this.props.navigation.state.params.onNavigateBack(true);
       this.props.navigation.goBack();
     });
