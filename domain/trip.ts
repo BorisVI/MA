@@ -93,11 +93,11 @@ export class Trip{
 		return resultMap;
 	}
 	getExpenseForPersonByCategory(personId:string):[number,number,number,number,number]{
-		let overnight_stay = 0;
-		let transport=0;
-		let activity=0;
-		let food=0;
-		let misc=0;
+		let overnight_stay:number = 0;
+		let transport:number =0;
+		let activity:number=0;
+		let food:number=0;
+		let misc:number=0;
 		for(let i=0;i<this.expenses.length;i++){
 			let expense=this.expenses[i];
 			if(expense.consumers.has(personId)){
