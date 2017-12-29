@@ -78,7 +78,7 @@ export class Service {
         });
     }
 
-    static async getExpensesSummary(tripId: string): Promise<TSMap<string, number[]>> {
+    static async getExpensesSummary(tripId: string): Promise<TSMap<string[], number[]>> {
         return this.getTrip(tripId).then((trip) =>{
             let t = this.getNewTrip(trip);
             return t.getExpensesSummary();

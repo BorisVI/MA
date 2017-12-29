@@ -12,6 +12,10 @@ var Trip = /** @class */ (function () {
         this.endDate = endDate;
         this.standardCurrency = "EUR";
     }
+    Trip.prototype.getPersonInfo = function (personId) {
+        var person = this.getPersonFromId(personId);
+        return [personId, person.firstName, person.lastName];
+    };
     Trip.prototype.getPersonFromId = function (personId) {
         for (var _i = 0, _a = this.participants; _i < _a.length; _i++) {
             var p = _a[_i];
@@ -25,16 +29,18 @@ var Trip = /** @class */ (function () {
         var map = new typescript_map_1.TSMap();
         for (var _i = 0, _a = this.expenses; _i < _a.length; _i++) {
             var e = _a[_i];
-            var toPay = void 0;
+            var toPay = 0;
             if (e.consumers != null && e.consumers.has(personId)) {
                 toPay = Number(e.consumers.get(personId));
             }
-            var payed = void 0;
+            var payed = 0;
             if (e.payers != null && e.payers.has(personId)) {
                 payed = Number(e.payers.get(personId));
             }
-            var balance = payed - toPay;
-            map.set(e.name, [toPay, payed, balance]);
+            if (!(payed == 0 && toPay == 0)) {
+                var balance = payed - toPay;
+                map.set(e.name, [toPay, payed, balance]);
+            }
         }
         return map;
     };
@@ -51,26 +57,50 @@ var Trip = /** @class */ (function () {
     };
     Trip.prototype.getExpensesSummary = function () {
         var _this = this;
-        var map = new typescript_map_1.TSMap();
-        var _loop_1 = function (i) {
-            this_1.expenses[i].consumers.forEach(function (value, key) {
-                var total;
-                if (map.has(key)) {
-                    total[0] = value[0];
-                    total[1] = value[1];
+        var consumersMap = new typescript_map_1.TSMap();
+        var payersMap = new typescript_map_1.TSMap();
+        for (var _i = 0, _a = this.expenses; _i < _a.length; _i++) {
+            var e = _a[_i];
+            e.consumers.forEach(function (value, key) {
+                var amount = 0;
+                if (consumersMap.has(key)) {
+                    amount = Number(consumersMap.get(key));
                 }
-                total[0] += value;
-                if (_this.expenses[i].payers.has(key)) {
-                    total[1] += _this.expenses[i].payers.get(key);
-                }
-                map.set(key, total);
+                amount = Number(amount) + Number(value);
+                consumersMap.set(key, amount);
             });
-        };
-        var this_1 = this;
-        for (var i = 0; i < this.expenses.length; i++) {
-            _loop_1(i);
+            e.payers.forEach(function (value, key) {
+                var amount = 0;
+                if (payersMap.has(key)) {
+                    amount = Number(payersMap.get(key));
+                }
+                amount = Number(amount) + Number(value);
+                payersMap.set(key, amount);
+            });
         }
-        return map;
+        var map = new typescript_map_1.TSMap();
+        consumersMap.forEach(function (value, key) {
+            var amounts = new Array(0, 0);
+            if (map.has(key)) {
+                amounts = Array(Number(map.get(key)[0]), Number(map.get(key)[1]));
+            }
+            amounts[0] += Number(value);
+            map.set(key, amounts);
+        });
+        payersMap.forEach(function (value, key) {
+            var amounts = new Array(0, 0);
+            if (map.has(key)) {
+                amounts = Array(Number(map.get(key)[0]), Number(map.get(key)[1]));
+            }
+            amounts[1] += Number(value);
+            amounts[2] = Number(amounts[1]) - Number(amounts[0]);
+            map.set(key, amounts);
+        });
+        var result = new typescript_map_1.TSMap();
+        map.forEach(function (value, key) {
+            result.set(_this.getPersonInfo(key), value);
+        });
+        return result;
     };
     Trip.prototype.getLargestExpenseId = function () {
         var highest = 0;
