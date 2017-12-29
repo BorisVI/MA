@@ -117,19 +117,19 @@ var Trip = /** @class */ (function () {
                 var amount = expense.consumers.get(personId);
                 switch (expense.category) {
                     case category_1.Category.OvernightStay:
-                        overnight_stay = Number(overnight_stay) + amount;
+                        overnight_stay = Number(overnight_stay) + Number(amount);
                         break;
                     case category_1.Category.Activity:
-                        activity = Number(activity) + amount;
+                        activity = Number(activity) + Number(amount);
                         break;
                     case category_1.Category.Food:
-                        food = Number(food) + amount;
+                        food = Number(food) + Number(amount);
                         break;
                     case category_1.Category.Transport:
-                        transport = Number(transport) + amount;
+                        transport = Number(transport) + Number(amount);
                         break;
                     case category_1.Category.Misc:
-                        misc = Number(misc) + amount;
+                        misc = Number(misc) + Number(amount);
                         break;
                     default:
                         return null;

@@ -124,22 +124,22 @@ export class Trip{
 		for(let i=0;i<this.expenses.length;i++){
 			let expense=this.expenses[i];
 			if(expense.consumers.has(personId)){
-				let amount=expense.consumers.get(personId);
+				let amount:number=expense.consumers.get(personId);
 				switch(expense.category){
 					case Category.OvernightStay:
-						overnight_stay= Number(overnight_stay)+amount;
+						overnight_stay= Number(overnight_stay)+Number(amount);
 						break;
 					case Category.Activity:
-						activity=Number(activity)+amount;
+						activity=Number(activity)+Number(amount);
 						break;
 					case Category.Food:
-						food=Number(food)+amount;
+						food=Number(food)+Number(amount);
 						break;
 					case Category.Transport:
-						transport=Number(transport)+amount;
+						transport=Number(transport)+Number(amount);
 						break;
 					case Category.Misc:
-						misc=Number(misc)+amount;
+						misc=Number(misc)+Number(amount);
 						break;
 					default:
 							return null;
