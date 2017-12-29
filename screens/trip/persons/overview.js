@@ -55,6 +55,7 @@ export class PersonOveriew extends Component {
       response.forEach((value, key)=>{
         items.push([key,value]);
       });
+      console.log(items);
       this.setState({tableHead: ['Day', 'Expenses']});
       this.setState({tableData: items});
     });
