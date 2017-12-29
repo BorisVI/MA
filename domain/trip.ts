@@ -101,7 +101,7 @@ export class Trip{
 		for(let i=0;i<this.expenses.length;i++){
 			let expense=this.expenses[i];
 			if(expense.consumers.has(personId)){
-				let date=expense.date;
+				let date:Date= new Date(expense.date);
 				let datum = ""+date.getDate()+"-"+date.getMonth()+"-"+date.getFullYear();
 				console.log(datum);
 				let result: number=resultMap.get(datum);
