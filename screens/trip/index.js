@@ -54,6 +54,7 @@ export class TripInfo extends Component {
        items.push([key,value[1],value[0],value[2]]);
         
       });
+      console.log(items);
       this.setState({tableData: items});
     });
   }
