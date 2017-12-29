@@ -96,7 +96,7 @@ var Trip = /** @class */ (function () {
                     resultMap.set(datum, expense.consumers.get(personId));
                 }
                 else {
-                    result += expense.consumers.get(personId);
+                    result = Number(result) + Number(expense.consumers.get(personId));
                     resultMap.set(datum, result);
                 }
             }

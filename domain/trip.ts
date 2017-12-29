@@ -101,11 +101,11 @@ export class Trip{
 			if(expense.consumers.has(personId)){
 				let date=expense.date;
 				let datum = ""+date.getDate+"/"+date.getMonth +"/"+date.getFullYear;
-				let result=resultMap.get(datum);
+				let result: number=resultMap.get(datum);
 				if(result==null||result==0){
 					resultMap.set(datum,expense.consumers.get(personId));
 				}else{
-					result+=expense.consumers.get(personId);
+					result = Number(result) + Number(expense.consumers.get(personId));
 					resultMap.set(datum,result);
 				}
 			}
