@@ -73,7 +73,7 @@ export class PersonOveriew extends Component {
     return (
     <View>
       <Text style={styles.titleText}>Person: {this.state.fname}</Text>
-      
+      <Text style={styles.titleText}>Select table: </Text>
       <Picker
       selectedValue={this.state.selectedTable}
       onValueChange={(itemValue, itemIndex) => {this.setTable(itemValue)}}>
@@ -81,6 +81,7 @@ export class PersonOveriew extends Component {
       <Picker.Item label="Per category" value="category" />
       <Picker.Item label="Per day" value="day" />
       </Picker>
+
      <Table styles={{marginTop:10, marginRight: 5, marginLeft :5}}>
       <Row data={this.state.tableHead} extraData={this.state} style={styles.head} textStyle={styles.text}/>
       <Rows data={this.state.tableData} extraData={this.state} style={styles.row} textStyle={styles.text}/>

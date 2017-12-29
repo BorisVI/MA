@@ -47,8 +47,9 @@ export default class AddPayersScreen extends Component {
             items.push({key: fname, id: p.personId});
         }
         this.setState({participants: items});
-   
-        this.setState({selectedParticipant: this.state.participants[0].key, selectedParticipantId: this.state.participants[0].id});
+        if(this.state.participants.length != 0){
+          this.setState({selectedParticipant: this.state.participants[0].key, selectedParticipantId: this.state.participants[0].id});
+        }
     });
   }
   static navigationOptions = {
