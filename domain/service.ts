@@ -7,6 +7,13 @@ import { Category } from "./category";
 
 export class Service {
 
+    static async getTableByExpense(tripId: string, expenseId: string): Promise<TSMap<string[], number[]>>{
+        return this.getTrip(tripId).then((trip) =>{
+            let t = this.getNewTrip(trip);
+            return t.getTableByExpense(expenseId);
+        });
+    }
+
     static async getConsumersFromExpense(tripId: string, expenseId: string): Promise<TSMap<string[], number>>{
         return this.getTrip(tripId).then((trip)=>{
             let t = this.getNewTrip(trip);
