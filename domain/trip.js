@@ -112,6 +112,7 @@ var Trip = /** @class */ (function () {
             amount = Number(map.get(category_1.Category[e.category])) + Number(e.getTotalConsumers());
             map.set(category_1.Category[e.category], Number(amount));
         }
+        console.log(map);
         return map;
     };
     //table by trip
