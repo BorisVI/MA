@@ -122,10 +122,12 @@ var Trip = /** @class */ (function () {
         var map = new typescript_map_1.TSMap();
         for (var _i = 0, _a = this.expenses; _i < _a.length; _i++) {
             var e = _a[_i];
-            if (map.has(e.expenseId)) {
-                map.set(e.expenseId, 0);
+            var amount = 0;
+            if (!map.has(category_1.Category[e.category])) {
+                map.set(category_1.Category[e.category], 0);
             }
-            map.set(e.expenseId, map.get(e.expenseId) + e.getTotalConsumers());
+            amount = Number(map.get(category_1.Category[e.category])) + Number(e.getTotalConsumers());
+            map.set(category_1.Category[e.category], Number(amount));
         }
         return map;
     };

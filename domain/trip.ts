@@ -130,10 +130,12 @@ export class Trip{
 	getExpensesByCategory(): TSMap<string, number>{
 		let map = new TSMap<string,number>();
 		for(let e of this.expenses){
-			if(map.has(e.expenseId)){
-				map.set(e.expenseId, 0);
+			let amount: number = 0;
+			if(!map.has(Category[e.category])){
+				map.set(Category[e.category], 0);
 			}
-			map.set(e.expenseId, map.get(e.expenseId) + e.getTotalConsumers());
+			amount = Number(map.get(Category[e.category])) + Number(e.getTotalConsumers());
+			map.set(Category[e.category], Number(amount));
 		}
 		return map;
 	}
