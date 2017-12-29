@@ -76,12 +76,14 @@ var Trip = /** @class */ (function () {
         }
         return map;
     };
-    Trip.prototype.getExpensesPerPersonPerCategory = function () {
+    Trip.prototype.getExpensesForPersonPerCategory = function (personId) {
         var resultMap = new typescript_map_1.TSMap();
-        for (var i = 0; i < this.participants.length; i++) {
-            var list = this.getExpenseForPersonByCategory(this.participants[i].personId);
-            resultMap.set(this.participants[i].personId, list);
-        }
+        var result = this.getExpenseForPersonByCategory(personId);
+        resultMap.set(category_1.Category.OvernightStay, result[0]);
+        resultMap.set(category_1.Category.Activity, result[1]);
+        resultMap.set(category_1.Category.Food, result[2]);
+        resultMap.set(category_1.Category.Transport, result[3]);
+        resultMap.set(category_1.Category.Misc, result[4]);
         return resultMap;
     };
     Trip.prototype.getExpenseForPersonPerDay = function (personId) {
