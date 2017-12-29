@@ -32,8 +32,8 @@ export class TripInfo extends Component {
     Service.getExpensesSummary(this.state.id).then((response)=>{
       items = [];
       response.forEach((value, key)=>{
-                                                                    
-        items.push([key,value[1],value[0],value[2]]);
+        var fname = key[1] + ' '+ key[2];
+        items.push([fname,value[1],value[0],value[2]]);
       });
       this.setState({tableData: items});
     });
@@ -57,11 +57,18 @@ export class TripInfo extends Component {
           <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
           <Rows data={this.state.tableData} style={styles.row} textStyle={styles.text}/>
       </Table>
-   
+      <View style={styles.buttonStyle}>
+      <Button color='#4d9280' 
+ onPress={() => this.refreshScreen()}
+  title="Refresh"/>
+  </View>
     </View>
     );
   }
-  
+  refreshScreen()
+  {
+    this.loadTableData();
+  }
   goToPerson(personId)
   {
     //this.props.id = tripId; 
@@ -75,6 +82,11 @@ export class TripInfo extends Component {
 
  const styles = StyleSheet.create(
       { 
+        buttonStyle: {
+          marginTop: 10,
+          paddingTop: 10,
+         
+        },
       viewTable:
       {
         marginTop: 10,

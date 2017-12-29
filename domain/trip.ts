@@ -20,6 +20,11 @@ export class Trip{
 		this.standardCurrency = "EUR";
 	}
 
+	getPersonInfo(personId: string): string[]{
+		let person = this.getPersonFromId(personId);
+		return [personId, person.firstName, person.lastName];
+	}
+
 	getPersonFromId(personId: string): Person{
 		for(let p of this.participants){
 			if(p.personId == personId){
@@ -32,16 +37,18 @@ export class Trip{
 	getExpensesFromPerson(personId: string): TSMap<string, number[]>{
 		let map = new TSMap<string,number[]>();
 		for(let e of this.expenses){
-			let toPay : number;
+			let toPay : number = 0;
 			if(e.consumers != null && e.consumers.has(personId)){
 				toPay = Number(e.consumers.get(personId));
 			}
-			let payed : number;
+			let payed : number = 0;
 			if(e.payers != null && e.payers.has(personId)){
 				payed = Number(e.payers.get(personId));
 			}
-			let balance = payed - toPay;
-			map.set(e.name, [toPay,payed,balance]);
+			if(!(payed == 0 && toPay == 0)){
+				let balance = payed - toPay;
+				map.set(e.name, [toPay,payed,balance]);
+			}
 		}
 		return map;
 	}
@@ -57,23 +64,50 @@ export class Trip{
 		return map;
 	}
 	
-	getExpensesSummary(): TSMap<string, number[]>{
-		let map = new TSMap<string,number[]>();
-		for (let i = 0; i < this.expenses.length; i++){
-			this.expenses[i].consumers.forEach((value: number, key: string) =>{
-				let total = new  Array<number>(0,0);
-				if(map.has(key)){
-					total[0] = value[0];
-					total[1] = value[1];
+	getExpensesSummary(): TSMap<string[], number[]>{
+		let consumersMap = new TSMap<string,number>();
+		let payersMap = new TSMap<string,number>();
+		for (let e of this.expenses){
+			e.consumers.forEach((value: number, key: string) =>{
+				let amount : number = 0;
+				if(consumersMap.has(key)){
+					amount = Number(consumersMap.get(key));
 				}
-				total[0] += value;
-				if(this.expenses[i].payers.has(key)){
-                    total[1] += this.expenses[i].payers.get(key);
-                }
-				map.set(key, total);
-            });
+				amount = Number(amount) + Number(value);
+				consumersMap.set(key, amount);
+			});
+			e.payers.forEach((value: number, key: string) =>{
+				let amount : number = 0;
+				if(payersMap.has(key)){
+					amount = Number(payersMap.get(key));
+				}
+				amount = Number(amount) + Number(value);
+				payersMap.set(key, amount);
+			});
 		}
-		return map;
+		let map = new TSMap<string,number[]>();
+		consumersMap.forEach((value: number, key: string) =>{
+			let amounts = new Array<number>(0,0);
+			if(map.has(key)){
+				amounts = Array<number>(Number(map.get(key)[0]), Number(map.get(key)[1]));
+			}
+			amounts[0] += Number(value);
+			map.set(key, amounts);
+		});
+		payersMap.forEach((value: number, key: string) =>{
+			let amounts = new Array<number>(0,0);
+			if(map.has(key)){
+				amounts = Array<number>(Number(map.get(key)[0]), Number(map.get(key)[1]));
+			}
+			amounts[1] += Number(value);
+			amounts[2] = Number(amounts[1]) - Number(amounts[0]);
+			map.set(key, amounts);
+		});
+		let result = new TSMap<string[],number[]>();
+		map.forEach((value: number[], key: string) =>{
+			result.set(this.getPersonInfo(key), value);
+		});
+		return result;
 	}
 
 	getLargestExpenseId(): string{
