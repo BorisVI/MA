@@ -40,7 +40,6 @@ var typescript_map_1 = require("../node_modules/typescript-map");
 var trip_1 = require("./trip");
 var person_1 = require("./person");
 var expense_1 = require("./expense");
-var category_1 = require("./category");
 var Service = /** @class */ (function () {
     function Service() {
     }
@@ -117,7 +116,7 @@ var Service = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         expense = new expense_1.Expense(expenseId, name, date, currency);
-                        expense.category = category_1.Category[category_1.Category[category]];
+                        expense.category = category;
                         console.log('category: ' + expense.category);
                         return [4 /*yield*/, this.getTrip(tripId).then(function (trip) {
                                 var t = _this.getNewTrip(trip);

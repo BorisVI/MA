@@ -52,7 +52,7 @@ export class Service {
 
     static async editExpenseFromTrip(tripId: string, expenseId: string, name: string, date: Date, currency: string, category: Category ): Promise<void>{
         let expense = new Expense(expenseId, name, date, currency);
-        expense.category = Category[Category[category]];
+        expense.category = category;
         console.log('category: ' + expense.category);
         await this.getTrip(tripId).then((trip)=>{
             let t = this.getNewTrip(trip);
