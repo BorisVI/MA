@@ -92,7 +92,7 @@ var Trip = /** @class */ (function () {
             var expense = this.expenses[i];
             if (expense.consumers.has(personId)) {
                 var date = expense.date;
-                var datum = "" + date.getDate + "/" + date.getMonth + "/" + date.getFullYear;
+                var datum = "" + date.getFullYear + "-" + date.getMonth + "-" + date.getDate;
                 var result = resultMap.get(datum);
                 if (result == null || result == 0) {
                     resultMap.set(datum, expense.consumers.get(personId));
@@ -117,19 +117,19 @@ var Trip = /** @class */ (function () {
                 var amount = expense.consumers.get(personId);
                 switch (expense.category) {
                     case category_1.Category.OvernightStay:
-                        overnight_stay += amount;
+                        overnight_stay = Number(overnight_stay) + amount;
                         break;
                     case category_1.Category.Activity:
-                        activity += amount;
+                        activity = Number(activity) + amount;
                         break;
                     case category_1.Category.Food:
-                        food += amount;
+                        food = Number(food) + amount;
                         break;
                     case category_1.Category.Transport:
-                        transport += amount;
+                        transport = Number(transport) + amount;
                         break;
                     case category_1.Category.Misc:
-                        misc += amount;
+                        misc = Number(misc) + amount;
                         break;
                     default:
                         return null;
