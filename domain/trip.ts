@@ -84,12 +84,15 @@ export class Trip{
 		}
 		return map;
 	}
-	/*getExpensesPerPersonPerCategory(): TSMap<string,[number,number,number,number,number]>{
+	getExpensesPerPersonPerCategory(): TSMap<string,[number,number,number,number,number]>{
+		let resultMap = new TSMap<string,[number,number,number,number,number]>();
 		for(let i=0;i<this.participants.length;i++){
-			getExpenseForPersonByCategory(this.participants[i].personId);
+			let list=this.getExpenseForPersonByCategory(this.participants[i].personId);
+			resultMap.set(this.participants[i].personId,list);
 		}
+		return resultMap;
 	}
-	/*getExpenseForPersonByCategory(personId:string):[number,number,number,number,number]{
+	getExpenseForPersonByCategory(personId:string):[number,number,number,number,number]{
 		let overnight_stay = 0;
 		let transport=0;
 		let activity=0;
@@ -100,14 +103,29 @@ export class Trip{
 			if(expense.consumers.has(personId)){
 				let amount=expense.consumers.get(personId);
 				switch(expense.category){
+					case Category.OvernightStay:
+						overnight_stay+=amount;
+						break;
 					case Category.Activity:
+						activity+=amount;
+						break;
 					case Category.Food:
+						food+=amount;
+						break;
 					case Category.Transport:
+						transport+=amount;
+						break;
 					case Category.Misc:
+						misc+=amount;
+						break;
+					default:
+							return null;
 				}
 			}
 		}
-	}*/
+		return [overnight_stay,activity,food,transport,misc];
+	}
+
 	//expenses by category
 	getExpensesByCategory(): TSMap<string, number>{
 		let map = new TSMap<string,number>();

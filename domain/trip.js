@@ -76,30 +76,47 @@ var Trip = /** @class */ (function () {
         }
         return map;
     };
-    /*getExpensesPerPersonPerCategory(): TSMap<string,[number,number,number,number,number]>{
-        for(let i=0;i<this.participants.length;i++){
-            getExpenseForPersonByCategory(this.participants[i].personId);
+    Trip.prototype.getExpensesPerPersonPerCategory = function () {
+        var resultMap = new typescript_map_1.TSMap();
+        for (var i = 0; i < this.participants.length; i++) {
+            var list = this.getExpenseForPersonByCategory(this.participants[i].personId);
+            resultMap.set(this.participants[i].personId, list);
         }
-    }
-    /*getExpenseForPersonByCategory(personId:string):[number,number,number,number,number]{
-        let overnight_stay = 0;
-        let transport=0;
-        let activity=0;
-        let food=0;
-        let misc=0;
-        for(let i=0;i<this.expenses.length;i++){
-            let expense=this.expenses[i];
-            if(expense.consumers.has(personId)){
-                let amount=expense.consumers.get(personId);
-                switch(expense.category){
-                    case Category.Activity:
-                    case Category.Food:
-                    case Category.Transport:
-                    case Category.Misc:
+        return resultMap;
+    };
+    Trip.prototype.getExpenseForPersonByCategory = function (personId) {
+        var overnight_stay = 0;
+        var transport = 0;
+        var activity = 0;
+        var food = 0;
+        var misc = 0;
+        for (var i = 0; i < this.expenses.length; i++) {
+            var expense = this.expenses[i];
+            if (expense.consumers.has(personId)) {
+                var amount = expense.consumers.get(personId);
+                switch (expense.category) {
+                    case category_1.Category.OvernightStay:
+                        overnight_stay += amount;
+                        break;
+                    case category_1.Category.Activity:
+                        activity += amount;
+                        break;
+                    case category_1.Category.Food:
+                        food += amount;
+                        break;
+                    case category_1.Category.Transport:
+                        transport += amount;
+                        break;
+                    case category_1.Category.Misc:
+                        misc += amount;
+                        break;
+                    default:
+                        return null;
                 }
             }
         }
-    }*/
+        return [overnight_stay, activity, food, transport, misc];
+    };
     //expenses by category
     Trip.prototype.getExpensesByCategory = function () {
         var map = new typescript_map_1.TSMap();
