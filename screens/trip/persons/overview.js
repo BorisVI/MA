@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, Image, View, Text,StyleSheet, Button } from 'react-native';
+import { AppRegistry, Image, View, Text,StyleSheet, Button ,Picker} from 'react-native';
 import TableRow from 'react-native-table-row';
 
 import { TabNavigator } from 'react-navigation';
@@ -9,13 +9,15 @@ export class PersonOveriew extends Component {
 
   constructor(props){
     super(props);
-    this.state ={tableData: [],trip: this.props.navigation.state.params.tripId,personId: this.props.navigation.state.params.personId, fname: this.props.navigation.state.params.fname};
-   // console.log("id: "+this.trips.id);
-    //console.log(this.props.navigation.state.params.tripId);
-   // console.log(this.state.trip+' , '+ this.state.personId);
+    this.state ={tableData: [],trip: this.props.navigation.state.params.tripId,personId: this.props.navigation.state.params.personId, fname: this.props.navigation.state.params.fname, selectedTable:'total',tableData:[]};
+
     
   }
   componentDidMount()
+  {
+   this.setTable(this.state.selectedTable);
+  }
+  getTableDataTotal()
   {
     Service.getExpensesPerPerson(this.state.trip,this.state.personId).then((response)=>{
       items = [];
@@ -39,12 +41,19 @@ export class PersonOveriew extends Component {
     return (
     <View>
       <Text style={styles.titleText}>Person: {this.state.fname}</Text>
-      {this.state.tableData.length==0 ? <Text>This person hasn't particpated to any expense </Text>:
+      
+      <Picker
+      selectedValue={this.state.selectedTable}
+      onValueChange={(itemValue, itemIndex) => {this.setTable(itemValue)}}>
+      <Picker.Item label="Total" value="total" />
+      <Picker.Item label="Per category" value="category" />
+      <Picker.Item label="Per day" value="day" />
+      </Picker>
      <Table styles={{marginTop:10, marginRight: 5, marginLeft :5}}>
-     <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
-     <Rows data={this.state.tableData} extraData={this.state} style={styles.row} textStyle={styles.text}/>
+      <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
+      <Rows data={this.state.tableData} extraData={this.state} style={styles.row} textStyle={styles.text}/>
      </Table>
-      }
+      
      
       <View style={styles.buttonStyle}>
       <Button color='#4d9280' 
@@ -55,6 +64,25 @@ export class PersonOveriew extends Component {
   </View>
     </View>
     );
+  }
+  setTable(table)
+  {
+    switch(table)
+    {
+      case 'total':
+        this.getTableDataTotal();
+        this.setState({selectedTable: table});
+        break;
+      case 'category':
+        this.getTableDataCategory();
+        this.setState({selectedTable: table});
+        break;
+      case 'day':
+        this.getTableDataDay();
+        this.setState({selectedTable: table});
+    }
+    
+
   }
   refreshScreen()
   {
