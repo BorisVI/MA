@@ -7,6 +7,13 @@ import { Category } from "./category";
 
 export class Service {
 
+    static async getTableByExpense(tripId: string, expenseId: string): Promise<TSMap<string[], number[]>>{
+        return this.getTrip(tripId).then((trip) =>{
+            let t = this.getNewTrip(trip);
+            return t.getTableByExpense(expenseId);
+        });
+    }
+
     static async getConsumersFromExpense(tripId: string, expenseId: string): Promise<TSMap<string[], number>>{
         return this.getTrip(tripId).then((trip)=>{
             let t = this.getNewTrip(trip);
@@ -173,7 +180,7 @@ export class Service {
             return amount*value[1];
         });    
     }
-    static converAmoountToEuroFrom(currencyTag:string,amount:number):Promise<number>{
+    static converAmountToEuroFrom(currencyTag:string,amount:number):Promise<number>{
         return this.getCurrencyValue(currencyTag).then((value)=>{
             return amount/value[1];
         });
