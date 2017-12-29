@@ -84,7 +84,30 @@ export class Trip{
 		}
 		return map;
 	}
-
+	/*getExpensesPerPersonPerCategory(): TSMap<string,[number,number,number,number,number]>{
+		for(let i=0;i<this.participants.length;i++){
+			getExpenseForPersonByCategory(this.participants[i].personId);
+		}
+	}
+	/*getExpenseForPersonByCategory(personId:string):[number,number,number,number,number]{
+		let overnight_stay = 0;
+		let transport=0;
+		let activity=0;
+		let food=0;
+		let misc=0;
+		for(let i=0;i<this.expenses.length;i++){
+			let expense=this.expenses[i];
+			if(expense.consumers.has(personId)){
+				let amount=expense.consumers.get(personId);
+				switch(expense.category){
+					case Category.Activity:
+					case Category.Food:
+					case Category.Transport:
+					case Category.Misc:
+				}
+			}
+		}
+	}*/
 	//expenses by category
 	getExpensesByCategory(): TSMap<string, number>{
 		let map = new TSMap<string,number>();
