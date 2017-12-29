@@ -25,7 +25,12 @@ export class Service {
             return map;
         });
     }
-
+    static async getExpensePerPersonPerCategory(tripId:string):Promise<TSMap<string,[number,number,number,number,number]>>{
+        return this.getTrip(tripId).then((trip)=>{
+            let t=this.getNewTrip(trip);
+            return t.getExpensesPerPersonPerCategory();
+        });
+    }
     static async getPayersFromExpense(tripId: string, expenseId: string): Promise<TSMap<string[], number>>{
         return this.getTrip(tripId).then((trip)=>{
             let t = this.getNewTrip(trip);
@@ -48,6 +53,7 @@ export class Service {
     static async editExpenseFromTrip(tripId: string, expenseId: string, name: string, date: Date, currency: string, category: Category ): Promise<void>{
         let expense = new Expense(expenseId, name, date, currency);
         expense.category = category;
+        console.log('category: ' + expense.category);
         await this.getTrip(tripId).then((trip)=>{
             let t = this.getNewTrip(trip);
             t.editExpense(expense);
@@ -132,7 +138,7 @@ export class Service {
             this.updateTrip(t);
         });
     }
-
+    
     static async removeCurrencyFromTrip(tripId: string, name: string): Promise<void>{
        await this.getTrip(tripId).then((trip)=>{
             let t = this.getNewTrip(trip);

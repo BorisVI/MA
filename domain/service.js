@@ -70,6 +70,17 @@ var Service = /** @class */ (function () {
             });
         });
     };
+    Service.getExpensePerPersonPerCategory = function (tripId) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.getTrip(tripId).then(function (trip) {
+                        var t = _this.getNewTrip(trip);
+                        return t.getExpensesPerPersonPerCategory();
+                    })];
+            });
+        });
+    };
     Service.getPayersFromExpense = function (tripId, expenseId) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
@@ -106,6 +117,7 @@ var Service = /** @class */ (function () {
                     case 0:
                         expense = new expense_1.Expense(expenseId, name, date, currency);
                         expense.category = category;
+                        console.log('category: ' + expense.category);
                         return [4 /*yield*/, this.getTrip(tripId).then(function (trip) {
                                 var t = _this.getNewTrip(trip);
                                 t.editExpense(expense);
