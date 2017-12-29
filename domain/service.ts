@@ -42,7 +42,7 @@ export class Service {
             return map;
         });
     }
-    
+
     static async getPayersFromExpense(tripId: string, expenseId: string): Promise<TSMap<string[], number>>{
         return this.getTrip(tripId).then((trip)=>{
             let t = this.getNewTrip(trip);
@@ -110,6 +110,14 @@ export class Service {
         });
     }
 
+    static async getExpenseForPersonPerDay(tripId:string,personId:string){
+        return this.getTrip(tripId).then((trip)=>{
+            let t=this.getNewTrip(trip);
+            return t.getExpenseForPersonPerDay(personId);
+        });
+
+    }
+
     static async addPersonToTrip(tripId: string, firstName: string, lastName: string): Promise<Boolean>{
         return await this.getTrip(tripId).then((trip) =>{
             let t = this.getNewTrip(trip);
@@ -118,7 +126,6 @@ export class Service {
             return valid;
         });
     }
-
     static async removePersonFromTrip(tripId: string, id: string): Promise<void>{
       await this.getTrip(tripId).then((trip)=>{
             let t = this.getNewTrip(trip);

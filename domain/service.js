@@ -212,6 +212,17 @@ var Service = /** @class */ (function () {
             });
         });
     };
+    Service.getExpenseForPersonPerDay = function (tripId, personId) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.getTrip(tripId).then(function (trip) {
+                        var t = _this.getNewTrip(trip);
+                        return t.getExpenseForPersonPerDay(personId);
+                    })];
+            });
+        });
+    };
     Service.addPersonToTrip = function (tripId, firstName, lastName) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
