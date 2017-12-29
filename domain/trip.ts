@@ -95,7 +95,6 @@ export class Trip{
 		}
 		return map;
 	}
-	
 	//table by trip
 	getExpensesSummary(): TSMap<string[], number[]>{
 		let consumersMap = new TSMap<string,number>();
