@@ -40,6 +40,7 @@ var typescript_map_1 = require("../node_modules/typescript-map");
 var trip_1 = require("./trip");
 var person_1 = require("./person");
 var expense_1 = require("./expense");
+var category_1 = require("./category");
 var Service = /** @class */ (function () {
     function Service() {
     }
@@ -161,6 +162,9 @@ var Service = /** @class */ (function () {
                 }
             });
         });
+    };
+    Service.getAllCatergories = function () {
+        return [category_1.Category.OvernightStay, category_1.Category.Transport, category_1.Category.Activity, category_1.Category.Food, category_1.Category.Misc];
     };
     Service.addPayersToExpense = function (tripId, expenseId, payers) {
         return __awaiter(this, void 0, void 0, function () {

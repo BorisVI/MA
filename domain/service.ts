@@ -80,7 +80,9 @@ export class Service {
             this.updateTrip(t);
         });
     }
-
+    static getAllCatergories():Category[]{
+        return [Category.OvernightStay,Category.Transport,Category.Activity,Category.Food,Category.Misc];
+    }
     static async addPayersToExpense(tripId: string, expenseId: string, payers: TSMap<string, number>): Promise<void>{
         await this.getTrip(tripId).then((trip)=>{
             let t = this.getNewTrip(trip);
