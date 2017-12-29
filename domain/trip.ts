@@ -102,7 +102,7 @@ export class Trip{
 			let expense=this.expenses[i];
 			if(expense.consumers.has(personId)){
 				let date=expense.date;
-				let datum = ""+date.getDate+"/"+date.getMonth +"/"+date.getFullYear;
+				let datum = ""+date.getFullYear+"-"+date.getMonth +"-"+date.getDate;
 				let result: number=resultMap.get(datum);
 				if(result==null||result==0){
 					resultMap.set(datum,expense.consumers.get(personId));
@@ -127,19 +127,19 @@ export class Trip{
 				let amount=expense.consumers.get(personId);
 				switch(expense.category){
 					case Category.OvernightStay:
-						overnight_stay+=amount;
+						overnight_stay= Number(overnight_stay)+amount;
 						break;
 					case Category.Activity:
-						activity+=amount;
+						activity=Number(activity)+amount;
 						break;
 					case Category.Food:
-						food+=amount;
+						food=Number(food)+amount;
 						break;
 					case Category.Transport:
-						transport+=amount;
+						transport=Number(transport)+amount;
 						break;
 					case Category.Misc:
-						misc+=amount;
+						misc=Number(misc)+amount;
 						break;
 					default:
 							return null;
