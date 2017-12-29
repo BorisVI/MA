@@ -85,6 +85,7 @@ var Trip = /** @class */ (function () {
                 amounts = Array(Number(map.get(key)[0]), Number(map.get(key)[1]));
             }
             amounts[0] += Number(value);
+            amounts[2] = Number(amounts[1]) - Number(amounts[0]);
             map.set(key, amounts);
         });
         payersMap.forEach(function (value, key) {
