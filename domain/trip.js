@@ -25,6 +25,37 @@ var Trip = /** @class */ (function () {
         }
         return null;
     };
+    //table by expense
+    Trip.prototype.getTableByExpense = function (expenseId) {
+        var _this = this;
+        var expense = this.getExpenseById(expenseId);
+        var map = new typescript_map_1.TSMap();
+        expense.consumers.forEach(function (value, key) {
+            var amounts = new Array(0, 0, 0);
+            if (map.has(key)) {
+                amounts = Array(Number(map.get(key)[0]), Number(map.get(key)[1]));
+            }
+            amounts[0] += Number(value);
+            amounts[2] = Number(amounts[1]) - Number(amounts[0]);
+            map.set(key, amounts);
+        });
+        expense.payers.forEach(function (value, key) {
+            var amounts = new Array(0, 0, 0);
+            if (map.has(key)) {
+                amounts = Array(Number(map.get(key)[0]), Number(map.get(key)[1]));
+            }
+            amounts[1] += Number(value);
+            amounts[2] = Number(amounts[1]) - Number(amounts[0]);
+            map.set(key, amounts);
+        });
+        var result = new typescript_map_1.TSMap();
+        map.forEach(function (value, key) {
+            result.set(_this.getPersonInfo(key), value);
+        });
+        console.log(result);
+        return result;
+    };
+    //expenses per person, not filtered
     Trip.prototype.getExpensesFromPerson = function (personId) {
         var map = new typescript_map_1.TSMap();
         for (var _i = 0, _a = this.expenses; _i < _a.length; _i++) {
@@ -41,17 +72,6 @@ var Trip = /** @class */ (function () {
                 var balance = payed - toPay;
                 map.set(e.name, [toPay, payed, balance]);
             }
-        }
-        return map;
-    };
-    Trip.prototype.getExpensesByCategory = function () {
-        var map = new typescript_map_1.TSMap();
-        for (var _i = 0, _a = this.expenses; _i < _a.length; _i++) {
-            var e = _a[_i];
-            if (map.has(e.expenseId)) {
-                map.set(e.expenseId, 0);
-            }
-            map.set(e.expenseId, map.get(e.expenseId) + e.getTotalConsumers());
         }
         return map;
     };
@@ -79,6 +99,19 @@ var Trip = /** @class */ (function () {
             }
         }
     }*/
+    //expenses by category
+    Trip.prototype.getExpensesByCategory = function () {
+        var map = new typescript_map_1.TSMap();
+        for (var _i = 0, _a = this.expenses; _i < _a.length; _i++) {
+            var e = _a[_i];
+            if (map.has(e.expenseId)) {
+                map.set(e.expenseId, 0);
+            }
+            map.set(e.expenseId, map.get(e.expenseId) + e.getTotalConsumers());
+        }
+        return map;
+    };
+    //table by trip
     Trip.prototype.getExpensesSummary = function () {
         var _this = this;
         var consumersMap = new typescript_map_1.TSMap();
@@ -104,7 +137,7 @@ var Trip = /** @class */ (function () {
         }
         var map = new typescript_map_1.TSMap();
         consumersMap.forEach(function (value, key) {
-            var amounts = new Array(0, 0);
+            var amounts = new Array(0, 0, 0);
             if (map.has(key)) {
                 amounts = Array(Number(map.get(key)[0]), Number(map.get(key)[1]));
             }
@@ -113,7 +146,7 @@ var Trip = /** @class */ (function () {
             map.set(key, amounts);
         });
         payersMap.forEach(function (value, key) {
-            var amounts = new Array(0, 0);
+            var amounts = new Array(0, 0, 0);
             if (map.has(key)) {
                 amounts = Array(Number(map.get(key)[0]), Number(map.get(key)[1]));
             }

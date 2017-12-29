@@ -35,6 +35,37 @@ export class Trip{
 		return null;
 	}
 
+	//table by expense
+	getTableByExpense(expenseId: string): TSMap<string[], number[]>{
+		let expense = this.getExpenseById(expenseId);
+		let map = new TSMap<string,number[]>();
+		expense.consumers.forEach((value: number, key: string) =>{
+			let amounts = new Array<number>(0,0,0);
+			if(map.has(key)){
+				amounts = Array<number>(Number(map.get(key)[0]), Number(map.get(key)[1]));
+			}
+			amounts[0] += Number(value);
+			amounts[2] = Number(amounts[1]) - Number(amounts[0]);
+			map.set(key, amounts);
+		});
+		expense.payers.forEach((value: number, key: string) =>{
+			let amounts = new Array<number>(0,0,0);
+			if(map.has(key)){
+				amounts = Array<number>(Number(map.get(key)[0]), Number(map.get(key)[1]));
+			}
+			amounts[1] += Number(value);
+			amounts[2] = Number(amounts[1]) - Number(amounts[0]);
+			map.set(key, amounts);
+		});
+		let result = new TSMap<string[],number[]>();
+		map.forEach((value: number[], key: string) =>{
+			result.set(this.getPersonInfo(key), value);
+		});
+		console.log(result);
+		return result;
+	}
+
+	//expenses per person, not filtered
 	getExpensesFromPerson(personId: string): TSMap<string, number[]>{
 		let map = new TSMap<string,number[]>();
 		for(let e of this.expenses){
@@ -53,18 +84,6 @@ export class Trip{
 		}
 		return map;
 	}
-
-	getExpensesByCategory(): TSMap<string, number>{
-		let map = new TSMap<string,number>();
-		for(let e of this.expenses){
-			if(map.has(e.expenseId)){
-				map.set(e.expenseId, 0);
-			}
-			map.set(e.expenseId, map.get(e.expenseId) + e.getTotalConsumers());
-		}
-		return map;
-	}
-
 	/*getExpensesPerPersonPerCategory(): TSMap<string,[number,number,number,number,number]>{
 		for(let i=0;i<this.participants.length;i++){
 			getExpenseForPersonByCategory(this.participants[i].personId);
@@ -89,6 +108,19 @@ export class Trip{
 			}
 		}
 	}*/
+	//expenses by category
+	getExpensesByCategory(): TSMap<string, number>{
+		let map = new TSMap<string,number>();
+		for(let e of this.expenses){
+			if(map.has(e.expenseId)){
+				map.set(e.expenseId, 0);
+			}
+			map.set(e.expenseId, map.get(e.expenseId) + e.getTotalConsumers());
+		}
+		return map;
+	}
+
+	//table by trip
 	getExpensesSummary(): TSMap<string[], number[]>{
 		let consumersMap = new TSMap<string,number>();
 		let payersMap = new TSMap<string,number>();
@@ -112,7 +144,7 @@ export class Trip{
 		}
 		let map = new TSMap<string,number[]>();
 		consumersMap.forEach((value: number, key: string) =>{
-			let amounts = new Array<number>(0,0);
+			let amounts = new Array<number>(0,0,0);
 			if(map.has(key)){
 				amounts = Array<number>(Number(map.get(key)[0]), Number(map.get(key)[1]));
 			}
@@ -121,7 +153,7 @@ export class Trip{
 			map.set(key, amounts);
 		});
 		payersMap.forEach((value: number, key: string) =>{
-			let amounts = new Array<number>(0,0);
+			let amounts = new Array<number>(0,0,0);
 			if(map.has(key)){
 				amounts = Array<number>(Number(map.get(key)[0]), Number(map.get(key)[1]));
 			}

@@ -14,6 +14,7 @@ class ExpenseOveriew extends Component {
     super(props);
     this.state ={tripId: this.props.navigation.state.params.tripId, expenseId: this.props.navigation.state.params.expenseId,name:'',date:'', tableData:[]};
     //console.log(this.state.tripId+ " , "+ this.state.expenseId);
+    Service.getTableByExpense(this.props.navigation.state.params.tripId,this.props.navigation.state.params.expenseId);
     
   }
   componentDidMount(){
@@ -27,6 +28,12 @@ class ExpenseOveriew extends Component {
     Service.getExpenseById(this.state.tripId, this.state.expenseId).then((expense)=>{
       this.setState({name: expense.name});
       this.setState({date: expense.date});
+    });
+  }
+  loadTable()
+  {
+    Service.getTableByExpense(this.state.tripId, this.state.expenseId).then((response)=>{
+
     });
   }
   static navigationOptions = {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, Image, View, Text,StyleSheet, Button } from 'react-native';
+import { AppRegistry, Image, View, Text,StyleSheet, Button, Picker } from 'react-native';
 import TableRow from 'react-native-table-row';
 
 import { TabNavigator } from 'react-navigation';
@@ -15,7 +15,7 @@ export class TripInfo extends Component {
   constructor(props){
     super(props);
     this.trips = {id : this.props.navigation.state.params.tripId};
-    this.state ={id: this.props.navigation.state.params.tripId,name: '',startdate: '', enddate:'',sumdata:[],tableData:[]};
+    this.state ={id: this.props.navigation.state.params.tripId,name: '',startdate: '', enddate:'',sumdata:[],tableData:[],selectedTable: 'trip'};
     //console.log("id: "+this.trips.id);
     Service.getTrip(this.state.id).then((trip)=>{
       //let t = JSON.parse(trip);
@@ -25,15 +25,34 @@ export class TripInfo extends Component {
       this.setState({startdate: trip.startDate})
       this.setState({enddate: trip.endDate});
     });
-    this.loadTableData();
+    this.setTable(this.state.selectedTable);
     //console.log(this.props.navigation.state.params.tripId);
   }
-  loadTableData(){
+  
+  getTableDataTrip()
+  {
     Service.getExpensesSummary(this.state.id).then((response)=>{
       items = [];
       response.forEach((value, key)=>{
-        items.push([key,value[1],value[0],value[2]]);
+        var fname = key[1] + ' '+ key[2];
+        console.log(value[2]);
+        items.push([fname,value[1],value[0],value[2]]);
       });
+      this.setState({tableData: items});
+    });
+  }
+  getTableDataCategory()
+  {
+    Service.getExpensesByCategory(this.state.id).then((response)=>{
+      items = [];
+      response.forEach((value, key)=>{
+       // var fname = key[1] + ' '+ key[2];
+        //console.log(value[2]);
+        console.log(key+' , '+ value);
+        items.push([key,value[1],value[0],value[2]]);
+        
+      });
+      console.log('gvyubhnj '+items);
       this.setState({tableData: items});
     });
   }
@@ -52,15 +71,42 @@ export class TripInfo extends Component {
       <Text style={styles.titleText}>Trip: {this.state.name}</Text>
       <Text style={styles.objText}>Start date: {this.state.startdate}</Text>
       <Text style={styles.objText}>End date: {this.state.enddate}</Text>
+      <Text style={styles.titleText}>Select table: </Text>
+      <Picker
+  selectedValue={this.state.selectedTable}
+  onValueChange={(itemValue, itemIndex) => {this.setTable(itemValue)}}>
+  <Picker.Item label="Total by trip" value="trip" />
+  <Picker.Item label="Expenses by category" value="category" />
+        </Picker>
       <Table styles={{marginTop:10, marginRight: 5, marginLeft :5}}>
           <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
           <Rows data={this.state.tableData} style={styles.row} textStyle={styles.text}/>
       </Table>
-   
+      <View style={styles.buttonStyle}>
+      <Button color='#4d9280' 
+ onPress={() => this.refreshScreen()}
+  title="Refresh"/>
+  </View>
     </View>
     );
   }
-  
+  setTable(table)
+  {
+    switch(table)
+    {
+      case 'trip':
+        this.getTableDataTrip();
+        break;
+      case 'category':
+        this.getTableDataCategory();
+        break;
+    }
+
+  }
+  refreshScreen()
+  {
+    this.setTable(this.state.selectedTable);
+  }
   goToPerson(personId)
   {
     //this.props.id = tripId; 
@@ -74,6 +120,11 @@ export class TripInfo extends Component {
 
  const styles = StyleSheet.create(
       { 
+        buttonStyle: {
+          marginTop: 10,
+          paddingTop: 10,
+         
+        },
       viewTable:
       {
         marginTop: 10,
