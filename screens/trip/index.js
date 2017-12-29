@@ -15,7 +15,7 @@ export class TripInfo extends Component {
   constructor(props){
     super(props);
     this.trips = {id : this.props.navigation.state.params.tripId};
-    this.state ={id: this.props.navigation.state.params.tripId,name: '',startdate: '', enddate:'',sumdata:[],tableData:[],selectedTable: 'trip'};
+    this.state ={id: this.props.navigation.state.params.tripId,name: '',startdate: '', enddate:'',sumdata:[],tableData:[],tableHead:[],selectedTable: 'trip'};
     //console.log("id: "+this.trips.id);
     Service.getTrip(this.state.id).then((trip)=>{
       //let t = JSON.parse(trip);
@@ -42,6 +42,7 @@ export class TripInfo extends Component {
         //console.log(value[2]);
         items.push([fname,value[1],value[0],value[2]]);
       });
+      this.setState({tableHead: ['Name', 'Amount already paid', 'Amount due', 'Receives/stillneeds to pay']});
       this.setState({tableData: items});
     });
   }
@@ -50,11 +51,10 @@ export class TripInfo extends Component {
     Service.getExpensesByCategory(this.state.id).then((response)=>{
       items = [];
       response.forEach((value, key)=>{
-
-       items.push([key,value[1],value[0],value[2]]);
-        
+        console.log('key: '+ key+' ,value: '+ value);
+       items.push([key,value]);
       });
-      console.log(items);
+      this.setState({tableHead:['Category', 'Expense']});
       this.setState({tableData: items});
     });
   }
@@ -66,7 +66,7 @@ export class TripInfo extends Component {
   };
   render() {
     //const id = this.trips.id;
-    const tableHead = ['Name', 'Amount already paid', 'Amount due', 'Receives/stillneeds to pay'];
+    //const tableHead = ['Name', 'Amount already paid', 'Amount due', 'Receives/stillneeds to pay'];
    
     return (
     <View>
@@ -81,7 +81,7 @@ export class TripInfo extends Component {
   <Picker.Item label="Expenses by category" value="category" />
         </Picker>
       <Table styles={{marginTop:10, marginRight: 5, marginLeft :5}}>
-          <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
+          <Row data={this.state.tableHead} extraData={this.state} style={styles.head} textStyle={styles.text}/>
           <Rows data={this.state.tableData} extraData={this.state} style={styles.row} textStyle={styles.text}/>
       </Table>
       <View style={styles.buttonStyle}>

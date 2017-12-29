@@ -9,7 +9,7 @@ export class PersonOveriew extends Component {
 
   constructor(props){
     super(props);
-    this.state ={tableData: [],trip: this.props.navigation.state.params.tripId,personId: this.props.navigation.state.params.personId, fname: this.props.navigation.state.params.fname, selectedTable:'total',tableData:[]};
+    this.state ={tableData: [],trip: this.props.navigation.state.params.tripId,personId: this.props.navigation.state.params.personId, fname: this.props.navigation.state.params.fname, selectedTable:'total',tableData:[],tableHead:[]};
 
     
   }
@@ -25,8 +25,26 @@ export class PersonOveriew extends Component {
         
         items.push([key,value[1],value[0],value[2]]);
       });
+      
+      this.setState({tableHead: ['Expense Name', 'Amount already paid', 'Amount due', 'Receives/stillneeds to pay']});
       this.setState({tableData: items});
     });
+  }
+  getTableDataCategory()
+  {
+    Service.getExpenseForPersonPerCategory(this.state.trip, this.state.personId).then((response)=>{
+      console.log(response);
+    });
+    this.setState({tableHead: ['Category', 'Expenses']});
+    this.setState({tableData: []});
+  }
+  getTableDataDay()
+  {
+    Service.getExpenseForPersonPerDay(this.state.trip, this.state.personId).then((response)=>{
+      console.log(response);
+    });
+    this.setState({tableHead: ['Day', 'Expenses']});
+    this.setState({tableData: []});
   }
   static navigationOptions = {
     
@@ -36,7 +54,7 @@ export class PersonOveriew extends Component {
   };
   render() {
     //const id = this.trips.id;
-    const tableHead = ['Expense Name', 'Amount already paid', 'Amount due', 'Receives/stillneeds to pay'];
+   // const tableHead = ['Expense Name', 'Amount already paid', 'Amount due', 'Receives/stillneeds to pay'];
    
     return (
     <View>
@@ -50,7 +68,7 @@ export class PersonOveriew extends Component {
       <Picker.Item label="Per day" value="day" />
       </Picker>
      <Table styles={{marginTop:10, marginRight: 5, marginLeft :5}}>
-      <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
+      <Row data={this.state.tableHead} extraData={this.state} style={styles.head} textStyle={styles.text}/>
       <Rows data={this.state.tableData} extraData={this.state} style={styles.row} textStyle={styles.text}/>
      </Table>
       
