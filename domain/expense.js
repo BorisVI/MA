@@ -86,15 +86,15 @@ var Expense = /** @class */ (function () {
     };
     Expense.prototype.getTotalPayers = function () {
         var sum = 0;
-        this._payers.forEach(function (value, key) {
-            sum += value;
+        this.payers.forEach(function (value, key) {
+            sum = Number(sum) + Number(value);
         });
         return sum;
     };
     Expense.prototype.getTotalConsumers = function () {
         var sum = 0;
-        this._consumers.forEach(function (value, key) {
-            sum += value;
+        this.consumers.forEach(function (value, key) {
+            sum = Number(sum) + Number(value);
         });
         return sum;
     };

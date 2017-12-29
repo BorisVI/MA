@@ -1,6 +1,7 @@
 import { TSMap } from "../node_modules/typescript-map";
 import { Expense } from "./expense";
 import { Person } from "./person";
+import { Category } from "./category";
 export class Trip{
 
     private _tripId : string;
@@ -88,13 +89,16 @@ export class Trip{
 	getExpensesByCategory(): TSMap<string, number>{
 		let map = new TSMap<string,number>();
 		for(let e of this.expenses){
-			if(map.has(e.expenseId)){
-				map.set(e.expenseId, 0);
+			let amount: number = 0;
+			if(!map.has(Category[e.category])){
+				map.set(Category[e.category], 0);
 			}
-			map.set(e.expenseId, map.get(e.expenseId) + e.getTotalConsumers());
+			amount = Number(map.get(Category[e.category])) + Number(e.getTotalConsumers());
+			map.set(Category[e.category], Number(amount));
 		}
 		return map;
 	}
+
 	//table by trip
 	getExpensesSummary(): TSMap<string[], number[]>{
 		let consumersMap = new TSMap<string,number>();

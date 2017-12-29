@@ -97,17 +97,17 @@ export class Expense{
     }
 
     getTotalPayers(){
-        var sum = 0;
-        this._payers.forEach((value: number, key: string) =>{
-            sum += value;
+        var sum : number = 0;
+        this.payers.forEach((value: number, key: string) =>{
+            sum = Number(sum) +  Number(value);
         });
         return sum;
     }
 
     getTotalConsumers(){
-        var sum = 0;
-        this._consumers.forEach((value: number, key: string) =>{
-            sum += value;
+        var sum: number = 0;
+        this.consumers.forEach((value: number, key: string) =>{
+            sum = Number(sum) +  Number(value);
         });
         return sum;
     }
