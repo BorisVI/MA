@@ -151,12 +151,11 @@ var Service = /** @class */ (function () {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.getTrip(tripId).then(function (trip) {
                             var t = _this.getNewTrip(trip);
-                            t.addPerson(new person_1.Person(t.getLargestPersonId(), firstName, lastName));
+                            var valid = t.addPerson(new person_1.Person(t.getLargestPersonId(), firstName, lastName));
                             _this.updateTrip(t);
+                            return valid;
                         })];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/];
+                    case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });

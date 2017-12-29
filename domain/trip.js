@@ -103,7 +103,16 @@ var Trip = /** @class */ (function () {
         this.expenses.push(expense);
     };
     Trip.prototype.addPerson = function (person) {
-        this.participants.push(person);
+        var canDo = true;
+        for (var i = 0; i < this.participants.length; i++) {
+            if (this.participants[i].firstName == person.firstName && this.participants[i].lastName == person.lastName) {
+                canDo = false;
+            }
+        }
+        if (canDo) {
+            this.participants.push(person);
+        }
+        return canDo;
     };
     Trip.prototype.addCurrency = function (currency) {
         this.currencies.push(currency);

@@ -94,6 +94,7 @@ export class LocalStorage{
             }
         });
     }
+
     static async setAllCurrencyStatussesHard():Promise<void>{
         let list = this.getAllCurrenciesPossible();
         let result = Array<[string,Boolean]>();
