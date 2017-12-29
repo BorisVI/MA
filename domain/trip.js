@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var typescript_map_1 = require("../node_modules/typescript-map");
+var category_1 = require("./category");
 var Trip = /** @class */ (function () {
     function Trip(tripId, name, startDate, endDate) {
         this._participants = new Array();
@@ -75,15 +76,58 @@ var Trip = /** @class */ (function () {
         }
         return map;
     };
+    Trip.prototype.getExpensesPerPersonPerCategory = function () {
+        var resultMap = new typescript_map_1.TSMap();
+        for (var i = 0; i < this.participants.length; i++) {
+            var list = this.getExpenseForPersonByCategory(this.participants[i].personId);
+            resultMap.set(this.participants[i].personId, list);
+        }
+        return resultMap;
+    };
+    Trip.prototype.getExpenseForPersonByCategory = function (personId) {
+        var overnight_stay = 0;
+        var transport = 0;
+        var activity = 0;
+        var food = 0;
+        var misc = 0;
+        for (var i = 0; i < this.expenses.length; i++) {
+            var expense = this.expenses[i];
+            if (expense.consumers.has(personId)) {
+                var amount = expense.consumers.get(personId);
+                switch (expense.category) {
+                    case category_1.Category.OvernightStay:
+                        overnight_stay += amount;
+                        break;
+                    case category_1.Category.Activity:
+                        activity += amount;
+                        break;
+                    case category_1.Category.Food:
+                        food += amount;
+                        break;
+                    case category_1.Category.Transport:
+                        transport += amount;
+                        break;
+                    case category_1.Category.Misc:
+                        misc += amount;
+                        break;
+                    default:
+                        return null;
+                }
+            }
+        }
+        return [overnight_stay, activity, food, transport, misc];
+    };
     //expenses by category
     Trip.prototype.getExpensesByCategory = function () {
         var map = new typescript_map_1.TSMap();
         for (var _i = 0, _a = this.expenses; _i < _a.length; _i++) {
             var e = _a[_i];
-            if (map.has(e.expenseId)) {
-                map.set(e.expenseId, 0);
+            var amount = 0;
+            if (!map.has(category_1.Category[e.category])) {
+                map.set(category_1.Category[e.category], 0);
             }
-            map.set(e.expenseId, map.get(e.expenseId) + e.getTotalConsumers());
+            amount = Number(map.get(category_1.Category[e.category])) + Number(e.getTotalConsumers());
+            map.set(category_1.Category[e.category], Number(amount));
         }
         return map;
     };

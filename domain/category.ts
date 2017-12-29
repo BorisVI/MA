@@ -1,5 +1,5 @@
 export enum Category{
-    'Overnight stay',
+    'OvernightStay',
     'Transport',
     'Activity',
     'Food',
