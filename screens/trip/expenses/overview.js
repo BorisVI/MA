@@ -14,14 +14,16 @@ class ExpenseOveriew extends Component {
     super(props);
     this.state ={tripId: this.props.navigation.state.params.tripId, expenseId: this.props.navigation.state.params.expenseId,name:'',date:'', tableData:[]};
     //console.log(this.state.tripId+ " , "+ this.state.expenseId);
-    Service.getTableByExpense(this.props.navigation.state.params.tripId,this.props.navigation.state.params.expenseId);
+    //Service.getTableByExpense(this.props.navigation.state.params.tripId,this.props.navigation.state.params.expenseId);
     
   }
   componentDidMount(){
     this.loadExpenseInfo();
+    this.loadTable();
   }
   handleOnNavigateBack= (b) => {
    this.loadExpenseInfo();
+   this.loadTable();
   }
   loadExpenseInfo()
   {
@@ -33,7 +35,15 @@ class ExpenseOveriew extends Component {
   loadTable()
   {
     Service.getTableByExpense(this.state.tripId, this.state.expenseId).then((response)=>{
-
+      items=[];
+      response.forEach((value, key)=>{
+         var fname = key[1] + ' '+ key[2];
+         //console.log(value[2]);
+        // console.log(key+' , '+ value);
+         items.push([fname,value[1],value[0],value[2]]);
+         
+       });
+       this.setState({tableData: items});
     });
   }
   static navigationOptions = {
@@ -45,19 +55,15 @@ class ExpenseOveriew extends Component {
   render() {
     //const id = this.trips.id;
     const tableHead = ['Name', 'Amount already paid', 'Amount due', 'Receives/stillneeds to pay'];
-    const tableData = [
-      ['John', '120', '30', '90'],
-      ['Pete', '0', '40', '40'],
-      ['Tiago', '0', '50', '50'],
-      ['Jack', '0', '0', '0'],
-    ];
+   
     return (
     <View>
       <Text style={styles.titleText}>Expense: {this.state.name}</Text>
       <Text style={styles.titleText}>Date: {this.state.date}</Text>
+      <Text style={styles.titleText}>Table for this expense:</Text>
       <Table styles={{marginTop:10, marginRight: 5, marginLeft :5}}>
           <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
-          <Rows data={tableData} style={styles.row} textStyle={styles.text}/>
+          <Rows data={this.state.tableData} extraData={this.state} style={styles.row} textStyle={styles.text}/>
       </Table>
       <View style={styles.buttonStyle}>
         <Button color='#4d9280' onPress={() => this.editExpense()} title="Edit expense" />

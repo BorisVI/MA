@@ -25,8 +25,12 @@ export class TripInfo extends Component {
       this.setState({startdate: trip.startDate})
       this.setState({enddate: trip.endDate});
     });
-    this.setTable(this.state.selectedTable);
+    
     //console.log(this.props.navigation.state.params.tripId);
+  }
+  componentDidMount()
+  {
+    this.setTable(this.state.selectedTable);
   }
   
   getTableDataTrip()
@@ -35,7 +39,7 @@ export class TripInfo extends Component {
       items = [];
       response.forEach((value, key)=>{
         var fname = key[1] + ' '+ key[2];
-        console.log(value[2]);
+        //console.log(value[2]);
         items.push([fname,value[1],value[0],value[2]]);
       });
       this.setState({tableData: items});
@@ -46,13 +50,10 @@ export class TripInfo extends Component {
     Service.getExpensesByCategory(this.state.id).then((response)=>{
       items = [];
       response.forEach((value, key)=>{
-       // var fname = key[1] + ' '+ key[2];
-        //console.log(value[2]);
-        console.log(key+' , '+ value);
-        items.push([key,value[1],value[0],value[2]]);
+
+       items.push([key,value[1],value[0],value[2]]);
         
       });
-      console.log('gvyubhnj '+items);
       this.setState({tableData: items});
     });
   }
@@ -80,7 +81,7 @@ export class TripInfo extends Component {
         </Picker>
       <Table styles={{marginTop:10, marginRight: 5, marginLeft :5}}>
           <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
-          <Rows data={this.state.tableData} style={styles.row} textStyle={styles.text}/>
+          <Rows data={this.state.tableData} extraData={this.state} style={styles.row} textStyle={styles.text}/>
       </Table>
       <View style={styles.buttonStyle}>
       <Button color='#4d9280' 
@@ -96,11 +97,14 @@ export class TripInfo extends Component {
     {
       case 'trip':
         this.getTableDataTrip();
+        this.setState({selectedTable: table});
         break;
       case 'category':
         this.getTableDataCategory();
+        this.setState({selectedTable: table});
         break;
     }
+    
 
   }
   refreshScreen()
