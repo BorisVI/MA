@@ -19,6 +19,7 @@ export default class AddConsumerScreen extends Component {
   componentDidMount()
   {
       this.loadParticipantsList();
+      this.loadConsumerslist();
   }
   setState(state)
   {
@@ -37,6 +38,17 @@ export default class AddConsumerScreen extends Component {
         this.setState({participants: items});
    
         this.setState({selectedParticipant: this.state.participants[0].key, selectedParticipantId: this.state.participants[0].id});
+    });
+  }
+  loadConsumerslist()
+  {
+    Service.getConsumersFromExpense(this.state.tripId, this.state.expenseId).then((consumers)=>{
+      items =[];
+      consumers.forEach((value, key)=>{
+        var fname = key[1]+ ' '+ key[2];
+        items.push({key: fname, id: key[0], consumed: value});
+      });
+      this.setState({consumers: items});
     });
   }
   static navigationOptions = {
@@ -64,7 +76,7 @@ export default class AddConsumerScreen extends Component {
  onPress={() => this.AddConsumer()}
   title="Add consumer"  
 />
-<Text style={styles.dropText}>Participants: </Text>
+<Text style={styles.dropText}>Consumers: </Text>
 <FlatList
         data={this.state.consumers}
         extraData={this.state}
@@ -131,22 +143,25 @@ export default class AddConsumerScreen extends Component {
   }
   AddConsumer()
   {
- 
+    if(this.state.participantconsumed.trim() != ''){
     items = this.state.consumers;
-    let notinit= false
+    let init= false
+    var counter =0;
     for(let t of items)
     {
         if(t.id == this.state.selectedParticipantId)
         {
-            notinit = true;
+         items[counter]= {key: this.state.selectedParticipant, id: this.state.selectedParticipantId, consumed: this.state.participantconsumed};
+         init=true;
         }
+        counter++;
     }
-    if(!notinit && this.state.participantconsumed.trim() != ''){
+    if(!init){
 
         items.push({key: this.state.selectedParticipant, id: this.state.selectedParticipantId, consumed: this.state.participantconsumed});
-        this.setState({consumers: items});
     }
-
+    this.setState({consumers: items});
+  }
   }
   AddConsumersToTrip()
   {
@@ -154,6 +169,7 @@ export default class AddConsumerScreen extends Component {
     consumerslist = new typescript_map_1.TSMap();
     for(let consumer of this.state.consumers)
     {
+     // console.log(consumer.consumed);
         consumerslist.set(consumer.id,consumer.consumed);
     }
     Service.addConsumersToExpense(this.state.tripId,this.state.expenseId, consumerslist).then(()=>{

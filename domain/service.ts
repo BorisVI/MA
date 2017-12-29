@@ -7,6 +7,30 @@ import { Category } from "./category";
 
 export class Service {
 
+    static async getConsumersFromExpense(tripId: string, expenseId: string): Promise<TSMap<string[], number>>{
+        return this.getTrip(tripId).then((trip)=>{
+            let t = this.getNewTrip(trip);
+            let map = new TSMap<string[], number>();
+            t.getExpenseById(expenseId).consumers.forEach((value: number, key: string) =>{
+                let p = t.getPersonFromId(key);
+                map.set([p.personId,p.firstName,p.lastName],value);
+            });
+            return map;
+        });
+    }
+
+    static async getPayersFromExpense(tripId: string, expenseId: string): Promise<TSMap<string[], number>>{
+        return this.getTrip(tripId).then((trip)=>{
+            let t = this.getNewTrip(trip);
+            let map = new TSMap<string[], number>();
+            t.getExpenseById(expenseId).payers.forEach((value: number, key: string) =>{
+                let p = t.getPersonFromId(key);
+                map.set([p.personId,p.firstName,p.lastName],value);
+            });
+            return map;
+        });
+    }
+
     static async getExpenseById(tripId: string, expenseId: string): Promise<Expense>{
         return this.getTrip(tripId).then((trip)=>{
             let t = this.getNewTrip(trip);
@@ -36,9 +60,6 @@ export class Service {
         await this.getTrip(tripId).then((trip)=>{
             let t = this.getNewTrip(trip);
             t.getExpenseById(expenseId).payers = payers;
-            payers.forEach((value, key)=>{
-                console.log('bam: '+ value+ ','+ key);
-            });
             this.updateTrip(t);
         });
     }
@@ -57,7 +78,7 @@ export class Service {
         });
     }
 
-    static async getExpensesSummary(tripId: string): Promise<TSMap<string, number[]>> {
+    static async getExpensesSummary(tripId: string): Promise<TSMap<string[], number[]>> {
         return this.getTrip(tripId).then((trip) =>{
             let t = this.getNewTrip(trip);
             return t.getExpensesSummary();
@@ -167,37 +188,42 @@ export class Service {
     }
 
     static getNewTrip(trip: Trip): Trip{
-        let t = new Trip(trip.tripId, trip.tripName, trip.startDate, trip.endDate);
-        for(let exp of trip.expenses)
-        {
-            let expense = new Expense(exp.expenseId, exp.name, exp.date, exp.currency);
-            expense.category = exp.category;
-            let consumers : TSMap<string, number>;
-            let payers : TSMap<string, number>;
-            if(exp.consumers != null && exp.consumers.length > 0){
-                exp.consumers.forEach((value: number, key: string) => {
-                    consumers.set(key, value);
-                });
+        let test = trip instanceof Trip;
+        if(test){
+            return trip;
+        }else{
+            let t = new Trip(trip.tripId, trip.tripName, trip.startDate, trip.endDate);
+            for(let exp of trip.expenses)
+            {
+                let expense = new Expense(exp.expenseId, exp.name, exp.date, exp.currency);
+                expense.category = exp.category;
+                let consumers : TSMap<string, number> = new TSMap<string, number>();
+                let payers : TSMap<string, number> = new TSMap<string, number>();
+                if(exp.consumers != null){
+                   for(let k of Object.keys(exp.consumers)){
+                        consumers.set(k, exp.consumers[k]);
+                    }
+                }
+                if(exp.payers != null){
+                    for(let k of Object.keys(exp.payers)){
+                        payers.set(k, exp.payers[k]);
+                    }
+                }
+                expense.consumers = consumers;
+                expense.payers = payers;
+                t.addExpense(expense);
             }
-            expense.consumers = consumers;
-            if(exp.payers != null && exp.payers.length > 0){
-                exp.payers.forEach((value: number, key: string) => {
-                    payers.set(key, value);
-                });   
+            for(let cur of trip.currencies)
+            {
+                t.addCurrency(cur);
             }
-            expense.payers = payers;
-            t.addExpense(expense);
+            for(let par of trip.participants)
+            {
+                let person = new Person(par.personId, par.firstName, par.lastName);
+                t.addPerson(person);
+            }
+            return t;
         }
-        for(let cur of trip.currencies)
-        {
-            t.addCurrency(cur);
-        }
-        for(let par of trip.participants)
-        {
-            let person = new Person(par.personId, par.firstName, par.lastName);
-            t.addPerson(person);
-        }
-        return t;
     }
     static deepEqual(a:Object,b:Object): Boolean{
         return JSON.stringify(a) == JSON.stringify(b);

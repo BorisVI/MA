@@ -21,9 +21,11 @@ class ExpenseInfo extends Component {
     this.loadExpenses();
   }
   
-  handleOnNavigateBack= (b) => {
-    this.loadExpenses();
+  handleOnNavigateBack= (b) => 
+  {
+    this.loadExpenses();   
   }
+  
   loadExpenses()
   {
     var items =[];    
