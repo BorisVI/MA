@@ -13,7 +13,7 @@ export default class EditTrip extends Component {
     super(props);
     var datum = new Date();
     var today = datum.getFullYear() + '-' +(datum.getMonth()+1)+'-'+datum.getDate();
-    this.state = {startdate: today, enddate: today, name: ''};
+    this.state = {startdate: '', enddate: '', name: '', tripId: this.props.navigation.state.params.tripId};
     this.datumlimits= {min: '',max:''};
     //this.max= {max: ''};
     if(datum.getMonth() >5)
@@ -30,6 +30,19 @@ export default class EditTrip extends Component {
       this.datumlimits.max= (datum.getFullYear()) + '-' +(datum.getMonth()+7)+'-'+datum.getDate();
       this.datumlimits.min=(datum.getFullYear()) + '-' +(datum.getMonth())+'-'+datum.getDate();
     }
+  }
+  componentDidMount()
+  {
+    Service.getTrip(this.state.tripId).then((trip)=>{
+      this.setState({name: trip.name});
+      let startdate= new Date(trip.startDate);
+      
+      let startdates = startdate.getFullYear()+'-'+ (startdate.getMonth()+1)+'-'+ startdate.getDate();
+      let enddate = new Date(trip.endDate);
+      let enddates = enddate.getFullYear()+'-'+ (enddate.getMonth()+1)+'-'+ enddate.getDate();
+      this.setState({startdate:startdates});
+      this.setState({enddate:enddates});
+    })
   }
   static navigationOptions = {
     
@@ -93,8 +106,8 @@ export default class EditTrip extends Component {
       />
       <View style={styles.buttonStyle}>
       <Button color='#4d9280' 
- onPress={() => this.AddTrip()}
-  title="Voeg trip toe"
+ onPress={() => this.EditTrip()}
+  title="Edit the trip"
 
 />
   </View>
@@ -105,7 +118,7 @@ export default class EditTrip extends Component {
   {
     if(this.state.name != '')
     {
-    let tid = this.state.name+ this.state.startdate+ this.state.enddate;
+    //let tid = this.state.name+ this.state.startdate+ this.state.enddate;
    // var d = new Date(this.state.startdate);
   //  console.log(d+ ' '+ this.state.startdate);
    // var dd = new Date(this.state.enddate);

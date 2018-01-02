@@ -9,6 +9,7 @@ import {OverzichtInfo} from '../overzicht';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import {Service as Service} from '../../domain/service';
 import { NavigationActions } from 'react-navigation';
+import {EditTrip} from './edit';
 export class TripInfo extends Component {
 
 
@@ -112,9 +113,15 @@ export class TripInfo extends Component {
     
 
   }
+  goToEdit()
+  {
+    let tripId = this.state.id;
+    this.props.navigation.navigate(EditTrip,{tripId});
+  }
   refreshScreen()
   {
     this.setTable(this.state.selectedTable);
+    this.goToEdit();
   }
   goToPerson(personId)
   {

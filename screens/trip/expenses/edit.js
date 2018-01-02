@@ -51,7 +51,7 @@ export default class EditExpenseScreen extends Component {
       this.setState({name: expense.name});
       let tdate= new Date(expense.date);
       let tdates = tdate.getFullYear()+'-'+ (tdate.getMonth()+1)+'-'+ tdate.getDate();
-      this.setState({date: tdate});
+      this.setState({date: tdates});
       this.setState({category: expense.category});
       this.setState({currency: expense.currency});
       //console.log(expense);
@@ -155,7 +155,7 @@ export default class EditExpenseScreen extends Component {
   }
   editExpense()
   {
-    //(this.state.tripId+' , '+ this.state.expenseId);
+    //(this.state.tripId+' , '+ this.state.expenseId)
     var splitdate = this.state.date.split("-");
     var datemonth = parseInt(splitdate[1]) -1;
     Service.editExpenseFromTrip(this.state.tripId, this.state.expenseId,this.state.name, new Date(splitdate[0],datemonth, splitdate[2]), this.state.currency, this.state.category).then(()=>{
