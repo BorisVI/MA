@@ -44,13 +44,29 @@ export default class AddPersonScreen extends Component {
   {
     if(this.state.name.trim() != ''&& this.state.firstname.trim()!= '')
     {
-    let p = new Person(this.state.firstname, this.state.name);
+      //var splitedfname = this..splitedfname();
+      var firstname = this.state.firstname;
+      var lastname = this.state.name;
+      var reg = new RegExp('/\s$/');
+      console.log('gubn '+this.state.firstname.charAt(this.state.name.length-1))
+      if(this.state.name.charAt(this.state.name.length - 1).match(' '))
+      {
+         lastname=this.state.name.slice(0,this.state.name.length-1);
+         console.log('hbhb');
+      }
+      if(this.state.firstname.charAt(this.state.firstname.length - 1).match(' '))
+      {
+        firstname= this.state.firstname.slice(0, this.state.firstname.length-1);
+        console.log('hbhbi');
+      }
+    console.log(firstname+ ' - '+ lastname);
+    //let p = new Person(firstname,lastname);
     //var alerttext= 'Trip naam: ' +`${this.state.name}` + ', Datum van de trip: ' +`${this.state.date}`;
     //Alert.alert(t);
     
-   // console.log(t.firstName + ' ' + t.name + ' ');
+   // console.log(t. + ' ' + t.name + ' ');
     //console.log('jitNgren'+this.state.id);
-   Service.addPersonToTrip(this.state.id, this.state.firstname,this.state.name).then(()=>{
+   Service.addPersonToTrip(this.state.id, firstname,lastname).then(()=>{
      this.props.navigation.state.params.onNavigateBack(true);
      this.props.navigation.goBack();
    });

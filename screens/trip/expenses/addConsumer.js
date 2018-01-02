@@ -64,7 +64,7 @@ export default class AddConsumerScreen extends Component {
     <Text style={styles.dropText}>Select consumer: </Text>
 <Picker
   selectedValue={this.state.selectedParticipant}
-  onValueChange={(itemValue, itemIndex) => {this.setState({selectedParticipant: itemValue}); this.setKeyForPerson(itemValue)}}>
+  onValueChange={(itemValue, itemIndex) => {this.setKeyForPerson(itemValue)}}>
 {this.loadParticpantsPickerItems()}
 </Picker>
 <Text style={styles.dropText}>Amount consumed: </Text>
@@ -112,12 +112,15 @@ export default class AddConsumerScreen extends Component {
     }
     Service.getTrip(this.state.tripId).then((trip)=>{
         for(let p of trip.participants){
+          console.log(p.firstName+'vs'+ firstname+ ','+ p.lastName+'vs'+lastname);
             if(p.firstName== firstname&& p.lastName== lastname)
             {
                 this.setState({selectedParticipantId: p.personId});
+                console.log('tesss '+ this.state.selectedParticipantId);
             }
         }
     });
+    this.setState({selectedParticipant: fname});
   }
   onChangedNrConsumed(text){
     let newText = '';
@@ -146,6 +149,7 @@ export default class AddConsumerScreen extends Component {
   {
     if(this.state.participantconsumed.trim() != ''){
     items = this.state.consumers;
+    //console.log('vgubhinj '+ items[0].firstName);
     let init= false
     var counter =0;
     for(let t of items)

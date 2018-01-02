@@ -40,12 +40,18 @@ export default class EditExpenseScreen extends Component {
   getStates()
   {
     Service.getTrip(this.state.tripId).then((trip)=>{
-      this.setState({startDateTrip: trip.startDate});
-      this.setState({endDateTrip: trip.endDate});
+      let startdate= new Date(trip.startDate);
+      let startdates = startdate.getFullYear()+'-'+ (startdate.getMonth()+1)+'-'+ startdate.getDate();
+      let enddate = new Date(trip.endDate);
+      let enddates = enddate.getFullYear()+'-'+ (enddate.getMonth()+1)+'-'+ enddate.getDate();
+      this.setState({startDateTrip: startdates});
+      this.setState({endDateTrip: enddates});
     });
     Service.getExpenseById(this.state.tripId, this.state.expenseId).then((expense)=>{
       this.setState({name: expense.name});
-      this.setState({date: expense.date});
+      let tdate= new Date(expense.date);
+      let tdates = tdate.getFullYear()+'-'+ (tdate.getMonth()+1)+'-'+ tdate.getDate();
+      this.setState({date: tdate});
       this.setState({category: expense.category});
       this.setState({currency: expense.currency});
       //console.log(expense);
@@ -149,8 +155,10 @@ export default class EditExpenseScreen extends Component {
   }
   editExpense()
   {
-    (this.state.tripId+' , '+ this.state.expenseId);
-    Service.editExpenseFromTrip(this.state.tripId, this.state.expenseId,this.state.name, new Date(this.state.date), this.state.currency, this.state.category).then(()=>{
+    //(this.state.tripId+' , '+ this.state.expenseId);
+    var splitdate = this.state.date.split("-");
+    var datemonth = parseInt(splitdate[1]) -1;
+    Service.editExpenseFromTrip(this.state.tripId, this.state.expenseId,this.state.name, new Date(splitdate[0],datemonth, splitdate[2]), this.state.currency, this.state.category).then(()=>{
       this.props.navigation.state.params.onNavigateBack(true);
       this.props.navigation.goBack();
     });

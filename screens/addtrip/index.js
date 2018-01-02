@@ -106,9 +106,15 @@ export default class AddTrip extends Component {
     if(this.state.name != '')
     {
     let tid = this.state.name+ this.state.startdate+ this.state.enddate;
-    var d = new Date(this.state.startdate);
-    var dd = new Date(this.state.enddate);
-    let t = new Trip(tid,this.state.name,d, dd);
+   // var d = new Date(this.state.startdate);
+  //  console.log(d+ ' '+ this.state.startdate);
+   // var dd = new Date(this.state.enddate);
+   var splitstart = this.state.startdate.split("-");
+      var splitend = this.state.enddate.split("-");
+    var startmonth = parseInt(splitstart[1]) -1;
+    var endmonth = parseInt(splitend[1])-1;
+   // console.log(startmonth+ ' '+ endmonth);
+    let t = new Trip(tid,this.state.name,new Date(splitstart[0],startmonth,splitstart[2]), new Date(splitend[0],endmonth,splitend[2]));
     //:console.log('gubhiknmj'+d);    
     Service.addTrip(t).then(()=>{
       this.props.navigation.state.params.onNavigateBack(true);

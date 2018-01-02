@@ -206,9 +206,8 @@ export class TripInfo extends Component {
     {
     headerMode : 'none',
     tabBarPosition: 'bottom',
-    },{
     tabBarOptions: {
-      headerStyle: {
+      style: {
         backgroundColor:  '#4d9280',
       },
     },});

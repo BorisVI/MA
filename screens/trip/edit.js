@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
 import { AppRegistry, Image, View, Text,StyleSheet, TextInput,Button ,Alert} from 'react-native';
 import TableRow from 'react-native-table-row';
-//import TripsOverzichtScreen from '../overzicht/index';
+import TripsOverzichtScreen from '../overzicht/index';
 import { StackNavigator } from 'react-navigation';
 import DatePicker from 'react-native-datepicker';
-//import {Trip} from '../../domain/trip'
-//import {LocalStorage} from '../../domain/localStorage';
-import { Service as Service} from '../../../domain/service';
+import {Trip} from '../../domain/trip'
+import {LocalStorage} from '../../domain/localStorage';
+import { Service as Service} from '../../domain/service';
 
-export default class AddExpense extends Component {
+export default class EditTrip extends Component {
   constructor(props){
     super(props);
     var datum = new Date();
-    //var today = datum.getFullYear() + '-' +(datum.getMonth()+1)+'-'+datum.getDate();
-    this.state = {date: '', name: '',id: this.props.navigation.state.params.tripId,startDateTrip: '', endDateTrip:''};
-    //this.datumlimits= {min: '',max:''};
+    var today = datum.getFullYear() + '-' +(datum.getMonth()+1)+'-'+datum.getDate();
+    this.state = {startdate: today, enddate: today, name: ''};
+    this.datumlimits= {min: '',max:''};
     //this.max= {max: ''};
-    /*if(datum.getMonth() >5)
+    if(datum.getMonth() >5)
     {
      var varmonth = (datum.getMonth() + 7) -12
       this.datumlimits.max= (datum.getFullYear()+1) + '-'+varmonth+'-'+datum.getDate();
@@ -29,44 +29,28 @@ export default class AddExpense extends Component {
     {
       this.datumlimits.max= (datum.getFullYear()) + '-' +(datum.getMonth()+7)+'-'+datum.getDate();
       this.datumlimits.min=(datum.getFullYear()) + '-' +(datum.getMonth())+'-'+datum.getDate();
-    }*/
-    Service.getTrip(this.state.id).then((trip)=>{
-      let startdate= new Date(trip.startDate);
-      
-      let startdates = startdate.getFullYear()+'-'+ (startdate.getMonth()+1)+'-'+ startdate.getDate();
-      let enddate = new Date(trip.endDate);
-      let enddates = enddate.getFullYear()+'-'+ (enddate.getMonth()+1)+'-'+ enddate.getDate();
-      this.setState({date: startdates});
-      this.setState({startDateTrip: startdates});
-      this.setState({endDateTrip: enddates});
-    });
-   // console.log(this.datumlimits.min+ ','+ this.datumlimits.max);
-  }
-  setState(state)
-  {
-    super.setState(state);
-   // console.log(`Set state to ${JSON.stringify(state)}`);
+    }
   }
   static navigationOptions = {
     
-    title:'Add a expense',
+    title:'Add a trip',
     headerStyle: { backgroundColor: '#4d9280', borderWidth: 0, shadowColor: 'transparent'},
     headerTintColor :'#fff',
   };
   render() {
     return (
     <View style={styles.container}>
-    <Text>Name of the expense: </Text>
-  <TextInput style={ {height:40} } placeholder="Type hier de naam van uw expense!" onChangeText={(text) => this.setState({name:text})}/>
+    <Text>Name of the trip: </Text>
+  <TextInput style={ {height:40} } placeholder="Type hier de naam van uw trip!" onChangeText={(text) => this.setState({name:text})}/>
   <Text>Start date: </Text>
  <DatePicker
         style={{width: 200,padding:10,justifyContent: 'center'}}
-        date={this.state.date}
+        date={this.state.startdate}
         mode="date"
         placeholder="select date"
         format="YYYY-MM-DD"
-        minDate={this.state.startDateTrip}
-        maxDate={this.state.endDateTrip}
+        minDate={this.datumlimits.min}
+        maxDate={this.datumlimits.max}
         confirmBtnText="Confirm"
         cancelBtnText="Cancel"
         customStyles={{
@@ -81,29 +65,58 @@ export default class AddExpense extends Component {
           }
           // ... You can check the source to find the other keys. 
         }}
-        onDateChange={(date) => {this.setState({date: date})}}
+        onDateChange={(date) => {this.setState({startdate: date})}}
       />
-      
+      <Text>End date: </Text>
+      <DatePicker
+        style={{width: 200,padding:10,justifyContent: 'center'}}
+        date={this.state.enddate}
+        mode="date"
+        placeholder="select date"
+        format="YYYY-MM-DD"
+        minDate={this.datumlimits.min}
+        maxDate={this.datumlimits.max}
+        confirmBtnText="Confirm"
+        cancelBtnText="Cancel"
+        customStyles={{
+          dateIcon: {
+            position: 'absolute',
+            left: 0,
+            top: 4,
+            marginLeft: 0
+          },
+          dateInput: {
+            marginLeft: 36
+          }
+        }}
+        onDateChange={(date) => {this.setState({enddate: date})}}
+      />
       <View style={styles.buttonStyle}>
       <Button color='#4d9280' 
- onPress={() => this.AddExpense()}
-  title="add expense"
-  
+ onPress={() => this.AddTrip()}
+  title="Voeg trip toe"
+
 />
   </View>
     </View>
     );
   }
-  AddExpense()
+  EditTrip()
   {
     if(this.state.name != '')
     {
-    //let tid = this.state.name+ this.state.startdate+ this.state.enddate;
-    //let t = new Trip(tid,this.state.name,this.state.startdate, this.state.enddate);   
-    var splitdate = this.state.date.split("-");
-    console.log('hijok'+splitdate[0]+ splitdate[1]+ splitdate[2]);
-    var datemonth = parseInt(splitdate[1]) -1;
-    Service.addExpenseToTrip(this.state.id, this.state.name, new Date(splitdate[0],datemonth, splitdate[2])).then(()=>{
+    let tid = this.state.name+ this.state.startdate+ this.state.enddate;
+   // var d = new Date(this.state.startdate);
+  //  console.log(d+ ' '+ this.state.startdate);
+   // var dd = new Date(this.state.enddate);
+   var splitstart = this.state.startdate.split("-");
+      var splitend = this.state.enddate.split("-");
+    var startmonth = parseInt(splitstart[1]) -1;
+    var endmonth = parseInt(splitend[1])-1;
+   // console.log(startmonth+ ' '+ endmonth);
+    let t = new Trip(tid,this.state.name,new Date(splitstart[0],startmonth,splitstart[2]), new Date(splitend[0],endmonth,splitend[2]));
+    //:console.log('gubhiknmj'+d);    
+    Service.updateTrip(t).then(()=>{
       this.props.navigation.state.params.onNavigateBack(true);
       this.props.navigation.goBack();
       
