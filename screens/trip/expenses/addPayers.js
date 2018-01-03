@@ -148,7 +148,9 @@ export default class AddPayersScreen extends Component {
         
         else {
             // your call back function
+            text='';
             Alert.alert("please enter numbers only");
+           // break;
         }
     }
     this.setState({ participantpayed: newText });
@@ -167,22 +169,24 @@ export default class AddPayersScreen extends Component {
 
     
     items = this.state.payers;
-    let init= false
-    var counter = 0;
+    let init= false;
+    result= [];
     for(let t of items)
     {
         if(t.id == this.state.selectedParticipantId)
         {
-          items[counter]= {key: this.state.selectedParticipant, id: this.state.selectedParticipantId, payed: this.state.participantpayed};
-          init = true;
+          result.push({key: this.state.selectedParticipant, id: this.state.selectedParticipantId, payed: this.state.participantpayed});
+          init=true
+        } else{
+          result.push(t);
         }
         counter++;
     }
     if(!init)
     {
-        items.push({key: this.state.selectedParticipant, id: this.state.selectedParticipantId, payed: this.state.participantpayed});
+        result.push({key: this.state.selectedParticipant, id: this.state.selectedParticipantId, payed: this.state.participantpayed});
     }
-    this.setState({payers: items});
+    this.setState({payers: result});
   }
   }
   AddPayersToTrip()

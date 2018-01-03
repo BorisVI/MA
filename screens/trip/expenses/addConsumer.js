@@ -151,6 +151,7 @@ export default class AddConsumerScreen extends Component {
         
         else {
             // your call back function
+            text='';
             Alert.alert("please enter numbers only");
         }
     }
@@ -169,22 +170,25 @@ export default class AddConsumerScreen extends Component {
     if(this.state.participantconsumed.trim() != ''){
     items = this.state.consumers;
     //console.log('vgubhinj '+ items[0].firstName);
-    let init= false
-    var counter =0;
+    let init= false;
+    result =[];
     for(let t of items)
     {
         if(t.id == this.state.selectedParticipantId)
         {
-         items[counter]= {key: this.state.selectedParticipant, id: this.state.selectedParticipantId, consumed: this.state.participantconsumed};
+         result.push({key: this.state.selectedParticipant, id: this.state.selectedParticipantId, consumed: this.state.participantconsumed});
          init=true;
         }
-        counter++;
+        else{
+          result.push(t);
+        }
+       
     }
     if(!init){
 
-        items.push({key: this.state.selectedParticipant, id: this.state.selectedParticipantId, consumed: this.state.participantconsumed});
+        result.push({key: this.state.selectedParticipant, id: this.state.selectedParticipantId, consumed: this.state.participantconsumed});
     }
-    this.setState({consumers: items});
+    this.setState({consumers: result});
   }
   }
   AddConsumersToTrip()
