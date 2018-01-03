@@ -20,6 +20,21 @@ var Expense = /** @class */ (function () {
     Expense.prototype.equals = function (e) {
         return e.expenseId == this.expenseId;
     };
+    Expense.prototype.payLoan = function (loanId) {
+        var l = this.getLoanById(loanId);
+        l.payed = true;
+        this.consumers.set(l.payer, Number(this.consumers.get(l.payer)) - Number(l.amount));
+        this.payers.set(l.receiver, Number(this.payers.get(l.receiver)) + Number(l.amount));
+    };
+    Expense.prototype.getLoanById = function (loanId) {
+        for (var _i = 0, _a = this.loans; _i < _a.length; _i++) {
+            var l = _a[_i];
+            if (l.loanId == loanId) {
+                return l;
+            }
+        }
+        return null;
+    };
     Expense.prototype.calculateLoans = function () {
         if (!this.isFinalized) {
             if (this.isValidAmounts()) {

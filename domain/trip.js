@@ -13,6 +13,9 @@ var Trip = /** @class */ (function () {
         this.endDate = endDate;
         this.standardCurrency = "EUR";
     }
+    Trip.prototype.payLoan = function (expenseId, loanId) {
+        this.getExpenseById(expenseId).payLoan(loanId);
+    };
     Trip.prototype.getLoans = function (expenseId) {
         var result = new typescript_map_1.TSMap();
         for (var _i = 0, _a = this.getExpenseById(expenseId).loans; _i < _a.length; _i++) {
