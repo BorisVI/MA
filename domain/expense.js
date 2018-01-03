@@ -8,6 +8,7 @@ var Expense = /** @class */ (function () {
         this._loans = new Array();
         this._payers = new typescript_map_1.TSMap(); //betalers (person,aantal)
         this._consumers = new typescript_map_1.TSMap(); //Verbuikers (person,aantal)
+        this._isFinalized = false;
         this.expenseId = id;
         this.name = name;
         this.date = date;
@@ -21,59 +22,65 @@ var Expense = /** @class */ (function () {
     };
     Expense.prototype.calculateLoans = function () {
         var _this = this;
-        if (this.isValidAmounts()) {
-            var mapOver_1 = new typescript_map_1.TSMap();
-            var mapUnder_1 = new typescript_map_1.TSMap();
-            this.consumers.forEach(function (value, key) {
-                var amount = 0 - value;
-                if (_this.payers.has(key)) {
-                    amount = _this.payers.get(key) - value;
-                }
-                if (amount >= 0) {
-                    mapOver_1.set(key, amount);
-                }
-                else {
-                    mapUnder_1.set(key, amount);
-                }
-            });
-            while (this.getTotalMap(mapUnder_1) != 0) {
-                var topay = 0;
-                var canreceive = 0;
-                var amount = 0;
-                var payer = "";
-                var receiver = "";
-                var found = false;
-                mapUnder_1.forEach(function (value, key) {
-                    if (value != 0 && !found) {
-                        topay = value;
-                        payer = key;
-                        found = true;
+        if (!this.isFinalized) {
+            if (this.isValidAmounts()) {
+                var mapOver_1 = new typescript_map_1.TSMap();
+                var mapUnder_1 = new typescript_map_1.TSMap();
+                this.consumers.forEach(function (value, key) {
+                    var amount = 0 - value;
+                    if (_this.payers.has(key)) {
+                        amount = _this.payers.get(key) - value;
+                    }
+                    if (amount >= 0) {
+                        mapOver_1.set(key, amount);
+                    }
+                    else {
+                        mapUnder_1.set(key, amount);
                     }
                 });
-                found = false;
-                mapOver_1.forEach(function (value, key) {
-                    if (value != 0 && !found) {
-                        canreceive = value;
-                        receiver = key;
-                        found = true;
+                while (this.getTotalMap(mapUnder_1) != 0) {
+                    var topay = 0;
+                    var canreceive = 0;
+                    var amount = 0;
+                    var payer = "";
+                    var receiver = "";
+                    var found = false;
+                    mapUnder_1.forEach(function (value, key) {
+                        if (value != 0 && !found) {
+                            topay = value;
+                            payer = key;
+                            found = true;
+                        }
+                    });
+                    found = false;
+                    mapOver_1.forEach(function (value, key) {
+                        if (value != 0 && !found) {
+                            canreceive = value;
+                            receiver = key;
+                            found = true;
+                        }
+                    });
+                    topay = Math.abs(topay);
+                    canreceive = Math.abs(canreceive);
+                    if (topay <= canreceive) {
+                        amount = topay;
                     }
-                });
-                topay = Math.abs(topay);
-                canreceive = Math.abs(canreceive);
-                if (topay <= canreceive) {
-                    amount = topay;
+                    else {
+                        amount = canreceive;
+                    }
+                    console.log(payer + " pays " + amount + " to " + receiver + ".");
+                    this.loans.push(new loan_1.Loan(this.getNewLoanId(), receiver, payer, amount));
+                    mapUnder_1.set(payer, mapUnder_1.get(payer) + amount);
+                    mapOver_1.set(receiver, mapOver_1.get(receiver) - amount);
+                    this.isFinalized = true;
                 }
-                else {
-                    amount = canreceive;
-                }
-                console.log(payer + " pays " + amount + " to " + receiver + ".");
-                this.loans.push(new loan_1.Loan(this.getNewLoanId(), receiver, payer, amount));
-                mapUnder_1.set(payer, mapUnder_1.get(payer) + amount);
-                mapOver_1.set(receiver, mapOver_1.get(receiver) - amount);
+            }
+            else {
+                console.log("error on creating loans, unequal amount payers/receivers");
             }
         }
         else {
-            console.log("error on creating loans, unequal amount payers/receivers");
+            console.log("expense is already finalized.");
         }
     };
     Expense.prototype.getTotalMap = function (map) {
@@ -197,6 +204,16 @@ var Expense = /** @class */ (function () {
         },
         set: function (value) {
             this._name = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Expense.prototype, "isFinalized", {
+        get: function () {
+            return this._isFinalized;
+        },
+        set: function (value) {
+            this._isFinalized = value;
         },
         enumerable: true,
         configurable: true
