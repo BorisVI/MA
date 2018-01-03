@@ -3,14 +3,30 @@ import { TSMap } from "../node_modules/typescript-map";
 import { Trip } from "./trip";
 import { Person } from "./person";
 import { Expense } from "./expense";
+import { Loan } from "./loan";
 import { Category } from "./category";
 
 export class Service {
 
-    static async finaliseExpense(tripId: string, expenseId: string): Promise<void>{
-        this.getTrip(tripId).then((trip) =>{
+    static async getLoans(tripId: string, expenseId: string): Promise<Array<Loan>>{
+        return this.getTrip(tripId).then((trip) =>{
             let t = this.getNewTrip(trip);
-            return t.getExpenseById(expenseId).calculateLoans();
+            return t.getExpenseById(expenseId).loans;
+        });
+    }
+
+    static async isFinal(tripId: string, expenseId: string): Promise<boolean>{
+        return this.getTrip(tripId).then((trip) =>{
+            let t = this.getNewTrip(trip);
+            return t.getExpenseById(expenseId).isFinalized;
+        });
+    }
+
+    static async finaliseExpense(tripId: string, expenseId: string): Promise<void>{
+        await this.getTrip(tripId).then((trip) =>{
+            let t = this.getNewTrip(trip);
+            t.getExpenseById(expenseId).calculateLoans();
+            this.updateTrip(t);
         });
     }
 
@@ -62,13 +78,10 @@ export class Service {
     static async editExpenseFromTrip(tripId: string, expenseId: string, name: string, date: Date, currency: string, category: Category ): Promise<void>{
         let expense = new Expense(expenseId, name, date, currency);
         expense.category = category;
-        //added by Thomas en Jordy
         await this.getExpenseById(tripId,expenseId).then((response)=>{
             expense.consumers = response.consumers;
             expense.payers = response.payers;
         });
-        //tot hier
-        console.log('category: ' + expense.category);
         await this.getTrip(tripId).then((trip)=>{
             let t = this.getNewTrip(trip);
             t.editExpense(expense);
@@ -234,6 +247,7 @@ export class Service {
             {
                 let expense = new Expense(exp.expenseId, exp.name, exp.date, exp.currency);
                 expense.category = exp.category;
+                expense.isFinalized = exp.isFinalized;
                 let consumers : TSMap<string, number> = new TSMap<string, number>();
                 let payers : TSMap<string, number> = new TSMap<string, number>();
                 if(exp.consumers != null){

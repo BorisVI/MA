@@ -13,6 +13,7 @@ export class Expense{
     private _consumers: TSMap<string,number> = new TSMap<string, number>(); //Verbuikers (person,aantal)
     private _category : Category;
     private _currency : string;
+    private _isFinalized : boolean = false;
 
     constructor(id:string,name: string, date: Date, currency : string){
         this.expenseId=id;
@@ -30,56 +31,61 @@ export class Expense{
 
     
     calculateLoans(){
-        if(this.isValidAmounts()){
-            let mapOver = new TSMap<string,number>();
-            let mapUnder = new TSMap<string,number>();
-            this.consumers.forEach((value: number, key: string) =>{
-                var amount = 0 - value;
-                if(this.payers.has(key)){
-                    amount = this.payers.get(key) - value;
-                }
-                if(amount>=0){
-                    mapOver.set(key, amount);
-                }else{
-                    mapUnder.set(key, amount);
-                }
-            });
-            while(this.getTotalMap(mapUnder) != 0){
-                var topay = 0;
-                var canreceive = 0;
-                var amount = 0;
-                var payer = "";
-                var receiver = "";
-                var found = false;
-                mapUnder.forEach((value: number, key: string) =>{
-                    if(value != 0 && !found){
-                        topay = value;
-                        payer = key;
-                        found = true;
+        if(!this.isFinalized){
+            if(this.isValidAmounts()){
+                let mapOver = new TSMap<string,number>();
+                let mapUnder = new TSMap<string,number>();
+                this.consumers.forEach((value: number, key: string) =>{
+                    var amount = 0 - value;
+                    if(this.payers.has(key)){
+                        amount = this.payers.get(key) - value;
+                    }
+                    if(amount>=0){
+                        mapOver.set(key, amount);
+                    }else{
+                        mapUnder.set(key, amount);
                     }
                 });
-                found = false;
-                mapOver.forEach((value: number, key: string) =>{
-                    if(value != 0 && !found){
-                        canreceive = value;
-                        receiver = key;
-                        found = true;
+                while(this.getTotalMap(mapUnder) != 0){
+                    var topay = 0;
+                    var canreceive = 0;
+                    var amount = 0;
+                    var payer = "";
+                    var receiver = "";
+                    var found = false;
+                    mapUnder.forEach((value: number, key: string) =>{
+                        if(value != 0 && !found){
+                            topay = value;
+                            payer = key;
+                            found = true;
+                        }
+                    });
+                    found = false;
+                    mapOver.forEach((value: number, key: string) =>{
+                        if(value != 0 && !found){
+                            canreceive = value;
+                            receiver = key;
+                            found = true;
+                        }
+                    });
+                    topay = Math.abs(topay);
+                    canreceive = Math.abs(canreceive);
+                    if(topay <= canreceive){
+                        amount = topay;
+                    }else{
+                        amount = canreceive;
                     }
-                });
-                topay = Math.abs(topay);
-                canreceive = Math.abs(canreceive);
-                if(topay <= canreceive){
-                    amount = topay;
-                }else{
-                    amount = canreceive;
+                    console.log(payer + " pays " + amount + " to " + receiver + ".");
+                    this.loans.push(new Loan(this.getNewLoanId(), receiver,payer,amount));
+                    mapUnder.set(payer, mapUnder.get(payer) + amount);
+                    mapOver.set(receiver, mapOver.get(receiver) - amount);
+                    this.isFinalized = true;
                 }
-                console.log(payer + " pays " + amount + " to " + receiver + ".");
-                this.loans.push(new Loan(this.getNewLoanId(), receiver,payer,amount));
-                mapUnder.set(payer, mapUnder.get(payer) + amount);
-                mapOver.set(receiver, mapOver.get(receiver) - amount);
+            }else{
+                console.log("error on creating loans, unequal amount payers/receivers");
             }
         }else{
-            console.log("error on creating loans, unequal amount payers/receivers");
+            console.log("expense is already finalized.");
         }
     }
 
@@ -195,4 +201,12 @@ export class Expense{
 	public set name(value: string) {
 		this._name = value;
     }
+    
+	public get isFinalized(): boolean  {
+		return this._isFinalized;
+	}
+
+	public set isFinalized(value: boolean ) {
+		this._isFinalized = value;
+	}
 }

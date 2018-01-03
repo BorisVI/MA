@@ -44,15 +44,42 @@ var category_1 = require("./category");
 var Service = /** @class */ (function () {
     function Service() {
     }
+    Service.getLoans = function (tripId, expenseId) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.getTrip(tripId).then(function (trip) {
+                        var t = _this.getNewTrip(trip);
+                        return t.getExpenseById(expenseId).loans;
+                    })];
+            });
+        });
+    };
+    Service.isFinal = function (tripId, expenseId) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.getTrip(tripId).then(function (trip) {
+                        var t = _this.getNewTrip(trip);
+                        return t.getExpenseById(expenseId).isFinalized;
+                    })];
+            });
+        });
+    };
     Service.finaliseExpense = function (tripId, expenseId) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                this.getTrip(tripId).then(function (trip) {
-                    var t = _this.getNewTrip(trip);
-                    return t.getExpenseById(expenseId).calculateLoans();
-                });
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.getTrip(tripId).then(function (trip) {
+                            var t = _this.getNewTrip(trip);
+                            t.getExpenseById(expenseId).calculateLoans();
+                            _this.updateTrip(t);
+                        })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
             });
         });
     };
@@ -131,16 +158,12 @@ var Service = /** @class */ (function () {
                     case 0:
                         expense = new expense_1.Expense(expenseId, name, date, currency);
                         expense.category = category;
-                        //added by Thomas en Jordy
                         return [4 /*yield*/, this.getExpenseById(tripId, expenseId).then(function (response) {
                                 expense.consumers = response.consumers;
                                 expense.payers = response.payers;
                             })];
                     case 1:
-                        //added by Thomas en Jordy
                         _a.sent();
-                        //tot hier
-                        console.log('category: ' + expense.category);
                         return [4 /*yield*/, this.getTrip(tripId).then(function (trip) {
                                 var t = _this.getNewTrip(trip);
                                 t.editExpense(expense);
@@ -419,6 +442,7 @@ var Service = /** @class */ (function () {
                 var exp = _a[_i];
                 var expense = new expense_1.Expense(exp.expenseId, exp.name, exp.date, exp.currency);
                 expense.category = exp.category;
+                expense.isFinalized = exp.isFinalized;
                 var consumers = new typescript_map_1.TSMap();
                 var payers = new typescript_map_1.TSMap();
                 if (exp.consumers != null) {
