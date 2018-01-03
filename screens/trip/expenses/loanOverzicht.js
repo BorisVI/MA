@@ -20,7 +20,7 @@ import {NavigationActions } from 'react-navigation';
    {
     super(props);
   
-    this.state = {tripId: this.props.navigation.state.params.tripId, expenseId: this.props.navigation.state.params.expenseId,loans: []};
+    this.state = {tripId: this.props.navigation.state.params.tripId, expenseId: this.props.navigation.state.params.expenseId,loans: [],currency:''};
     //console.log('hehe');
    
     //console.log('jnbfgszro');
@@ -30,9 +30,16 @@ import {NavigationActions } from 'react-navigation';
   }*/
   componentDidMount()
   {
-    this.getAllLoans();
+    this.Loans();
+    this.getCur();
   }
-  getAllLoans() 
+  getCur()
+  {
+    Service.getExpenseById(this.state.tripId).then((expense)=>{
+this.setState({currency: expense.currency});
+    });
+  }
+  Loans() 
   {
     //console.log(this.state.tripId, this.state.expenseId);
     Service.getLoans(this.state.tripId, this.state.expenseId).then((response)=>{
@@ -41,7 +48,7 @@ import {NavigationActions } from 'react-navigation';
      response.forEach((value,key)=>{
       var fnamepayer = key[1]+ ' ' + key[2];
       var fnamereceiver = key[4]+ ' '+ key[5];
-       var textl = fnamepayer + ' needs to pay ' + fnamereceiver + ' ' + value.amount;
+       var textl = fnamepayer + ' needs to pay ' + fnamereceiver + ' ' + value.amount+ ' '+ this.state.currency;
                items.push({text: textl, key:value.loanId, payed: value.payed});
              
               });   
