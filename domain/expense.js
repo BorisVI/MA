@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var typescript_map_1 = require("../node_modules/typescript-map");
 var loan_1 = require("./loan");
 var category_1 = require("./category");
+var localStorage_1 = require("./localStorage");
 var Expense = /** @class */ (function () {
     function Expense(id, name, date, currency) {
         this._loans = new Array();
@@ -161,6 +162,23 @@ var Expense = /** @class */ (function () {
         //console.log("total consumers: " + sum);
         return sum;
     };
+    Expense.prototype.convertAll = function (oldCurrency, newCurrency) {
+        var _this = this;
+        var toEuro = 0;
+        var fromEuro = 0;
+        localStorage_1.LocalStorage.getCurrencyValue(oldCurrency).then(function (result) { toEuro = result[1]; });
+        localStorage_1.LocalStorage.getCurrencyValue(newCurrency).then(function (result) { fromEuro = result[1]; });
+        this.payers.forEach(function (value, key) {
+            value = value / toEuro;
+            value = value * fromEuro;
+            _this.payers.set(key, value);
+        });
+        this.consumers.forEach(function (value, key) {
+            value = value / toEuro;
+            value = value * fromEuro;
+            _this.consumers.set(key, value);
+        });
+    };
     Object.defineProperty(Expense.prototype, "expenseId", {
         get: function () {
             return this._expenseId;
@@ -226,7 +244,10 @@ var Expense = /** @class */ (function () {
             return this._currency;
         },
         set: function (value) {
-            this._currency = value;
+            if (this.currency != value) {
+                this.convertAll(this.currency, value);
+                this._currency = value;
+            }
         },
         enumerable: true,
         configurable: true

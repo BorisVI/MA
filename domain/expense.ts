@@ -2,6 +2,8 @@ import { TSMap } from "../node_modules/typescript-map";
 import { Person } from "./person";
 import { Loan } from "./loan";
 import {Category} from "./category";
+import { Service } from "./service";
+import { LocalStorage } from "./localStorage";
 
 export class Expense{
 
@@ -171,7 +173,22 @@ export class Expense{
         //console.log("total consumers: " + sum);
         return sum;
     }
-
+    convertAll(oldCurrency:string,newCurrency:string){
+        let toEuro=0;
+        let fromEuro=0;
+        LocalStorage.getCurrencyValue(oldCurrency).then((result)=>{toEuro = result[1];});
+        LocalStorage.getCurrencyValue(newCurrency).then((result)=>{fromEuro = result[1];});
+        this.payers.forEach((value: number, key: string) => {
+            value=value/toEuro;
+            value=value*fromEuro;
+            this.payers.set(key,value);
+        });
+        this.consumers.forEach((value: number, key: string) => {
+            value=value/toEuro;
+            value=value*fromEuro;
+            this.consumers.set(key,value);
+        });
+    }
     public get expenseId(): string {
 		return this._expenseId;
     }
@@ -224,9 +241,11 @@ export class Expense{
 	}
 
 	public set currency(value: string) {
-		this._currency = value;
+        if(this.currency!=value){
+            this.convertAll(this.currency,value);
+            this._currency = value;
+        }
 	}
-
 	public get name(): string {
 		return this._name;
 	}

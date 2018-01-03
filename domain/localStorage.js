@@ -203,13 +203,16 @@ var LocalStorage = /** @class */ (function () {
     LocalStorage.getCurrencyValue = function (currencyTag) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, react_native_1.AsyncStorage.getAllCurrenciesAndValues().then(function (list) {
+                return [2 /*return*/, LocalStorage.getAllCurrenciesAndValues().then(function (list) {
+                        var result;
+                        result = ["", 0];
                         for (var i = 0; i < list.length; i++) {
                             if (list[i][0] == currencyTag) {
-                                return [currencyTag, list[i][1]];
+                                result = [currencyTag, list[i][1]];
+                                return result;
                             }
                         }
-                        return [null, 0];
+                        return result;
                     })];
             });
         });

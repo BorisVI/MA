@@ -115,13 +115,16 @@ export class LocalStorage{
     }
 
     static async getCurrencyValue(currencyTag:string):Promise<[string,number]>{
-        return AsyncStorage.getAllCurrenciesAndValues().then((list)=>{
+        return LocalStorage.getAllCurrenciesAndValues().then((list)=>{
+            let result:[string,number];
+            result=["",0];
             for(let i=0;i < list.length;i++){
                 if(list[i][0]==currencyTag){
-                    return [currencyTag,list[i][1]];
+                    result=[currencyTag,list[i][1]];
+                    return result;
                 }
             }
-            return [null,0];
+            return result;
         });
     }
 

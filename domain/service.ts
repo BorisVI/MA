@@ -231,7 +231,7 @@ export class Service {
             return amount*value[1];
         });    
     }
-    static converAmountToEuroFrom(currencyTag:string,amount:number):Promise<number>{
+    static convertAmountToEuroFrom(currencyTag:string,amount:number):Promise<number>{
         return this.getCurrencyValue(currencyTag).then((value)=>{
             return amount/value[1];
         });
