@@ -8,6 +8,13 @@ import { Category } from "./category";
 
 export class Service {
 
+    static async getTransactionSummaryForPerson(tripId: string, personId: string): Promise<Array<string[]>>{
+        return this.getTrip(tripId).then((trip) =>{
+            let t = this.getNewTrip(trip);
+            return t.getLoanSummaryForPerson(personId);
+        });
+    }
+
     static async getTransactionSummary(tripId: string): Promise<Array<string[]>>{
         return this.getTrip(tripId).then((trip) =>{
             let t = this.getNewTrip(trip);

@@ -49,6 +49,17 @@ export class Trip{
 		return null;
 	}
 
+	getLoanSummaryForPerson(personId: string): Array<string[]>{
+		let resultAll : Array<string[]> = this.getLoanSummary();
+		let result : Array<string[]> = new Array<string[]>();
+		for(let s of resultAll){
+			if(s[0] == personId || s[1] == personId){
+				result.push(s);
+			}
+		}
+		return result;
+	}
+
 	getLoanSummary(): Array<string[]>{
 		let result : Array<string[]> = new Array<string[]>();
 		for(let e of this.expenses){

@@ -38,6 +38,17 @@ var Trip = /** @class */ (function () {
         }
         return null;
     };
+    Trip.prototype.getLoanSummaryForPerson = function (personId) {
+        var resultAll = this.getLoanSummary();
+        var result = new Array();
+        for (var _i = 0, resultAll_1 = resultAll; _i < resultAll_1.length; _i++) {
+            var s = resultAll_1[_i];
+            if (s[0] == personId || s[1] == personId) {
+                result.push(s);
+            }
+        }
+        return result;
+    };
     Trip.prototype.getLoanSummary = function () {
         var result = new Array();
         for (var _i = 0, _a = this.expenses; _i < _a.length; _i++) {
