@@ -44,6 +44,18 @@ var category_1 = require("./category");
 var Service = /** @class */ (function () {
     function Service() {
     }
+    Service.finaliseExpense = function (tripId, expenseId) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                this.getTrip(tripId).then(function (trip) {
+                    var t = _this.getNewTrip(trip);
+                    t.getExpenseById(expenseId).calculateLoans;
+                });
+                return [2 /*return*/];
+            });
+        });
+    };
     Service.getTableByExpense = function (tripId, expenseId) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;

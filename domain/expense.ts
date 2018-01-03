@@ -28,15 +28,15 @@ export class Expense{
         return e.expenseId == this.expenseId;
     }
 
-    /*
-    CalculateLoans(){
+    
+    calculateLoans(){
         if(this.isValidAmounts){
-            let mapOver = new TSMap<Person,number>();
-            let mapUnder = new TSMap<Person,number>();
-            this._consumers.forEach((value: number, key: Person) =>{
+            let mapOver = new TSMap<string,number>();
+            let mapUnder = new TSMap<string,number>();
+            this.consumers.forEach((value: number, key: string) =>{
                 var amount = 0;
-                if(this._payers.has(key)){
-                    amount = this._payers.get(key) - value;
+                if(this.payers.has(key)){
+                    amount = this.payers.get(key) - value;
                 }
                 if(amount>0){
                     mapOver.set(key, amount);
@@ -48,10 +48,10 @@ export class Expense{
                 var topay = 0;
                 var canreceive = 0;
                 var amount = 0;
-                var payer = new Person("","","");
-                var receiver = new Person("","","");
+                var payer = "";
+                var receiver = "";
                 var found = false;
-                mapUnder.forEach((value: number, key: Person) =>{
+                mapUnder.forEach((value: number, key: string) =>{
                     if(value != 0 && !found){
                         topay = value;
                         payer = key;
@@ -59,7 +59,7 @@ export class Expense{
                     }
                 });
                 found = false;
-                mapOver.forEach((value: number, key: Person) =>{
+                mapOver.forEach((value: number, key: string) =>{
                     if(value != 0 && !found){
                         canreceive = value;
                         receiver = key;
@@ -73,7 +73,8 @@ export class Expense{
                 }else{
                     amount = canreceive;
                 }
-                this._loans.push(new Loan(receiver,payer,amount));
+                console.log(payer + " pays " + amount + " to " + receiver + ".");
+                this.loans.push(new Loan(this.getNewLoanId(), receiver,payer,amount));
                 mapUnder.set(payer, mapUnder.get(payer) + amount);
                 mapOver.set(receiver, mapOver.get(receiver) - amount);
             }
@@ -82,7 +83,17 @@ export class Expense{
         }
 
     }
-    */
+
+    getNewLoanId(): string{
+        let highest = 0;
+        for(let l of this.loans){
+            if(Number(l.loanId) > highest){
+                highest = Number(l.loanId);
+            }
+        }
+        return String(Number(highest) + 1);
+    }
+    
 
     getTotal(){
         if(this.isValidAmounts){
