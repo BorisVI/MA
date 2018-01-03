@@ -55,6 +55,12 @@ export class Service {
     static async editExpenseFromTrip(tripId: string, expenseId: string, name: string, date: Date, currency: string, category: Category ): Promise<void>{
         let expense = new Expense(expenseId, name, date, currency);
         expense.category = category;
+        //added by Thomas en Jordy
+        await this.getExpenseById(tripId,expenseId).then((response)=>{
+            expense.consumers = response.consumers;
+            expense.payers = response.payers;
+        });
+        //tot hier
         console.log('category: ' + expense.category);
         await this.getTrip(tripId).then((trip)=>{
             let t = this.getNewTrip(trip);
