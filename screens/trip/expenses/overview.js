@@ -72,13 +72,11 @@ class ExpenseOveriew extends Component {
           <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
           <Rows data={this.state.tableData} extraData={this.state} style={styles.row} textStyle={styles.text}/>
       </Table>
-      {this.state.finalised?<View> <View style={styles.buttonStyle}>
+      {this.state.finalised ? <View style={styles.buttonStyle}>
         <Button color='#4d9280' onPress={() => this.goToViewLoans()} title="view loans" />
+       
       </View>
-      <View style={styles.buttonStyle}>
-        <Button color='#4d9280' onPress={() => this.refresh()} title="refresh" />
-      </View>
-      </View>:
+     :
     <View>
     <View style={styles.buttonStyle}>
       <Button color='#4d9280' onPress={() => this.editExpense()} title="Edit expense" />
@@ -93,6 +91,9 @@ class ExpenseOveriew extends Component {
       <Button color='#4d9280' onPress={() => this.finalizeExpense()} title="finalise expense" />
     </View>
     </View>}
+   {this.state.finalised? <View style={styles.buttonStyle}>
+        <Button color='#4d9280' onPress={() => this.refresh()} title="refresh" />
+      </View>:<Text></Text>}
       
     </ScrollView>
     

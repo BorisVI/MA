@@ -47,19 +47,15 @@ export default class AddPersonScreen extends Component {
       //var splitedfname = this..splitedfname();
       var firstname = this.state.firstname;
       var lastname = this.state.name;
-      var reg = new RegExp('/\s$/');
-      console.log('gubn '+this.state.firstname.charAt(this.state.name.length-1))
-      if(this.state.name.charAt(this.state.name.length - 1).match(' '))
+      while(firstname.endsWith(' '))
       {
-         lastname=this.state.name.slice(0,this.state.name.length-1);
-         console.log('hbhb');
+       firstname= firstname.slice(0,firstname.length-1);
       }
-      if(this.state.firstname.charAt(this.state.firstname.length - 1).match(' '))
+      while(lastname.endsWith(' '))
       {
-        firstname= this.state.firstname.slice(0, this.state.firstname.length-1);
-        console.log('hbhbi');
+       lastname= lastname.slice(0,lastname.length-1);
       }
-    console.log(firstname+ ' - '+ lastname);
+     
     //let p = new Person(firstname,lastname);
     //var alerttext= 'Trip naam: ' +`${this.state.name}` + ', Datum van de trip: ' +`${this.state.date}`;
     //Alert.alert(t);

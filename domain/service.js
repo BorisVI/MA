@@ -44,6 +44,28 @@ var category_1 = require("./category");
 var Service = /** @class */ (function () {
     function Service() {
     }
+    Service.getTransactionSummaryForPerson = function (tripId, personId) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.getTrip(tripId).then(function (trip) {
+                        var t = _this.getNewTrip(trip);
+                        return t.getLoanSummaryForPerson(personId);
+                    })];
+            });
+        });
+    };
+    Service.getTransactionSummary = function (tripId) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.getTrip(tripId).then(function (trip) {
+                        var t = _this.getNewTrip(trip);
+                        return t.getLoanSummary();
+                    })];
+            });
+        });
+    };
     Service.payLoan = function (tripId, expenseId, loanId) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;

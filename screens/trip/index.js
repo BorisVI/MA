@@ -63,6 +63,18 @@ export class TripInfo extends Component {
       this.setState({tableData: items});
     });
   }
+  getTableDataTransactions()
+  {
+    Service.getTransactionSummary(this.state.id).then((response)=>{
+      items=[];
+for(let value of response){
+
+  items.push([value[2],value[3],value[4],value[5]])
+}
+this.setState({tableHead:['Payer', 'Reciever','Amount','Status']});
+this.setState({tableData: items});
+    });
+  }
   static navigationOptions = {
     
     title:'Trip Details',
@@ -84,6 +96,7 @@ export class TripInfo extends Component {
   onValueChange={(itemValue, itemIndex) => {this.setTable(itemValue)}}>
   <Picker.Item label="Total by trip" value="trip" />
   <Picker.Item label="Expenses by category" value="category" />
+  <Picker.Item label="All transactions" value="transactions" />
         </Picker>
       <Table styles={{marginTop:10, marginRight: 5, marginLeft :5}}>
           <Row data={this.state.tableHead} extraData={this.state} style={styles.head} textStyle={styles.text}/>
@@ -108,6 +121,10 @@ export class TripInfo extends Component {
       case 'category':
         this.getTableDataCategory();
         this.setState({selectedTable: table});
+        break;
+      case 'transactions':
+      this.getTableDataTransactions();
+      this.setState({selectedTable: table});
         break;
     }
     

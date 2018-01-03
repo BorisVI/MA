@@ -25,9 +25,7 @@ import {NavigationActions } from 'react-navigation';
    
     //console.log('jnbfgszro');
   }
-  handleOnNavigateBack= (b) => {
-    this.storeTripsLocaly();
-  }
+  
   componentDidMount()
   {
     this.Loans();
@@ -49,7 +47,7 @@ this.setState({currency: expense.currency});
      response.forEach((value,key)=>{
       var fnamepayer = key[1]+ ' ' + key[2];
       var fnamereceiver = key[4]+ ' '+ key[5];
-      console.log("vgfyzbhejk "+ this.state.currency);
+      
        var textl = fnamepayer + ' needs to pay ' + fnamereceiver + ' ' + value.amount+ ' '+ this.state.currency;
                items.push({text: textl, key:value.loanId, payed: value.payed});
              
