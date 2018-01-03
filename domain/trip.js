@@ -13,6 +13,15 @@ var Trip = /** @class */ (function () {
         this.endDate = endDate;
         this.standardCurrency = "EUR";
     }
+    Trip.prototype.getLoans = function (expenseId) {
+        var result = new typescript_map_1.TSMap();
+        for (var _i = 0, _a = this.getExpenseById(expenseId).loans; _i < _a.length; _i++) {
+            var l = _a[_i];
+            result.set(this.getPersonInfo(l.payer).concat(this.getPersonInfo(l.receiver)), l);
+        }
+        console.log(result);
+        return result;
+    };
     Trip.prototype.getPersonInfo = function (personId) {
         var person = this.getPersonFromId(personId);
         return [personId, person.firstName, person.lastName];
