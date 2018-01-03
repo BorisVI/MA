@@ -25,18 +25,18 @@ var Expense = /** @class */ (function () {
             var mapOver_1 = new typescript_map_1.TSMap();
             var mapUnder_1 = new typescript_map_1.TSMap();
             this.consumers.forEach(function (value, key) {
-                var amount = 0;
+                var amount = 0 - value;
                 if (_this.payers.has(key)) {
                     amount = _this.payers.get(key) - value;
                 }
-                if (amount > 0) {
+                if (amount >= 0) {
                     mapOver_1.set(key, amount);
                 }
                 else {
-                    mapUnder_1.set(key, 0 - amount);
+                    mapUnder_1.set(key, amount);
                 }
             });
-            while (this.getTotalPayers() != 0) {
+            while (this.getTotalMap(mapUnder_1) != 0) {
                 var topay = 0;
                 var canreceive = 0;
                 var amount = 0;
@@ -76,6 +76,13 @@ var Expense = /** @class */ (function () {
             console.log("error on creating loans, unequal amount payers/receivers");
         }
     };
+    Expense.prototype.getTotalMap = function (map) {
+        var sum = 0;
+        map.forEach(function (value, key) {
+            sum = sum + (Number(value));
+        });
+        return sum;
+    };
     Expense.prototype.getNewLoanId = function () {
         var highest = 0;
         for (var _i = 0, _a = this.loans; _i < _a.length; _i++) {
@@ -87,21 +94,23 @@ var Expense = /** @class */ (function () {
         return String(Number(highest) + 1);
     };
     Expense.prototype.getTotal = function () {
-        if (this.isValidAmounts) {
-            return this.getTotalPayers;
+        if (this.isValidAmounts()) {
+            return this.getTotalPayers();
         }
         else {
             return false;
         }
     };
     Expense.prototype.isValidAmounts = function () {
-        return this.getTotalPayers == this.getTotalConsumers;
+        //console.log("calculating totals");
+        return this.getTotalPayers() == this.getTotalConsumers();
     };
     Expense.prototype.getTotalPayers = function () {
         var sum = 0;
         this.payers.forEach(function (value, key) {
             sum = Number(sum) + Number(value);
         });
+        //console.log("total payers: " + sum);
         return sum;
     };
     Expense.prototype.getTotalConsumers = function () {
@@ -109,6 +118,7 @@ var Expense = /** @class */ (function () {
         this.consumers.forEach(function (value, key) {
             sum = Number(sum) + Number(value);
         });
+        //console.log("total consumers: " + sum);
         return sum;
     };
     Object.defineProperty(Expense.prototype, "expenseId", {

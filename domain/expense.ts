@@ -34,17 +34,17 @@ export class Expense{
             let mapOver = new TSMap<string,number>();
             let mapUnder = new TSMap<string,number>();
             this.consumers.forEach((value: number, key: string) =>{
-                var amount = 0;
+                var amount = 0 - value;
                 if(this.payers.has(key)){
                     amount = this.payers.get(key) - value;
                 }
-                if(amount>0){
+                if(amount>=0){
                     mapOver.set(key, amount);
                 }else{
-                    mapUnder.set(key, 0 - amount);
+                    mapUnder.set(key, amount);
                 }
             });
-            while(this.getTotalPayers() != 0){
+            while(this.getTotalMap(mapUnder) != 0){
                 var topay = 0;
                 var canreceive = 0;
                 var amount = 0;
@@ -81,7 +81,14 @@ export class Expense{
         }else{
             console.log("error on creating loans, unequal amount payers/receivers");
         }
+    }
 
+    getTotalMap(map: TSMap<string,number>): number{
+        let sum : number = 0;
+        map.forEach((value: number, key: string) =>{
+            sum = sum + (Number(value));
+        });
+        return sum;
     }
 
     getNewLoanId(): string{
@@ -96,15 +103,16 @@ export class Expense{
     
 
     getTotal(){
-        if(this.isValidAmounts){
-            return this.getTotalPayers;
+        if(this.isValidAmounts()){
+            return this.getTotalPayers();
         }else{
             return false;
         }
     }
 
-    isValidAmounts(){
-        return this.getTotalPayers == this.getTotalConsumers;
+    isValidAmounts(): boolean{
+        //console.log("calculating totals");
+        return this.getTotalPayers() == this.getTotalConsumers();
     }
 
     getTotalPayers(){
@@ -112,6 +120,7 @@ export class Expense{
         this.payers.forEach((value: number, key: string) =>{
             sum = Number(sum) +  Number(value);
         });
+        //console.log("total payers: " + sum);
         return sum;
     }
 
@@ -120,6 +129,7 @@ export class Expense{
         this.consumers.forEach((value: number, key: string) =>{
             sum = Number(sum) +  Number(value);
         });
+        //console.log("total consumers: " + sum);
         return sum;
     }
 

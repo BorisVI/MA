@@ -10,7 +10,7 @@ export class Service {
     static async finaliseExpense(tripId: string, expenseId: string): Promise<void>{
         this.getTrip(tripId).then((trip) =>{
             let t = this.getNewTrip(trip);
-            t.getExpenseById(expenseId).calculateLoans();
+            return t.getExpenseById(expenseId).calculateLoans();
         });
     }
 

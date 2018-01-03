@@ -50,7 +50,7 @@ var Service = /** @class */ (function () {
             return __generator(this, function (_a) {
                 this.getTrip(tripId).then(function (trip) {
                     var t = _this.getNewTrip(trip);
-                    t.getExpenseById(expenseId).calculateLoans();
+                    return t.getExpenseById(expenseId).calculateLoans();
                 });
                 return [2 /*return*/];
             });
