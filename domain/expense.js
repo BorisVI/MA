@@ -21,7 +21,7 @@ var Expense = /** @class */ (function () {
     };
     Expense.prototype.calculateLoans = function () {
         var _this = this;
-        if (this.isValidAmounts) {
+        if (this.isValidAmounts()) {
             var mapOver_1 = new typescript_map_1.TSMap();
             var mapUnder_1 = new typescript_map_1.TSMap();
             this.consumers.forEach(function (value, key) {

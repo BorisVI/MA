@@ -76,11 +76,22 @@ class ExpenseOveriew extends Component {
       <View style={styles.buttonStyle}>
         <Button color='#4d9280' onPress={() => this.addPayers()} title="add payers" />
       </View>
+      <View style={styles.buttonStyle}>
+        <Button color='#4d9280' onPress={() => this.finalizeExpense()} title="finalise expense" />
+      </View>
     </View>
     
     );
   }
-  addConsumer(){
+  finalizeExpense()
+  {
+    console.log('ben hier');
+    Service.finaliseExpense(this.state.tripId, this.state.expenseId).then(()=>{
+      
+    });
+  }
+  addConsumer()
+  {
     let tripId = this.state.tripId;
     let expenseId = this.state.expenseId;
     this.props.navigation.navigate('Consumer',{tripId, expenseId,onNavigateBack: this.handleOnNavigateBack})

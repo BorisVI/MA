@@ -30,7 +30,7 @@ export class Expense{
 
     
     calculateLoans(){
-        if(this.isValidAmounts){
+        if(this.isValidAmounts()){
             let mapOver = new TSMap<string,number>();
             let mapUnder = new TSMap<string,number>();
             this.consumers.forEach((value: number, key: string) =>{
