@@ -22,6 +22,10 @@ export class Trip{
 		this.standardCurrency = "EUR";
 	}
 
+	payLoan(expenseId: string, loanId: string){
+		this.getExpenseById(expenseId).payLoan(loanId);
+	}
+
 	getLoans(expenseId: string): TSMap<string[], Loan>{
         let result : TSMap<string[], Loan> = new TSMap<string[], Loan>();
         for(let l of this.getExpenseById(expenseId).loans){

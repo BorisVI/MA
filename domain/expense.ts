@@ -29,6 +29,21 @@ export class Expense{
         return e.expenseId == this.expenseId;
     }
 
+    payLoan(loanId: string){
+        let l = this.getLoanById(loanId);
+        l.payed = true;
+        this.consumers.set(l.payer,Number(this.consumers.get(l.payer))-Number(l.amount));
+        this.payers.set(l.receiver,Number(this.payers.get(l.receiver))+Number(l.amount));
+    }
+    
+    getLoanById(loanId: string): Loan{
+        for(let l of this.loans){
+			if(l.loanId == loanId){
+				return l;
+			}
+		}
+		return null;
+    }
     
     calculateLoans(){
         if(!this.isFinalized){
