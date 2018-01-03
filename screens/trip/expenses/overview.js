@@ -72,8 +72,12 @@ class ExpenseOveriew extends Component {
           <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
           <Rows data={this.state.tableData} extraData={this.state} style={styles.row} textStyle={styles.text}/>
       </Table>
-      {this.state.finalised? <View style={styles.buttonStyle}>
+      {this.state.finalised?<View> <View style={styles.buttonStyle}>
         <Button color='#4d9280' onPress={() => this.goToViewLoans()} title="view loans" />
+      </View>
+      <View style={styles.buttonStyle}>
+        <Button color='#4d9280' onPress={() => this.refresh()} title="refresh" />
+      </View>
       </View>:
     <View>
     <View style={styles.buttonStyle}>
@@ -94,6 +98,10 @@ class ExpenseOveriew extends Component {
     
     );
   }
+  refresh()
+  {
+    this.componentDidMount();
+  }
   goToViewLoans()
   {
     let tripId = this.state.tripId;
@@ -104,7 +112,7 @@ class ExpenseOveriew extends Component {
   {
     //console.log('ben hier');
     Service.finaliseExpense(this.state.tripId, this.state.expenseId).then(()=>{
-      
+      this.componentDidMount();
     });
   }
   addConsumer()
