@@ -37,12 +37,15 @@ import {NavigationActions } from 'react-navigation';
     //console.log(this.state.tripId, this.state.expenseId);
     Service.getLoans(this.state.tripId, this.state.expenseId).then((response)=>{
       items=[];
-      for(let l of response){
-var textl = l.payer + 'need to pay ' + l.receiver + ' ' + l.amount;
-console.log(l.payed);
-        items.push({text: textl, key:l.loanId, payed: l.payed});
-      }
-      this.setState({loans:items});
+      console.log(response);
+     response.forEach((value,key)=>{
+      var fnamepayer = key[1]+ ' ' + key[2];
+      var fnamereceiver = key[4]+ ' '+ key[5];
+       var textl = fnamepayer + ' needs to pay ' + fnamereceiver + ' ' + value.amount;
+               items.push({text: textl, key:value.loanId, payed: value.payed});
+             
+              });   
+              this.setState({loans:items});
     });
    // console.log('hybuezaf');
     //set state for loans[]
