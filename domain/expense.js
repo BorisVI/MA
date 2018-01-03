@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var typescript_map_1 = require("../node_modules/typescript-map");
+var loan_1 = require("./loan");
 var category_1 = require("./category");
 var Expense = /** @class */ (function () {
     function Expense(id, name, date, currency) {
@@ -18,39 +19,40 @@ var Expense = /** @class */ (function () {
     Expense.prototype.equals = function (e) {
         return e.expenseId == this.expenseId;
     };
-    /*
-    CalculateLoans(){
-        if(this.isValidAmounts){
-            let mapOver = new TSMap<Person,number>();
-            let mapUnder = new TSMap<Person,number>();
-            this._consumers.forEach((value: number, key: Person) =>{
+    Expense.prototype.calculateLoans = function () {
+        var _this = this;
+        if (this.isValidAmounts) {
+            var mapOver_1 = new typescript_map_1.TSMap();
+            var mapUnder_1 = new typescript_map_1.TSMap();
+            this.consumers.forEach(function (value, key) {
                 var amount = 0;
-                if(this._payers.has(key)){
-                    amount = this._payers.get(key) - value;
+                if (_this.payers.has(key)) {
+                    amount = _this.payers.get(key) - value;
                 }
-                if(amount>0){
-                    mapOver.set(key, amount);
-                }else{
-                    mapUnder.set(key, 0 - amount);
+                if (amount > 0) {
+                    mapOver_1.set(key, amount);
+                }
+                else {
+                    mapUnder_1.set(key, 0 - amount);
                 }
             });
-            while(this.getTotalPayers() != 0){
+            while (this.getTotalPayers() != 0) {
                 var topay = 0;
                 var canreceive = 0;
                 var amount = 0;
-                var payer = new Person("","","");
-                var receiver = new Person("","","");
+                var payer = "";
+                var receiver = "";
                 var found = false;
-                mapUnder.forEach((value: number, key: Person) =>{
-                    if(value != 0 && !found){
+                mapUnder_1.forEach(function (value, key) {
+                    if (value != 0 && !found) {
                         topay = value;
                         payer = key;
                         found = true;
                     }
                 });
                 found = false;
-                mapOver.forEach((value: number, key: Person) =>{
-                    if(value != 0 && !found){
+                mapOver_1.forEach(function (value, key) {
+                    if (value != 0 && !found) {
                         canreceive = value;
                         receiver = key;
                         found = true;
@@ -58,21 +60,32 @@ var Expense = /** @class */ (function () {
                 });
                 topay = Math.abs(topay);
                 canreceive = Math.abs(canreceive);
-                if(topay <= canreceive){
+                if (topay <= canreceive) {
                     amount = topay;
-                }else{
+                }
+                else {
                     amount = canreceive;
                 }
-                this._loans.push(new Loan(receiver,payer,amount));
-                mapUnder.set(payer, mapUnder.get(payer) + amount);
-                mapOver.set(receiver, mapOver.get(receiver) - amount);
+                console.log(payer + " pays " + amount + " to " + receiver + ".");
+                this.loans.push(new loan_1.Loan(this.getNewLoanId(), receiver, payer, amount));
+                mapUnder_1.set(payer, mapUnder_1.get(payer) + amount);
+                mapOver_1.set(receiver, mapOver_1.get(receiver) - amount);
             }
-        }else{
+        }
+        else {
             console.log("error on creating loans, unequal amount payers/receivers");
         }
-
-    }
-    */
+    };
+    Expense.prototype.getNewLoanId = function () {
+        var highest = 0;
+        for (var _i = 0, _a = this.loans; _i < _a.length; _i++) {
+            var l = _a[_i];
+            if (Number(l.loanId) > highest) {
+                highest = Number(l.loanId);
+            }
+        }
+        return String(Number(highest) + 1);
+    };
     Expense.prototype.getTotal = function () {
         if (this.isValidAmounts) {
             return this.getTotalPayers;
