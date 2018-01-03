@@ -23,8 +23,18 @@ var Expense = /** @class */ (function () {
     Expense.prototype.payLoan = function (loanId) {
         var l = this.getLoanById(loanId);
         l.payed = true;
-        this.consumers.set(l.payer, Number(this.consumers.get(l.payer)) - Number(l.amount));
-        this.payers.set(l.receiver, Number(this.payers.get(l.receiver)) + Number(l.amount));
+        if (this.payers.has(l.payer)) {
+            this.payers.set(l.payer, Number(this.payers.get(l.payer)) + Number(l.amount));
+        }
+        else {
+            this.payers.set(l.payer, Number(0) + Number(l.amount));
+        }
+        if (this.payers.has(l.receiver)) {
+            this.payers.set(l.receiver, Number(this.payers.get(l.receiver)) - Number(l.amount));
+        }
+        else {
+            this.payers.set(l.receiver, Number(0) - Number(l.amount));
+        }
     };
     Expense.prototype.getLoanById = function (loanId) {
         for (var _i = 0, _a = this.loans; _i < _a.length; _i++) {
