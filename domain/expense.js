@@ -24,7 +24,7 @@ var Expense = /** @class */ (function () {
         var l = this.getLoanById(loanId);
         l.payed = true;
         this.consumers.set(l.payer, Number(this.consumers.get(l.payer)) - Number(l.amount));
-        this.payers.set(l.receiver, Number(this.payers.get(l.receiver)) + Number(l.amount));
+        this.payers.set(l.receiver, Number(this.payers.get(l.receiver)) - Number(l.amount));
     };
     Expense.prototype.getLoanById = function (loanId) {
         for (var _i = 0, _a = this.loans; _i < _a.length; _i++) {

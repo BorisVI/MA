@@ -33,7 +33,7 @@ export class Expense{
         let l = this.getLoanById(loanId);
         l.payed = true;
         this.consumers.set(l.payer,Number(this.consumers.get(l.payer))-Number(l.amount));
-        this.payers.set(l.receiver,Number(this.payers.get(l.receiver))+Number(l.amount));
+        this.payers.set(l.receiver,Number(this.payers.get(l.receiver))-Number(l.amount));
     }
     
     getLoanById(loanId: string): Loan{
