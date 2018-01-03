@@ -49,6 +49,19 @@ export class Trip{
 		return null;
 	}
 
+	getLoanSummary(): Array<string[]>{
+		let result : Array<string[]> = new Array<string[]>();
+		for(let e of this.expenses){
+			for(let l of e.loans){
+				let payer = this.getPersonFromId(l.payer);
+				let receiver = this.getPersonFromId(l.receiver);
+				let s : string[] = [l.payer, l.receiver, payer.firstName + ' ' + payer.lastName,receiver.firstName +' ' + receiver.lastName, String(l.amount), l.payed ? "Payed" : "Open"];
+				result.push(s);
+			}
+		}
+		return result;
+	}
+
 	//table by expense
 	getTableByExpense(expenseId: string): TSMap<string[], number[]>{
 		let expense = this.getExpenseById(expenseId);

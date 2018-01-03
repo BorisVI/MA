@@ -38,6 +38,20 @@ var Trip = /** @class */ (function () {
         }
         return null;
     };
+    Trip.prototype.getLoanSummary = function () {
+        var result = new Array();
+        for (var _i = 0, _a = this.expenses; _i < _a.length; _i++) {
+            var e = _a[_i];
+            for (var _b = 0, _c = e.loans; _b < _c.length; _b++) {
+                var l = _c[_b];
+                var payer = this.getPersonFromId(l.payer);
+                var receiver = this.getPersonFromId(l.receiver);
+                var s = [l.payer, l.receiver, payer.firstName + ' ' + payer.lastName, receiver.firstName + ' ' + receiver.lastName, String(l.amount), l.payed ? "Payed" : "Open"];
+                result.push(s);
+            }
+        }
+        return result;
+    };
     //table by expense
     Trip.prototype.getTableByExpense = function (expenseId) {
         var _this = this;
