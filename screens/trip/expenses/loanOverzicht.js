@@ -20,29 +20,41 @@ import {NavigationActions } from 'react-navigation';
    {
     super(props);
   
-    this.state = {tripId: this.props.navigation.state.params.tripId, expenseId: this.props.navigation.state.params.expenseId,loans: []};
+    this.state = {tripId: this.props.navigation.state.params.tripId, expenseId: this.props.navigation.state.params.expenseId,loans: [],currency:''};
     //console.log('hehe');
    
     //console.log('jnbfgszro');
   }
-  /*handleOnNavigateBack= (b) => {
+  handleOnNavigateBack= (b) => {
     this.storeTripsLocaly();
-  }*/
+  }
   componentDidMount()
   {
-    this.getAllLoans();
+    this.Loans();
+    this.getCur();
   }
-  getAllLoans() 
+  getCur()
+  {
+    Service.getExpenseById(this.state.tripId,this.state.expenseId).then((expense)=>{
+    console.log(expense.currency)
+this.setState({currency: expense.currency});
+    });
+  }
+  Loans() 
   {
     //console.log(this.state.tripId, this.state.expenseId);
     Service.getLoans(this.state.tripId, this.state.expenseId).then((response)=>{
       items=[];
-      for(let l of response){
-var textl = l.payer + 'need to pay ' + l.receiver + ' ' + l.amount;
-console.log(l.payed);
-        items.push({text: textl, key:l.loanId, payed: l.payed});
-      }
-      this.setState({loans:items});
+      console.log(response);
+     response.forEach((value,key)=>{
+      var fnamepayer = key[1]+ ' ' + key[2];
+      var fnamereceiver = key[4]+ ' '+ key[5];
+      console.log("vgfyzbhejk "+ this.state.currency);
+       var textl = fnamepayer + ' needs to pay ' + fnamereceiver + ' ' + value.amount+ ' '+ this.state.currency;
+               items.push({text: textl, key:value.loanId, payed: value.payed});
+             
+              });   
+              this.setState({loans:items});
     });
    // console.log('hybuezaf');
     //set state for loans[]
@@ -86,7 +98,9 @@ console.log(l.payed);
   pay(id)
   {
     //pay the
-    Alert.alert("I know you want to pay but pls w8 a sec");
+    Service.payLoan(this.state.tripId,this.state.expenseId,id).then(()=>{
+      this.componentDidMount();
+    });
   }
   fillList()
   {
