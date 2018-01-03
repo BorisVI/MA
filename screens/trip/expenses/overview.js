@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, Image, View, Text,StyleSheet,Button } from 'react-native';
+import { AppRegistry, Image, View, Text,StyleSheet,Button, ScrollView } from 'react-native';
 import TableRow from 'react-native-table-row';
 
 import { StackNavigator } from 'react-navigation';
@@ -8,6 +8,7 @@ import {Service as Service} from '../../../domain/service';
 import EditExpenseScreen from './edit';
 import AddConsumerScreen from './addConsumer';
 import AddPayersScreen from './addPayers';
+import LoansOverview from './loanOverzicht';
 class ExpenseOveriew extends Component {
 
   constructor(props){
@@ -59,7 +60,7 @@ class ExpenseOveriew extends Component {
     const tableHead = ['Name', 'Amount already paid', 'Amount due', 'Receives/stillneeds to pay'];
    
     return (
-    <View>
+    <ScrollView>
       <Text style={styles.titleText}>Expense: {this.state.name}</Text>
       <Text style={styles.titleText}>Date: {this.state.date}</Text>
       <Text style={styles.titleText}>Table for this expense:</Text>
@@ -79,13 +80,22 @@ class ExpenseOveriew extends Component {
       <View style={styles.buttonStyle}>
         <Button color='#4d9280' onPress={() => this.finalizeExpense()} title="finalise expense" />
       </View>
-    </View>
+      <View style={styles.buttonStyle}>
+        <Button color='#4d9280' onPress={() => this.goToViewLoans()} title="view loans" />
+      </View>
+    </ScrollView>
     
     );
   }
+  goToViewLoans()
+  {
+    let tripId = this.state.tripId;
+    let expenseId = this.state.expenseId;
+    this.props.navigation.navigate('Loans',{tripId,expenseId});
+  }
   finalizeExpense()
   {
-    console.log('ben hier');
+    //console.log('ben hier');
     Service.finaliseExpense(this.state.tripId, this.state.expenseId).then(()=>{
       
     });
@@ -187,7 +197,10 @@ class ExpenseOveriew extends Component {
     {
       screen: AddPayersScreen,
     },
-    
+    Loans:
+    {
+      screen: LoansOverview,
+    }
     
   },
   {
