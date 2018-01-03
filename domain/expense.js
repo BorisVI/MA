@@ -21,31 +21,47 @@ var Expense = /** @class */ (function () {
         return e.expenseId == this.expenseId;
     };
     Expense.prototype.calculateLoans = function () {
-        var _this = this;
         if (!this.isFinalized) {
             if (this.isValidAmounts()) {
-                var mapOver_1 = new typescript_map_1.TSMap();
-                var mapUnder_1 = new typescript_map_1.TSMap();
+                var mapOver = new typescript_map_1.TSMap();
+                var mapUnder = new typescript_map_1.TSMap();
+                var people_1 = new Array();
                 this.consumers.forEach(function (value, key) {
-                    var amount = 0 - value;
-                    if (_this.payers.has(key)) {
-                        amount = _this.payers.get(key) - value;
-                    }
-                    if (amount >= 0) {
-                        mapOver_1.set(key, amount);
-                    }
-                    else {
-                        mapUnder_1.set(key, amount);
+                    if (people_1.indexOf(key) == -1) {
+                        people_1.push(key);
                     }
                 });
-                while (this.getTotalMap(mapUnder_1) != 0) {
+                this.payers.forEach(function (value, key) {
+                    if (people_1.indexOf(key) == -1) {
+                        people_1.push(key);
+                    }
+                });
+                for (var _i = 0, people_2 = people_1; _i < people_2.length; _i++) {
+                    var key = people_2[_i];
+                    var amount = 0;
+                    if (this.consumers.has(key)) {
+                        amount = Number(amount) - Number(this.consumers.get(key));
+                    }
+                    if (this.payers.has(key)) {
+                        amount = Number(amount) + Number(this.payers.get(key));
+                    }
+                    if (amount >= 0) {
+                        mapOver.set(key, amount);
+                    }
+                    else {
+                        mapUnder.set(key, amount);
+                    }
+                }
+                console.log(mapOver);
+                console.log(mapUnder);
+                while (this.getTotalMap(mapUnder) != 0) {
                     var topay = 0;
                     var canreceive = 0;
                     var amount = 0;
                     var payer = "";
                     var receiver = "";
                     var found = false;
-                    mapUnder_1.forEach(function (value, key) {
+                    mapUnder.forEach(function (value, key) {
                         if (value != 0 && !found) {
                             topay = value;
                             payer = key;
@@ -53,7 +69,7 @@ var Expense = /** @class */ (function () {
                         }
                     });
                     found = false;
-                    mapOver_1.forEach(function (value, key) {
+                    mapOver.forEach(function (value, key) {
                         if (value != 0 && !found) {
                             canreceive = value;
                             receiver = key;
@@ -69,10 +85,12 @@ var Expense = /** @class */ (function () {
                         amount = canreceive;
                     }
                     console.log(payer + " pays " + amount + " to " + receiver + ".");
-                    this.loans.push(new loan_1.Loan(this.getNewLoanId(), receiver, payer, amount));
-                    mapUnder_1.set(payer, mapUnder_1.get(payer) + amount);
-                    mapOver_1.set(receiver, mapOver_1.get(receiver) - amount);
-                    this.isFinalized = true;
+                    var l = new loan_1.Loan(this.getNewLoanId(), receiver, payer, amount);
+                    console.log(l);
+                    this.loans.push(l);
+                    mapUnder.set(payer, mapUnder.get(payer) + amount);
+                    mapOver.set(receiver, mapOver.get(receiver) - amount);
+                    //this.isFinalized = true;
                 }
             }
             else {

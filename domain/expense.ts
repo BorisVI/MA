@@ -35,17 +35,33 @@ export class Expense{
             if(this.isValidAmounts()){
                 let mapOver = new TSMap<string,number>();
                 let mapUnder = new TSMap<string,number>();
+                let people = new Array<string>();
                 this.consumers.forEach((value: number, key: string) =>{
-                    var amount = 0 - value;
+                    if(people.indexOf(key) == -1){
+                        people.push(key);
+                    }
+                });
+                this.payers.forEach((value: number, key: string) =>{
+                    if(people.indexOf(key) == -1){
+                        people.push(key);
+                    }
+                });
+                for(let key of people){
+                    var amount : number = 0;
+                    if(this.consumers.has(key)){
+                        amount = Number(amount) - Number(this.consumers.get(key));
+                    }
                     if(this.payers.has(key)){
-                        amount = this.payers.get(key) - value;
+                        amount = Number(amount) + Number(this.payers.get(key));
                     }
                     if(amount>=0){
                         mapOver.set(key, amount);
                     }else{
                         mapUnder.set(key, amount);
                     }
-                });
+                }
+                //console.log(mapOver);
+                //console.log(mapUnder);
                 while(this.getTotalMap(mapUnder) != 0){
                     var topay = 0;
                     var canreceive = 0;
@@ -76,10 +92,12 @@ export class Expense{
                         amount = canreceive;
                     }
                     console.log(payer + " pays " + amount + " to " + receiver + ".");
-                    this.loans.push(new Loan(this.getNewLoanId(), receiver,payer,amount));
+                    let l = new Loan(this.getNewLoanId(), receiver,payer,amount);
+                    //console.log(l);
+                    this.loans.push(l);
                     mapUnder.set(payer, mapUnder.get(payer) + amount);
                     mapOver.set(receiver, mapOver.get(receiver) - amount);
-                    this.isFinalized = true;
+                    //this.isFinalized = true;
                 }
             }else{
                 console.log("error on creating loans, unequal amount payers/receivers");
