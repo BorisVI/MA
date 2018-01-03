@@ -34,6 +34,10 @@ import {NavigationActions } from 'react-navigation';
   }
   getAllLoans() 
   {
+    //console.log(this.state.tripId, this.state.expenseId);
+    Service.getLoans(this.state.tripId, this.state.expenseId).then((response)=>{
+      console.log(response);
+    });
    // console.log('hybuezaf');
     //set state for loans[]
   }
