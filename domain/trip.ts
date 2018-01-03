@@ -1,6 +1,7 @@
 import { TSMap } from "../node_modules/typescript-map";
 import { Expense } from "./expense";
 import { Person } from "./person";
+import { Loan } from "./loan";
 import { Category } from "./category";
 export class Trip{
 
@@ -20,6 +21,15 @@ export class Trip{
 		this.endDate = endDate;
 		this.standardCurrency = "EUR";
 	}
+
+	getLoans(expenseId: string): TSMap<string[], Loan>{
+        let result : TSMap<string[], Loan> = new TSMap<string[], Loan>();
+        for(let l of this.getExpenseById(expenseId).loans){
+            result.set(this.getPersonInfo(l.payer).concat(this.getPersonInfo(l.receiver)),l);
+		}
+		console.log(result);
+        return result;
+    }
 
 	getPersonInfo(personId: string): string[]{
 		let person = this.getPersonFromId(personId);

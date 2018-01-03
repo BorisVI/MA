@@ -8,10 +8,10 @@ import { Category } from "./category";
 
 export class Service {
 
-    static async getLoans(tripId: string, expenseId: string): Promise<Array<Loan>>{
+    static async getLoans(tripId: string, expenseId: string): Promise<TSMap<string[],Loan>>{
         return this.getTrip(tripId).then((trip) =>{
             let t = this.getNewTrip(trip);
-            return t.getExpenseById(expenseId).loans;
+            return t.getLoans(expenseId);
         });
     }
 
