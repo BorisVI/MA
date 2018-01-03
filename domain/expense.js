@@ -52,8 +52,8 @@ var Expense = /** @class */ (function () {
                         mapUnder.set(key, amount);
                     }
                 }
-                console.log(mapOver);
-                console.log(mapUnder);
+                //console.log(mapOver);
+                //console.log(mapUnder);
                 while (this.getTotalMap(mapUnder) != 0) {
                     var topay = 0;
                     var canreceive = 0;
@@ -86,12 +86,12 @@ var Expense = /** @class */ (function () {
                     }
                     console.log(payer + " pays " + amount + " to " + receiver + ".");
                     var l = new loan_1.Loan(this.getNewLoanId(), receiver, payer, amount);
-                    console.log(l);
                     this.loans.push(l);
                     mapUnder.set(payer, mapUnder.get(payer) + amount);
                     mapOver.set(receiver, mapOver.get(receiver) - amount);
-                    //this.isFinalized = true;
+                    this.isFinalized = true;
                 }
+                console.log(this.loans.length);
             }
             else {
                 console.log("error on creating loans, unequal amount payers/receivers");

@@ -443,6 +443,7 @@ var Service = /** @class */ (function () {
                 var expense = new expense_1.Expense(exp.expenseId, exp.name, exp.date, exp.currency);
                 expense.category = exp.category;
                 expense.isFinalized = exp.isFinalized;
+                expense.loans = exp.loans;
                 var consumers = new typescript_map_1.TSMap();
                 var payers = new typescript_map_1.TSMap();
                 if (exp.consumers != null) {

@@ -248,6 +248,7 @@ export class Service {
                 let expense = new Expense(exp.expenseId, exp.name, exp.date, exp.currency);
                 expense.category = exp.category;
                 expense.isFinalized = exp.isFinalized;
+                expense.loans = exp.loans;
                 let consumers : TSMap<string, number> = new TSMap<string, number>();
                 let payers : TSMap<string, number> = new TSMap<string, number>();
                 if(exp.consumers != null){
