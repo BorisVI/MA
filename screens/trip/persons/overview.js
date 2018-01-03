@@ -35,6 +35,19 @@ export class PersonOveriew extends Component {
       this.setState({tableData: items});
     });
   }
+  getTableDateTransactions()
+  {
+   // console.log('vgubhinj');
+    Service.getTransactionSummaryForPerson(this.state.trip, this.state.personId).then((response)=>{
+      items=[];
+      for(let value of response){
+      
+        items.push([value[2],value[3],value[4],value[5]])
+      }
+      this.setState({tableHead:['Payer', 'Reciever','Amount','Status']});
+      this.setState({tableData: items});
+    });
+  }
   getTableDataCategory()
   {
     Service.getExpenseForPersonPerCategory(this.state.trip, this.state.personId).then((response)=>{
@@ -80,6 +93,7 @@ export class PersonOveriew extends Component {
       <Picker.Item label="Total" value="total" />
       <Picker.Item label="Per category" value="category" />
       <Picker.Item label="Per day" value="day" />
+      <Picker.Item label="Transactions" value="transactions" />
       </Picker>
 
      <Table styles={{marginTop:10, marginRight: 5, marginLeft :5}}>
@@ -114,6 +128,11 @@ export class PersonOveriew extends Component {
       case 'day':
         this.getTableDataDay();
         this.setState({selectedTable: table});
+        break;
+      case 'transactions':
+        this.getTableDateTransactions();
+        this.setState({selectedTable: table});
+        break;
     }
     
 
