@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, Image, View, Text,StyleSheet,Button, ScrollView } from 'react-native';
+import { AppRegistry, Image, View, Text,StyleSheet,Button, ScrollView, Picker, Alert,FlatList } from 'react-native';
 import TableRow from 'react-native-table-row';
 
 import { StackNavigator } from 'react-navigation';
@@ -9,11 +9,12 @@ import EditExpenseScreen from './edit';
 import AddConsumerScreen from './addConsumer';
 import AddPayersScreen from './addPayers';
 import LoansOverview from './loanOverzicht';
+import SplitEvenly from './split';
 class ExpenseOveriew extends Component {
 
   constructor(props){
     super(props);
-    this.state ={tripId: this.props.navigation.state.params.tripId, expenseId: this.props.navigation.state.params.expenseId,name:'',date:'', tableData:[], finalised:''};
+    this.state ={buttons:[],tripId: this.props.navigation.state.params.tripId, expenseId: this.props.navigation.state.params.expenseId,name:'',date:'', tableData:[], finalised:'', selectedSplitter:'normal'};
     //console.log(this.state.tripId+ " , "+ this.state.expenseId);
     //Service.getTableByExpense(this.props.navigation.state.params.tripId,this.props.navigation.state.params.expenseId);
     
@@ -21,6 +22,7 @@ class ExpenseOveriew extends Component {
   componentDidMount(){
     this.loadExpenseInfo();
     this.loadTable();
+    this.setButtons(this.state.selectedSplitter);
   }
   handleOnNavigateBack= (b) => {
    this.loadExpenseInfo();
@@ -82,22 +84,66 @@ class ExpenseOveriew extends Component {
       <Button color='#4d9280' onPress={() => this.editExpense()} title="Edit expense" />
     </View>
     <View style={styles.buttonStyle}>
-      <Button color='#4d9280' onPress={() => this.addConsumer()} title="add consumers" />
-    </View>
-    <View style={styles.buttonStyle}>
-      <Button color='#4d9280' onPress={() => this.addPayers()} title="add payers" />
-    </View>
-    <View style={styles.buttonStyle}>
       <Button color='#4d9280' onPress={() => this.finalizeExpense()} title="finalise expense" />
     </View>
+    <Picker
+      selectedValue={this.state.selectedSplitter}
+      onValueChange={(itemValue, itemIndex) => {this.setButtons(itemValue)}}>
+      <Picker.Item label="What you consumed" value="normal" key="normal"/>
+      <Picker.Item label="Split evenly" value="split" key="split"/>
+      </Picker>
+
+      <FlatList
+        data={this.state.buttons}
+        extraData={this.state}
+        renderItem={({item}) => <View key={item.key} style={styles.buttonStyle}><Button color='#4d9280' onPress={() => this.switchForExutionOfAction(item.action)} title={item.title}/></View> }
+      />
     </View>}
-   {this.state.finalised? <View style={styles.buttonStyle}>
+   {this.state.finalised? <View style={styles.buttonStyle} style={styles.buttonStyle}>
         <Button color='#4d9280' onPress={() => this.refresh()} title="refresh" />
       </View>:<Text></Text>}
       
     </ScrollView>
     
     );
+  }
+  setButtons(type){
+    items =[]
+    switch (type)
+    {
+      case 'normal':
+      items.push( {key: 'normalconsumerskey', buttonkey:'normalconsumers' , action:'addConsumer', title:"add consumers"});
+  
+      items.push({key: 'normalpayerskey',buttonkey:'normalpayers',action: 'addPayers', title:'add payers'});
+      this.setState({selectedSplitter:type});
+      break;
+      case 'split':
+      items.push( {key:'splitkey', buttonkey:'splitbutton', action:'goToSplitEven', title:'Enter and split the bill'} );
+        this.setState({selectedSplitter:type}); 
+      break;
+    }
+    this.setState({buttons: items});
+  }
+  switchForExutionOfAction(action)
+  {
+    switch(action)
+    {
+      case 'addConsumer':
+      this.addConsumer();
+      break;
+      case 'addPayers':
+      this.addPayers();
+      break;
+      case 'goToSplitEven':
+      this.goToSplitEven();
+      break;
+    }
+  }
+  goToSplitEven()
+  {
+    let tripId = this.state.tripId;
+    let expenseId = this.state.expenseId;
+    this.props.navigation.navigate('Even',{tripId,expenseId});
   }
   refresh()
   {
@@ -183,13 +229,13 @@ class ExpenseOveriew extends Component {
      },
     
      head: {
-        height: null, 
+        height: 40, 
         backgroundColor: '#f1f8ff'
       },
      text: { 
        marginLeft: 5 
       },
-     row: { height: 30 
+     row: { height: null,
       },
      
   });
@@ -216,7 +262,11 @@ class ExpenseOveriew extends Component {
     Loans:
     {
       screen: LoansOverview,
-    }
+    },
+    Even:
+    {
+      screen: SplitEvenly, 
+    },
     
   },
   {
