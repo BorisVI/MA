@@ -13,7 +13,7 @@ class ExpenseOveriew extends Component {
 
   constructor(props){
     super(props);
-    this.state ={tripId: this.props.navigation.state.params.tripId, expenseId: this.props.navigation.state.params.expenseId,name:'',date:'', tableData:[]};
+    this.state ={tripId: this.props.navigation.state.params.tripId, expenseId: this.props.navigation.state.params.expenseId,name:'',date:'', tableData:[], finalised:''};
     //console.log(this.state.tripId+ " , "+ this.state.expenseId);
     //Service.getTableByExpense(this.props.navigation.state.params.tripId,this.props.navigation.state.params.expenseId);
     
@@ -33,6 +33,10 @@ class ExpenseOveriew extends Component {
       let date = new Date(expense.date);
       let europeandate = date.getDate()+'/'+ (date.getMonth()+1)+'/'+ date.getFullYear();
       this.setState({date: europeandate});
+      
+    });
+    Service.isFinal(this.state.tripId, this.state.expenseId).then((final)=>{
+      this.setState({finalised: final});
     });
   }
   loadTable()
@@ -68,21 +72,24 @@ class ExpenseOveriew extends Component {
           <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
           <Rows data={this.state.tableData} extraData={this.state} style={styles.row} textStyle={styles.text}/>
       </Table>
-      <View style={styles.buttonStyle}>
-        <Button color='#4d9280' onPress={() => this.editExpense()} title="Edit expense" />
-      </View>
-      <View style={styles.buttonStyle}>
-        <Button color='#4d9280' onPress={() => this.addConsumer()} title="add consumers" />
-      </View>
-      <View style={styles.buttonStyle}>
-        <Button color='#4d9280' onPress={() => this.addPayers()} title="add payers" />
-      </View>
-      <View style={styles.buttonStyle}>
-        <Button color='#4d9280' onPress={() => this.finalizeExpense()} title="finalise expense" />
-      </View>
-      <View style={styles.buttonStyle}>
+      {this.state.finalised? <View style={styles.buttonStyle}>
         <Button color='#4d9280' onPress={() => this.goToViewLoans()} title="view loans" />
-      </View>
+      </View>:
+    <View>
+    <View style={styles.buttonStyle}>
+      <Button color='#4d9280' onPress={() => this.editExpense()} title="Edit expense" />
+    </View>
+    <View style={styles.buttonStyle}>
+      <Button color='#4d9280' onPress={() => this.addConsumer()} title="add consumers" />
+    </View>
+    <View style={styles.buttonStyle}>
+      <Button color='#4d9280' onPress={() => this.addPayers()} title="add payers" />
+    </View>
+    <View style={styles.buttonStyle}>
+      <Button color='#4d9280' onPress={() => this.finalizeExpense()} title="finalise expense" />
+    </View>
+    </View>}
+      
     </ScrollView>
     
     );

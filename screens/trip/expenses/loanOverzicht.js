@@ -36,7 +36,13 @@ import {NavigationActions } from 'react-navigation';
   {
     //console.log(this.state.tripId, this.state.expenseId);
     Service.getLoans(this.state.tripId, this.state.expenseId).then((response)=>{
-      console.log(response);
+      items=[];
+      for(let l of response){
+var textl = l.payer + 'need to pay ' + l.receiver + ' ' + l.amount;
+console.log(l.payed);
+        items.push({text: textl, key:l.loanId, payed: l.payed});
+      }
+      this.setState({loans:items});
     });
    // console.log('hybuezaf');
     //set state for loans[]
@@ -67,11 +73,11 @@ import {NavigationActions } from 'react-navigation';
         <StatusBar hidden={true}/> 
         <FlatList
           data={this.state.loans}
-          renderItem={({item}) => <TableRow style={styles.row} titleStyle={styles.rowTitle} title={item.text} key={item.id} 
+          renderItem={({item}) => <TableRow style={styles.row} titleStyle={styles.rowTitle} title={item.text} key={item.key} 
           subElement={item.payed ? <MaterialIcons name="done" size={40}
           style={styles.addButton}
-          onPress={() => this.pay(item.id)}/>:  <MaterialIcons name="done" size={40}
-          style={styles.addButton} onPress={()=>{Alert.alert("Already payed")}} />}></TableRow>}
+          onPress={() => Alert.alert("Already payed")}/>:  <MaterialIcons name="payment" size={40}
+          style={styles.addButton} onPress={()=>{this.pay(item.key)}} />}></TableRow>}
         />
        
         </View>

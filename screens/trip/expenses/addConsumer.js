@@ -124,12 +124,31 @@ export default class AddConsumerScreen extends Component {
   }
   onChangedNrConsumed(text){
     let newText = '';
-    let numbers = '0123456789';
-
+    let numbers = '0123456789.';
+    if(text[0]=='.')
+    {
+      newText = '0';
+    }
+    var comma = false;
     for (var i=0; i < text.length; i++) {
-        if(numbers.indexOf(text[i]) > -1 ) {
+      if(text[i]==','){
+        Alert.alert(', should be a .')
+      }
+       else if(numbers.indexOf(text[i]) > -1 ) {
+          if(text[i]=='.'){
+            if(comma){
+              Alert.alert('only one comma allowed');
+            } else{
+
+              newText = newText + text[i];
+              comma=true;
+            }
+          }else{
             newText = newText + text[i];
+          }
+          
         }
+        
         else {
             // your call back function
             Alert.alert("please enter numbers only");
