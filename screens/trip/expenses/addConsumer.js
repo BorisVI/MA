@@ -13,7 +13,7 @@ import {Trip} from '../../../domain/trip';
 export default class AddConsumerScreen extends Component {
   constructor(props){
     super(props);
-    this.state = {tripId: this.props.navigation.state.params.tripId,expenseId: this.props.navigation.state.params.expenseId, participants:[], selectedParticipant:'', selectedParticipantId:'',participantconsumed:'',consumers:[]};
+    this.state = {tripId: this.props.navigation.state.params.tripId,expenseId: this.props.navigation.state.params.expenseId, participants:[], selectedParticipant:'', participantconsumed:'',consumers:[]};
    
   }
   componentDidMount()
@@ -37,7 +37,7 @@ export default class AddConsumerScreen extends Component {
         }
         this.setState({participants: items});
    if(this.state.participants.length != 0){
-     this.setState({selectedParticipant: this.state.participants[0].key, selectedParticipantId: this.state.participants[0].id});
+     this.setState({selectedParticipant: this.state.participants[0].id,});
    }
     });
   }
@@ -64,7 +64,7 @@ export default class AddConsumerScreen extends Component {
     <Text style={styles.dropText}>Select consumer: </Text>
 <Picker
   selectedValue={this.state.selectedParticipant}
-  onValueChange={(itemValue, itemIndex) => {this.setKeyForPerson(itemValue)}}>
+  onValueChange={(itemValue, itemIndex) => {this.setState({selectedParticipant:itemValue})}}>
 {this.loadParticpantsPickerItems()}
 </Picker>
 <Text style={styles.dropText}>Amount consumed: </Text>
@@ -94,7 +94,7 @@ export default class AddConsumerScreen extends Component {
     
     );
   }
-  setKeyForPerson(fname)
+  /*setKeyForPerson(fname)
   {
     var res = fname.split(" ");
     var firstname = res[0];
@@ -121,7 +121,7 @@ export default class AddConsumerScreen extends Component {
         }
     });
     this.setState({selectedParticipant: fname});
-  }
+  }*/
   onChangedNrConsumed(text){
     let newText = '';
     let numbers = '0123456789.';
@@ -161,7 +161,7 @@ export default class AddConsumerScreen extends Component {
       items =[];
       for(let p of this.state.participants)
       {
-          items.push(<Picker.Item label={p.key} value={p.key} key={p.id}/>);
+          items.push(<Picker.Item label={p.key} value={p.id} key={p.id}/>);
       }
       return items;
   }
@@ -174,9 +174,10 @@ export default class AddConsumerScreen extends Component {
     result =[];
     for(let t of items)
     {
-        if(t.id == this.state.selectedParticipantId)
+        if(t.id == this.state.selectedParticipant)
         {
-         result.push({key: this.state.selectedParticipant, id: this.state.selectedParticipantId, consumed: this.state.participantconsumed});
+          var value = this.getNameForId(this.state.selectedParticipant);
+         result.push({key: value, id: this.state.selectedParticipant, consumed: this.state.participantconsumed});
          init=true;
         }
         else{
@@ -185,11 +186,23 @@ export default class AddConsumerScreen extends Component {
        
     }
     if(!init){
-
-        result.push({key: this.state.selectedParticipant, id: this.state.selectedParticipantId, consumed: this.state.participantconsumed});
+      var value = this.getNameForId(this.state.selectedParticipant);
+        result.push({key: value, id: this.state.selectedParticipant, consumed: this.state.participantconsumed});
     }
     this.setState({consumers: result});
   }
+  }
+  getNameForId(id)
+  {
+    var res = '';
+    for(let p of this.state.participants)
+    {
+      if(p.id== id)
+      {
+        res= p.key;
+      }
+    }
+    return res;
   }
   AddConsumersToTrip()
   {

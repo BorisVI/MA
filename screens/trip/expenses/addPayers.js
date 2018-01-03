@@ -13,7 +13,7 @@ import {Trip} from '../../../domain/trip';
 export default class AddPayersScreen extends Component {
   constructor(props){
     super(props);
-    this.state = {tripId: this.props.navigation.state.params.tripId,expenseId: this.props.navigation.state.params.expenseId, participants:[], selectedParticipant:'', selectedParticipantId:'',participantpayed:'',payers:[]};
+    this.state = {tripId: this.props.navigation.state.params.tripId,expenseId: this.props.navigation.state.params.expenseId, participants:[], selectedParticipant:'',participantpayed:'',payers:[]};
    
   }
   componentDidMount()
@@ -48,7 +48,7 @@ export default class AddPayersScreen extends Component {
         }
         this.setState({participants: items});
         if(this.state.participants.length != 0){
-          this.setState({selectedParticipant: this.state.participants[0].key, selectedParticipantId: this.state.participants[0].id});
+          this.setState({selectedParticipant: this.state.participants[0].id});
         }
     });
   }
@@ -64,7 +64,7 @@ export default class AddPayersScreen extends Component {
     <Text style={styles.dropText}>Select payer: </Text>
 <Picker
   selectedValue={this.state.selectedParticipant}
-  onValueChange={(itemValue, itemIndex) => {this.setState({selectedParticipant: itemValue}); this.setKeyForPerson(itemValue)}}>
+  onValueChange={(itemValue, itemIndex) => {this.setState({selectedParticipant: itemValue})}}>
 {this.loadParticpantsPickerItems()}
 </Picker>
 <Text style={styles.dropText}>Amount payed: </Text>
@@ -94,7 +94,7 @@ export default class AddPayersScreen extends Component {
     
     );
   }
-  setKeyForPerson(fname)
+  /*setKeyForPerson(fname)
   {
     var res = fname.split(" ");
     var firstname = res[0];
@@ -118,7 +118,7 @@ export default class AddPayersScreen extends Component {
             }
         }
     });
-  }
+  }*/
   onChangedNrPayed(text){
     let newText = '';
     let numbers = '0123456789.';
@@ -159,7 +159,7 @@ export default class AddPayersScreen extends Component {
       items =[];
       for(let p of this.state.participants)
       {
-          items.push(<Picker.Item label={p.key} value={p.key} key={p.id}/>);
+          items.push(<Picker.Item label={p.key} value={p.id} key={p.id}/>);
       }
       return items;
   }
@@ -173,21 +173,35 @@ export default class AddPayersScreen extends Component {
     result= [];
     for(let t of items)
     {
-        if(t.id == this.state.selectedParticipantId)
+        if(t.id == this.state.selectedParticipant)
         {
-          result.push({key: this.state.selectedParticipant, id: this.state.selectedParticipantId, payed: this.state.participantpayed});
+          var value = this.getNameForId(this.state.selectedParticipant);
+          result.push({key: value, id: this.state.selectedParticipant, payed: this.state.participantpayed});
           init=true
         } else{
           result.push(t);
         }
-        counter++;
+        
     }
     if(!init)
     {
-        result.push({key: this.state.selectedParticipant, id: this.state.selectedParticipantId, payed: this.state.participantpayed});
+      var value = this.getNameForId(this.state.selectedParticipant);
+        result.push({key: value, id: this.state.selectedParticipant, payed: this.state.participantpayed});
     }
     this.setState({payers: result});
   }
+  }
+  getNameForId(id)
+  {
+    var res = '';
+    for(let p of this.state.participants)
+    {
+      if(p.id== id)
+      {
+        res= p.key;
+      }
+    }
+    return res;
   }
   AddPayersToTrip()
   {
