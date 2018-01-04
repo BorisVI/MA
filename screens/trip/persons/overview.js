@@ -184,13 +184,13 @@ export class PersonOveriew extends Component {
      },
     
      head: {
-        height: null, 
+        height: 40, 
         backgroundColor: '#f1f8ff'
       },
      text: { 
        marginLeft: 5 
       },
-     row: { height: 30 
+     row: { height: null,
       },
       buttonStyle: {
         marginTop: 10,
