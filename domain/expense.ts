@@ -23,6 +23,7 @@ export class Expense{
         this.date = date;
         this.category = Category.Misc;
         this.currency = currency;
+        console.log("consturctor expense: " + currency);
         /*this.payers = payers;
         this.consumers = consumers;*/
     }
@@ -183,19 +184,24 @@ export class Expense{
         //console.log("total consumers: " + sum);
         return sum;
     }
-    convertAll(oldCurrency:string,newCurrency:string){
+    async convertAll(oldCurrency:string,newCurrency:string){
         let toEuro=0;
         let fromEuro=0;
-        LocalStorage.getAllCurrenciesAndValues().then((list)=>{
+        console.log(oldCurrency);
+        console.log(newCurrency);
+        await LocalStorage.getAllCurrenciesAndValues().then((list)=>{
             for(let i=0;i<list.length;i++){
                 if(list[i][0]==oldCurrency){
                     toEuro=list[i][1];
+                    console.log(list[i][0] + " " + list[i][1]);
                 }
                 if(list[i][0]==newCurrency){
                     fromEuro=list[i][1];
                 }
             }
         });
+        console.log("to euro " + toEuro);
+        console.log("from euro " + fromEuro);
         this.payers.forEach((value: number, key: string) => {
             value=value/toEuro;
             value=value*fromEuro;
@@ -259,10 +265,7 @@ export class Expense{
 	}
 
 	public set currency(value: string) {
-        if(this.currency!=value){
-            this.convertAll(this.currency,value);
-            this._currency = value;
-        }
+        this._currency=value;
 	}
 	public get name(): string {
 		return this._name;

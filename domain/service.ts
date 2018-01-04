@@ -103,6 +103,11 @@ export class Service {
         await this.getExpenseById(tripId,expenseId).then((response)=>{
             expense.consumers = response.consumers;
             expense.payers = response.payers;
+            if(expense.currency!=response.currency){
+                expense.convertAll(response.currency,expense.currency).then(()=>{
+                    return;
+            });
+        }
         });
         await this.getTrip(tripId).then((trip)=>{
             let t = this.getNewTrip(trip);
