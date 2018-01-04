@@ -2,12 +2,7 @@
   "name": "Karavaan",
   "version": "0.1.0",
   "private": true,
-  "devDependencies": {
-    "@types/node": "^8.5.2",
-    "jest-expo": "^21.0.2",
-    "react-native-scripts": "^1.5.0",
-    "react-test-renderer": "16.0.0-alpha.12"
-  },
+  "devDependencies": {},
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
     "start": "react-native-scripts start",
@@ -20,27 +15,18 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@types/node": "^8.5.5",
     "es6": "0.0.7",
     "es6-promise": "^4.2.2",
     "expo": "^21.0.0",
     "node": "^9.3.0",
-    "node-fetch": "^1.7.3",
-    "react": "^16.0.0-alpha.12",
+    "react": "16.0.0-alpha.12",
     "react-native": "^0.48.4",
-    "react-native-asyncstorage": "^1.0.0",
-    "react-native-branch": "^2.2.1",
+    "react-native-scripts": "^1.5.0",
     "react-native-datepicker": "^1.6.0",
-    "react-native-elements": "^0.18.4",
     "react-native-table-component": "^1.1.2",
     "react-native-table-row": "0.0.4",
-    "react-native-vector-icons": "^4.4.2",
     "react-navigation": "^1.0.0-beta.21",
-    "react-redux": "^5.0.6",
-    "swagger-express": "^1.0.5",
-    "swagger-ui-express": "^2.0.11",
-    "typescript": "^2.6.2",
-    "typescript-ioc": "^1.0.2",
-    "typescript-map": "0.0.5",
-    "typescript-rest": "^1.2.0"
+    "typescript-map": "0.0.5"
   }
 }
