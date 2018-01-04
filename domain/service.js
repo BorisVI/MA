@@ -200,6 +200,11 @@ var Service = /** @class */ (function () {
                         return [4 /*yield*/, this.getExpenseById(tripId, expenseId).then(function (response) {
                                 expense.consumers = response.consumers;
                                 expense.payers = response.payers;
+                                if (expense.currency != response.currency) {
+                                    expense.convertAll(response.currency, expense.currency).then(function () {
+                                        return;
+                                    });
+                                }
                             })];
                     case 1:
                         _a.sent();
