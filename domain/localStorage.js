@@ -120,7 +120,15 @@ var LocalStorage = /** @class */ (function () {
     LocalStorage.addAllCurrenciesAndValues = function (list) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, react_native_1.AsyncStorage.setItem("currencyValues", JSON.stringify(list))];
+                switch (_a.label) {
+                    case 0: 
+                    //console.log("SETTING LOLZ");
+                    return [4 /*yield*/, react_native_1.AsyncStorage.setItem("currencyValues", JSON.stringify(list))];
+                    case 1:
+                        //console.log("SETTING LOLZ");
+                        _a.sent();
+                        return [2 /*return*/];
+                }
             });
         });
     };
@@ -128,29 +136,33 @@ var LocalStorage = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 return [2 /*return*/, react_native_1.AsyncStorage.getItem("currencyValues").then(function (json) {
-                        return JSON.parse(json);
+                        if (json == null) {
+                            return LocalStorage.initializeCurrencies(false).then(function () {
+                                //console.log("initialising");
+                                return LocalStorage.getAllCurrenciesAndValues();
+                            });
+                        }
+                        else {
+                            //console.log("get all currencies");
+                            return JSON.parse(json);
+                        }
                     })];
             });
         });
     };
     LocalStorage.initializeCurrencies = function (online) {
         return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.getAllCurrenciesAndValues().then(function (list) {
-                            if (list != null && list.length != 0) {
-                                if (online) {
-                                    console.log(("TODO WRITE ONLINE REST REQUEST: https://api.fixer.io/latest?base=EUR"));
-                                }
-                                else {
-                                    _this.addAllCurrenciesAndValues(_this.getAllCurrencyValuesHard());
-                                }
-                            }
-                        })];
-                    case 1:
+                    case 0:
+                        if (!online) return [3 /*break*/, 1];
+                        console.log(("TODO WRITE ONLINE REST REQUEST: https://api.fixer.io/latest?base=EUR"));
+                        return [3 /*break*/, 3];
+                    case 1: return [4 /*yield*/, this.addAllCurrenciesAndValues(this.getAllCurrencyValuesHard())];
+                    case 2:
                         _a.sent();
-                        return [2 /*return*/];
+                        _a.label = 3;
+                    case 3: return [2 /*return*/];
                 }
             });
         });
@@ -204,15 +216,24 @@ var LocalStorage = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 return [2 /*return*/, LocalStorage.getAllCurrenciesAndValues().then(function (list) {
-                        var result;
-                        result = ["", 0];
-                        for (var i = 0; i < list.length; i++) {
-                            if (list[i][0] == currencyTag) {
-                                result = [currencyTag, list[i][1]];
-                                return result;
-                            }
+                        //console.log("list: " + list);
+                        if (list == null) {
+                            LocalStorage.initializeCurrencies(false).then(function (list2) {
+                                //console.log("recursive deepening");
+                                return LocalStorage.getCurrencyValue(currencyTag);
+                            });
                         }
-                        return result;
+                        else {
+                            var result = void 0;
+                            result = ["", 0];
+                            for (var i = 0; i < list.length; i++) {
+                                if (list[i][0] == currencyTag) {
+                                    result = [currencyTag, list[i][1]];
+                                    return result;
+                                }
+                            }
+                            return result;
+                        }
                     })];
             });
         });

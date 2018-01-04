@@ -176,8 +176,16 @@ var Expense = /** @class */ (function () {
         var _this = this;
         var toEuro = 0;
         var fromEuro = 0;
-        localStorage_1.LocalStorage.getCurrencyValue(oldCurrency).then(function (result) { toEuro = result[1]; });
-        localStorage_1.LocalStorage.getCurrencyValue(newCurrency).then(function (result) { fromEuro = result[1]; });
+        localStorage_1.LocalStorage.getAllCurrenciesAndValues().then(function (list) {
+            for (var i = 0; i < list.length; i++) {
+                if (list[i][0] == oldCurrency) {
+                    toEuro = list[i][1];
+                }
+                if (list[i][0] == newCurrency) {
+                    fromEuro = list[i][1];
+                }
+            }
+        });
         this.payers.forEach(function (value, key) {
             value = value / toEuro;
             value = value * fromEuro;

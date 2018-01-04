@@ -186,8 +186,16 @@ export class Expense{
     convertAll(oldCurrency:string,newCurrency:string){
         let toEuro=0;
         let fromEuro=0;
-        LocalStorage.getCurrencyValue(oldCurrency).then((result)=>{toEuro = result[1];});
-        LocalStorage.getCurrencyValue(newCurrency).then((result)=>{fromEuro = result[1];});
+        LocalStorage.getAllCurrenciesAndValues().then((list)=>{
+            for(let i=0;i<list.length;i++){
+                if(list[i][0]==oldCurrency){
+                    toEuro=list[i][1];
+                }
+                if(list[i][0]==newCurrency){
+                    fromEuro=list[i][1];
+                }
+            }
+        });
         this.payers.forEach((value: number, key: string) => {
             value=value/toEuro;
             value=value*fromEuro;
