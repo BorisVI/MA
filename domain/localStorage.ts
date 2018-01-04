@@ -61,26 +61,30 @@ export class LocalStorage{
     }
 
     static async addAllCurrenciesAndValues(list:Array<[string,number]>):Promise<void>{
-        return AsyncStorage.setItem("currencyValues",JSON.stringify(list));
+        //console.log("SETTING LOLZ");
+        await AsyncStorage.setItem("currencyValues",JSON.stringify(list));
     }
 
     static async getAllCurrenciesAndValues():Promise<Array<[string,number]>>{
         return AsyncStorage.getItem("currencyValues").then((json)=>{
-            return JSON.parse(json) as Array<[string,number]>;
+            if(json == null){
+                return LocalStorage.initializeCurrencies(false).then(()=>{
+                    //console.log("initialising");
+                    return LocalStorage.getAllCurrenciesAndValues();
+                });
+            }else{
+                //console.log("get all currencies");
+                return JSON.parse(json) as Array<[string,number]>;
+            }
         });
-
     }
 
     static async initializeCurrencies(online: Boolean):Promise<void>{
-        await this.getAllCurrenciesAndValues().then((list)=>{
-            if(list!=null&&list.length!=0){
-                if(online){
-                    console.log(("TODO WRITE ONLINE REST REQUEST: https://api.fixer.io/latest?base=EUR"));
-                }else{
-                    this.addAllCurrenciesAndValues(this.getAllCurrencyValuesHard());
-                }
-            }
-        });
+        if(online){
+            console.log(("TODO WRITE ONLINE REST REQUEST: https://api.fixer.io/latest?base=EUR"));
+        }else{
+            await this.addAllCurrenciesAndValues(this.getAllCurrencyValuesHard());
+        }
     }
 
     static async setCurrencyValue(currencyTag:string, value:number):Promise<void>{
@@ -116,15 +120,23 @@ export class LocalStorage{
 
     static async getCurrencyValue(currencyTag:string):Promise<[string,number]>{
         return LocalStorage.getAllCurrenciesAndValues().then((list)=>{
-            let result:[string,number];
-            result=["",0];
-            for(let i=0;i < list.length;i++){
-                if(list[i][0]==currencyTag){
-                    result=[currencyTag,list[i][1]];
-                    return result;
+            //console.log("list: " + list);
+            if(list == null){
+                LocalStorage.initializeCurrencies(false).then((list2)=>{
+                    //console.log("recursive deepening");
+                    return LocalStorage.getCurrencyValue(currencyTag);
+                });
+            }else{
+                let result:[string,number];
+                result=["",0];
+                for(let i=0;i < list.length;i++){
+                    if(list[i][0]==currencyTag){
+                        result=[currencyTag,list[i][1]];
+                        return result;
+                    }
                 }
+                return result;
             }
-            return result;
         });
     }
 

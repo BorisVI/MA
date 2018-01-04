@@ -4,7 +4,6 @@
   "private": true,
   "devDependencies": {
     "@types/node": "^8.5.2",
-    "@types/whatwg-fetch": "0.0.33",
     "jest-expo": "^21.0.2",
     "react-native-scripts": "^1.5.0",
     "react-test-renderer": "16.0.0-alpha.12"
@@ -42,7 +41,6 @@
     "typescript": "^2.6.2",
     "typescript-ioc": "^1.0.2",
     "typescript-map": "0.0.5",
-    "typescript-rest": "^1.2.0",
-    "whatwg-fetch": "^2.0.3"
+    "typescript-rest": "^1.2.0"
   }
 }
