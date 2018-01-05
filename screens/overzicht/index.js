@@ -38,6 +38,7 @@ import {NavigationActions } from 'react-navigation';
     this.state = {trips: []};
     //console.log('hehe');
     this.storeTripsLocaly();
+    console.log('j');
     //console.log('jnbfgszro');
   }
   handleOnNavigateBack= (b) => {
@@ -85,15 +86,20 @@ import {NavigationActions } from 'react-navigation';
           data={this.state.trips}
           renderItem={({item}) => <TableRow style={styles.row} titleStyle={styles.rowTitle} title={item.name} key={item.key} showArrow={true} subElement={<MaterialIcons name="delete-forever" size={40}
           style={styles.addButton}
-          onPress={() => this.delete(item.key)}/>} onPress={() => this.goToTrip(item.key)}></TableRow>}
+          onPress={() => this.delete(item.key)}/>} onPress={() =>this.goToTrip(item.key)}></TableRow>}
         />
         <MaterialIcons
         name={'add-box'}
         size={50}
         style={styles.addButton}
         onPress={() => this.goToAdd()}/>
+       
         </View>
     );
+  }
+  testGoToTrip(tripId){
+    Alert.alert('jeej');
+    this.props.navigation.navigate('Trip',{tripId});
   }
   delete(tripid)
   {
@@ -174,31 +180,5 @@ OverzichtInfo= StackNavigator(
 });
 
 export default OverzichtInfo;
-//export default Overzicht;
-/*const RootTabs = TabNavigator(
-  {
-  Home: {
-    screen: HomeScreen,
-    
-  },
-  Second: {
-    screen: SecondScreen,
-  },
- 
-},
-{ 
-  tabBarPosition: 'top',
-  tabBarOptions: {
-  showIcon:true,
-  labelStyle: {
-    fontSize: 12,
-  },
-  style: {
-    backgroundColor: '#4d9280',
-  },
-}}
-);*/
-
-//export default RootTabs;
 
 

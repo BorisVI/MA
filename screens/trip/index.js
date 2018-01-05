@@ -15,8 +15,9 @@ export class TripInfo extends Component {
 
   constructor(props){
     super(props);
-    this.trips = {id : this.props.navigation.state.params.tripId};
+    const id = this.props.navigation.tripId;
     this.state ={id: this.props.navigation.state.params.tripId,name: '',startdate: '', enddate:'',sumdata:[],tableData:[],tableHead:[],selectedTable: 'trip'};
+  //  this.props.navigation.setParams({tripId: this.state.tripId});
     //console.log("id: "+this.trips.id);
     Service.getTrip(this.state.id).then((trip)=>{
       //let t = JSON.parse(trip);

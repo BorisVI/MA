@@ -12,6 +12,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 //import 'react-table/react-table.css';
 import TableRow from 'react-native-table-row';
 import { StackNavigator } from 'react-navigation';
+console.disableYellowBox = true;
 export default TripsOverzichtScreen;
  /*class App extends React.Component{
    constructor(props)

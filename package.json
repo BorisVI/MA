@@ -2,7 +2,12 @@
   "name": "Karavaan",
   "version": "0.1.0",
   "private": true,
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/node": "^8.5.2",
+    "jest-expo": "^21.0.2",
+    "react-native-scripts": "^1.5.0",
+    "react-test-renderer": "16.0.0-alpha.12"
+  },
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
     "start": "react-native-scripts start",
@@ -15,18 +20,23 @@
     "preset": "jest-expo"
   },
   "dependencies": {
-    "@types/node": "^8.5.5",
     "es6": "0.0.7",
     "es6-promise": "^4.2.2",
     "expo": "^21.0.0",
-    "node": "^9.3.0",
     "react": "16.0.0-alpha.12",
-    "react-native": "^0.48.4",
-	"react-native-scripts": "^1.5.0",
+    "react-native": "^0.46.1",
+    "react-navigation": "^1.0.0-beta.11",
+    "react-native-asyncstorage": "^1.0.0",
+    "react-native-branch": "^2.2.1",
+    "react-native-check-box": "^2.0.2",
     "react-native-datepicker": "^1.6.0",
+    "react-native-elements": "^0.18.4",
     "react-native-table-component": "^1.1.2",
     "react-native-table-row": "0.0.4",
-    "react-navigation": "^1.0.0-beta.21",
-    "typescript-map": "0.0.5"
+    "react-native-vector-icons": "^4.4.2",
+    "typescript": "^2.6.2",
+    "typescript-ioc": "^1.0.2",
+    "typescript-map": "0.0.5",
+    "typescript-rest": "^1.2.0"
   }
 }
