@@ -229,7 +229,7 @@ class ExpenseOveriew extends Component {
      },
     
      head: {
-        height: 40, 
+        height: null, 
         backgroundColor: '#f1f8ff'
       },
      text: { 
