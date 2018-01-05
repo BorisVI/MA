@@ -141,7 +141,7 @@ class ExpenseInfo extends Component {
        marginBottom :5,
      },
      head: {
-        height: null, 
+        height: 50, 
         backgroundColor: '#f1f8ff'
       },
      text: { 

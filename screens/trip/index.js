@@ -199,7 +199,7 @@ this.setState({tableData: items});
      },
     
      head: {
-        height: 40, 
+        height: null, 
         backgroundColor: '#f1f8ff'
       },
      text: { 
