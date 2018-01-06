@@ -19,41 +19,71 @@ export default class SplitEvenly extends Component {
   }
   componentDidMount()
   {
+    this.loadConsumersToExpnse();
       this.loadParticipantsList();
-    //  this.loadPayerslist();
+      this.setBillAmount();
+    //  this.loadAlreadyParticpant();
   }
   setState(state)
   {
       super.setState(state);
       console.log(`Set state to ${JSON.stringify(state)}`);
   }
-  loadPayerslist()
-  {
-    Service.getPayersFromExpense(this.state.tripId, this.state.expenseId).then((payers)=>{
-      items =[];
-      payers.forEach((value, key)=>{
-        var fname = key[1]+ ' '+ key[2];
-        items.push({key: fname, id: key[0], payed: value, item});
-      });
-      this.setState({payers: items});
-    });
-  }
   loadParticipantsList()
   {
     Service.getTrip(this.state.tripId).then((trip)=>{
-        items= [];
-        for(let p of trip.participants)
-        {
-            var fname = p.firstName + ' '+ p.lastName;
-            items.push({key: fname, id: p.personId, isChecked: false});
+      items= [];
+      already=[];
+      for(let p of trip.participants)
+      {
+        if(this.alreadyConsumer(p.personId)){
+
+          var fname = p.firstName + ' '+ p.lastName;
+        items.push({key: fname, id: p.personId, isChecked: true});
+        }else{
+        var fname = p.firstName + ' '+ p.lastName;
+        items.push({key: fname, id: p.personId, isChecked: false});
         }
-        this.setState({participants: items});
-        
+      }
+      this.setState({participants: items});
+      
     });
+  }
+setBillAmount(){
+ // var count = 0;
+  Service.getExpenseById(this.state.tripId, this.state.expenseId).then((expense)=>{
+   var total= expense.getTotalConsumers();
+   console.log(total);
+   if(total > 0){
+     this.setState({totalAmount: total.toString()});
+   }
+  });
+}
+loadConsumersToExpnse()
+  {
+    Service.getConsumersFromExpense(this.state.tripId, this.state.expenseId).then((payers)=>{
+      items=[];
+      payers.forEach((value, key)=>{
+       items.push({key: key[0]});
+      });
+      this.setState({particpantsToExpense: items});
+    });
+  
+  }
+  alreadyConsumer(id)
+  {
+    var result = false;
+    for(let p of this.state.particpantsToExpense)
+    {
+      if(p.key== id){
+        result = true;
+      }
+    }
+    return result;
   }
   static navigationOptions = {
     
-    title:'Add payers',
+    title:'Split evenly',
     headerStyle: { backgroundColor: '#4d9280', borderWidth: 0, shadowColor: 'transparent'},
     headerTintColor :'#fff',
   };
@@ -73,7 +103,7 @@ export default class SplitEvenly extends Component {
   <TextInput style={ {height:40} }
    keyboardType='numeric'
    onChangeText={(text)=> this.onChangedNrPayed(text)}
-   value={this.state.participantpayed}
+   value={this.state.totalAmount}
    maxLength={10} />
 <Button color='#4d9280' 
  onPress={() => this.splitEvenly()}
@@ -138,7 +168,26 @@ export default class SplitEvenly extends Component {
   }
   splitEvenly()
   {
-      console.log(this.state.particpantsToExpense +' , '+ this.state.participants +','+ this.state.totalAmount);
+    if(this.state.totalAmount.trim()!= ""){
+
+    
+      
+      Service.splitEvenly(this.state.tripId, this.state.expenseId, this.getIdsAsArray(),this.state.totalAmount).then(()=>{
+        this.props.navigation.state.params.onNavigateBack(true);
+        this.props.navigation.goBack();
+      });
+    } else{
+      Alert.alert("please enter an amount!");
+    }
+  }
+  getIdsAsArray()
+  {
+    var result = [];
+    for(let t of this.state.particpantsToExpense)
+    {
+      result.push(t.key);
+    }
+  return result;    
   }
   
   onChangedNrPayed(text){

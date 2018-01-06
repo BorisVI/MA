@@ -44,7 +44,7 @@ var category_1 = require("./category");
 var Service = /** @class */ (function () {
     function Service() {
     }
-    Service.spitEvenly = function (tripId, expenseId, participants, amount) {
+    Service.splitEvenly = function (tripId, expenseId, participants, amount) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {

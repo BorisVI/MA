@@ -28,8 +28,8 @@ import {NavigationActions } from 'react-navigation';
   
   componentDidMount()
   {
-    this.Loans();
     this.getCur();
+    this.Loans();
   }
   getCur()
   {
@@ -43,7 +43,7 @@ this.setState({currency: expense.currency});
     //console.log(this.state.tripId, this.state.expenseId);
     Service.getLoans(this.state.tripId, this.state.expenseId).then((response)=>{
       items=[];
-      console.log(response);
+     // console.log(response);
      response.forEach((value,key)=>{
       var fnamepayer = key[1]+ ' ' + key[2];
       var fnamereceiver = key[4]+ ' '+ key[5];

@@ -15,7 +15,13 @@ var Trip = /** @class */ (function () {
     }
     Trip.prototype.splitBill = function (expenseId, participants, amount) {
         var expense = this.getExpenseById(expenseId);
-        expense.consumers.clear();
+        console.log(expense);
+        if (expense.consumers == null) {
+            expense.consumers = new typescript_map_1.TSMap();
+        }
+        else {
+            expense.consumers.clear();
+        }
         for (var _i = 0, participants_1 = participants; _i < participants_1.length; _i++) {
             var p = participants_1[_i];
             expense.consumers.set(p, amount / participants.length);

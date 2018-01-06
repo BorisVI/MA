@@ -8,7 +8,7 @@ import { Category } from "./category";
 
 export class Service {
 
-    static async spitEvenly(tripId: string, expenseId: string, participants: string[], amount: number): Promise<void>{
+    static async splitEvenly(tripId: string, expenseId: string, participants: string[], amount: number): Promise<void>{
         await this.getTrip(tripId).then((trip) =>{
             let t = this.getNewTrip(trip);
             t.splitBill(expenseId,participants,amount);

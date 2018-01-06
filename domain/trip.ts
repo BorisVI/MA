@@ -24,7 +24,14 @@ export class Trip{
 
 	splitBill(expenseId: string, participants: string[], amount: number){
 		let expense = this.getExpenseById(expenseId);
-		expense.consumers.clear();
+		console.log(expense);
+		if(expense.consumers == null)
+		{
+			expense.consumers = new TSMap<string, number>();
+		}
+		else{
+			expense.consumers.clear();
+		}
 		for(let p of participants){
 			expense.consumers.set(p, amount/participants.length);
 		}

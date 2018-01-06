@@ -119,6 +119,7 @@ class ExpenseOveriew extends Component {
       break;
       case 'split':
       items.push( {key:'splitkey', buttonkey:'splitbutton', action:'goToSplitEven', title:'Enter and split the bill'} );
+      items.push({key: 'splitpayerskey',buttonkey:'splitpayers',action: 'addPayers', title:'add payers'});
         this.setState({selectedSplitter:type}); 
       break;
     }
@@ -143,7 +144,7 @@ class ExpenseOveriew extends Component {
   {
     let tripId = this.state.tripId;
     let expenseId = this.state.expenseId;
-    this.props.navigation.navigate('Even',{tripId,expenseId});
+    this.props.navigation.navigate('Even',{tripId,expenseId,onNavigateBack: this.handleOnNavigateBack});
   }
   refresh()
   {

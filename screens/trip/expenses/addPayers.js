@@ -94,31 +94,6 @@ export default class AddPayersScreen extends Component {
     
     );
   }
-  /*setKeyForPerson(fname)
-  {
-    var res = fname.split(" ");
-    var firstname = res[0];
-    var lastname= '';
-    for(i =1; i < res.length;i++)
-    {
-      if(i == 1)
-      {
-        lastname+= res[i];
-      } 
-      else
-      {
-        lastname += ' '+ res[i];
-      }
-    }
-    Service.getTrip(this.state.tripId).then((trip)=>{
-        for(let p of trip.participants){
-            if(p.firstName== firstname&& p.lastName== lastname)
-            {
-                this.setState({selectedParticipantId: p.personId});
-            }
-        }
-    });
-  }*/
   onChangedNrPayed(text){
     let newText = '';
     let numbers = '0123456789.';
