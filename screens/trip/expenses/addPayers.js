@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import { AppRegistry, Image, View, Text,StyleSheet, TextInput,Button ,Alert,Picker,FlatList} from 'react-native';
 import TableRow from 'react-native-table-row';
-//import TripsOverzichtScreen from '../overzicht/index';
 import { StackNavigator } from 'react-navigation';
-//import PersonScreen from '../person';
 import DatePicker from 'react-native-datepicker';
 import {Service as Service} from '../../../domain/service';
 import {Person} from '../../../domain/person.js';
 import {Trip} from '../../../domain/trip';
-//import Overzicht from '../overzichtscreen';
 
 export default class AddPayersScreen extends Component {
   constructor(props){
@@ -24,7 +21,6 @@ export default class AddPayersScreen extends Component {
   setState(state)
   {
       super.setState(state);
-      console.log(`Set state to ${JSON.stringify(state)}`);
   }
   loadPayerslist()
   {
@@ -86,7 +82,7 @@ export default class AddPayersScreen extends Component {
   <View style={styles.buttonStyle}>
       <Button color='#4d9280' 
  onPress={() => this.AddPayersToTrip()}
-  title="Add"
+  title="Apply"
   
 />
   </View>
@@ -109,7 +105,7 @@ export default class AddPayersScreen extends Component {
        else if(numbers.indexOf(text[i]) > -1 ) {
           if(text[i]=='.'){
             if(comma){
-              Alert.alert('only one comma allowed');
+              Alert.alert('Only one comma allowed');
             } else{
 
               newText = newText + text[i];
@@ -124,7 +120,7 @@ export default class AddPayersScreen extends Component {
         else {
             // your call back function
             text='';
-            Alert.alert("please enter numbers only");
+            Alert.alert("Please enter numbers only");
            // break;
         }
     }
@@ -186,7 +182,6 @@ export default class AddPayersScreen extends Component {
     {
         payerslist.set(payer.id,payer.payed);
     }
-    console.log(payerslist);
     
     Service.addPayersToExpense(this.state.tripId,this.state.expenseId, payerslist).then(()=>{
         this.props.navigation.state.params.onNavigateBack(true);
@@ -203,8 +198,6 @@ export default class AddPayersScreen extends Component {
       container: {  
       flex: 1,
       backgroundColor: '#fff',
-      //alignItems: 'flex-start',
-      //justifyContent: 'flex-start',
     padding: 10, 
      
     },
@@ -240,22 +233,3 @@ export default class AddPayersScreen extends Component {
       
      }
   });
-  /*AddTrip= StackNavigator(
-    {
-    Actual:
-    {        
-      screen: AddTrip,     
-    },
-    Terug:
-    {
-      screen: TripsOverzichtScreen,
-    }
-   
-    
-  },
-  {
-    headerMode : 'none',
-  });
- // export default AddTrip;
-// skip this line if using Create React Native App
-*/

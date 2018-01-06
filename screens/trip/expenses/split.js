@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import { AppRegistry, Image, View, Text,StyleSheet, TextInput,Button ,Alert,Picker,FlatList} from 'react-native';
 import TableRow from 'react-native-table-row';
-//import TripsOverzichtScreen from '../overzicht/index';
 import { StackNavigator } from 'react-navigation';
-//import PersonScreen from '../person';
 import DatePicker from 'react-native-datepicker';
 import {Service as Service} from '../../../domain/service';
 import {Person} from '../../../domain/person.js';
 import {Trip} from '../../../domain/trip';
 import CheckBox from 'react-native-check-box';
-//import Overzicht from '../overzichtscreen';
 
 export default class SplitEvenly extends Component {
   constructor(props){
@@ -22,12 +19,10 @@ export default class SplitEvenly extends Component {
     this.loadConsumersToExpnse();
       this.loadParticipantsList();
       this.setBillAmount();
-    //  this.loadAlreadyParticpant();
   }
   setState(state)
   {
       super.setState(state);
-      console.log(`Set state to ${JSON.stringify(state)}`);
   }
   loadParticipantsList()
   {
@@ -50,10 +45,8 @@ export default class SplitEvenly extends Component {
     });
   }
 setBillAmount(){
- // var count = 0;
   Service.getExpenseById(this.state.tripId, this.state.expenseId).then((expense)=>{
    var total= expense.getTotalConsumers();
-   console.log(total);
    if(total > 0){
      this.setState({totalAmount: total.toString()});
    }
@@ -177,7 +170,7 @@ loadConsumersToExpnse()
         this.props.navigation.goBack();
       });
     } else{
-      Alert.alert("please enter an amount!");
+      Alert.alert("Please enter an amount!");
     }
   }
   getIdsAsArray()
@@ -205,7 +198,7 @@ loadConsumersToExpnse()
        else if(numbers.indexOf(text[i]) > -1 ) {
           if(text[i]=='.'){
             if(comma){
-              Alert.alert('only one comma allowed');
+              Alert.alert('Only one comma allowed');
             } else{
 
               newText = newText + text[i];
@@ -218,10 +211,8 @@ loadConsumersToExpnse()
         }
         
         else {
-            // your call back function
             text='';
-            Alert.alert("please enter numbers only");
-           // break;
+            Alert.alert("Please enter numbers only");
         }
     }
     this.setState({totalAmount: newText });
@@ -299,8 +290,6 @@ loadConsumersToExpnse()
       container: {  
       flex: 1,
       backgroundColor: '#fff',
-      //alignItems: 'flex-start',
-      //justifyContent: 'flex-start',
     padding: 10, 
      
     },
@@ -336,22 +325,3 @@ loadConsumersToExpnse()
       
      }
   });
-  /*AddTrip= StackNavigator(
-    {
-    Actual:
-    {        
-      screen: AddTrip,     
-    },
-    Terug:
-    {
-      screen: TripsOverzichtScreen,
-    }
-   
-    
-  },
-  {
-    headerMode : 'none',
-  });
- // export default AddTrip;
-// skip this line if using Create React Native App
-*/

@@ -17,12 +17,7 @@ export class TripInfo extends Component {
     super(props);
     const id = this.props.navigation.tripId;
     this.state ={id: this.props.navigation.state.params.tripId,name: '',startdate: '', enddate:'',sumdata:[],tableData:[],tableHead:[],selectedTable: 'trip'};
-  //  this.props.navigation.setParams({tripId: this.state.tripId});
-    //console.log("id: "+this.trips.id);
     Service.getTrip(this.state.id).then((trip)=>{
-      //let t = JSON.parse(trip);
-     // console.log(t);
-     //console.log('jnhiûofezrg '+trip.name);
       this.setState({name: trip.tripName});
       let startDate= new Date(trip.startDate);
       let endDate = new Date(trip.endDate);
@@ -31,8 +26,6 @@ export class TripInfo extends Component {
       this.setState({startdate: europeanstartdate})
       this.setState({enddate: europeanenddate});
     });
-    
-    //console.log(this.props.navigation.state.params.tripId);
   }
   componentDidMount()
   {
@@ -45,7 +38,6 @@ export class TripInfo extends Component {
       items = [];
       response.forEach((value, key)=>{
         var fname = key[1] + ' '+ key[2];
-        //console.log(value[2]);
         items.push([fname,value[1],value[0],value[2]]);
       });
       this.setState({tableHead: ['Name', 'Amount already paid', 'Amount due', 'Receives/stillneeds to pay']});
@@ -57,7 +49,6 @@ export class TripInfo extends Component {
     Service.getExpensesByCategory(this.state.id).then((response)=>{
       items = [];
       response.forEach((value, key)=>{
-        console.log('key: '+ key+' ,value: '+ value);
        items.push([key,value]);
       });
       this.setState({tableHead:['Category', 'Expense']});
@@ -68,24 +59,19 @@ export class TripInfo extends Component {
   {
     Service.getTransactionSummary(this.state.id).then((response)=>{
       items=[];
-for(let value of response){
-
-  items.push([value[2],value[3],value[4],value[5]])
-}
-this.setState({tableHead:['Payer', 'Reciever','Amount','Status']});
-this.setState({tableData: items});
+      for(let value of response){
+        items.push([value[2],value[3],value[4],value[5]])
+      }
+      this.setState({tableHead:['Payer', 'Reciever','Amount','Status']});
+      this.setState({tableData: items});
     });
   }
-  static navigationOptions = {
-    
+  static navigationOptions = {  
     title:'Trip Details',
     headerStyle: { backgroundColor: '#4d9280', borderWidth: 0, shadowColor: 'transparent'},
     headerTintColor :'#fff',
   };
   render() {
-    //const id = this.trips.id;
-    //const tableHead = ['Name', 'Amount already paid', 'Amount due', 'Receives/stillneeds to pay'];
-   
     return (
     <View>
       <Text style={styles.titleText}>Trip: {this.state.name}</Text>
@@ -143,7 +129,6 @@ this.setState({tableData: items});
   }
   goToPerson(personId)
   {
-    //this.props.id = tripId; 
     this.props.navigation.navigate('PersonInfo',{personId});
   }
   goToExpense(expenseId)
@@ -236,5 +221,4 @@ this.setState({tableData: items});
         backgroundColor:  '#4d9280',
       },
     },});
-// skip this line if using Create React Native App
 

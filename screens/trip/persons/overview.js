@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { AppRegistry, Image, View, Text,StyleSheet, Button ,Picker} from 'react-native';
 import TableRow from 'react-native-table-row';
-
 import { TabNavigator } from 'react-navigation';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import {Service as Service} from '../../../domain/service';
@@ -10,7 +9,6 @@ export class PersonOveriew extends Component {
   constructor(props){
     super(props);
     this.state ={tableData: [],trip: this.props.navigation.state.params.tripId,personId: this.props.navigation.state.params.personId, fname: this.props.navigation.state.params.fname, selectedTable:'total',tableData:[],tableHead:[]};
-
     
   }
   componentDidMount()
@@ -20,7 +18,6 @@ export class PersonOveriew extends Component {
   setState(state)
   {
     super.setState(state);
-    //console.log(`Set state to ${JSON.stringify(state)}`);
   }
   getTableDataTotal()
   {
@@ -37,7 +34,6 @@ export class PersonOveriew extends Component {
   }
   getTableDateTransactions()
   {
-   // console.log('vgubhinj');
     Service.getTransactionSummaryForPerson(this.state.trip, this.state.personId).then((response)=>{
       items=[];
       for(let value of response){
@@ -56,7 +52,6 @@ export class PersonOveriew extends Component {
         
         items.push([key,value]);
       });
-      console.log(items);
       this.setState({tableHead: ['Category', 'Expenses']});
       this.setState({tableData: items});
     });
@@ -68,7 +63,6 @@ export class PersonOveriew extends Component {
       response.forEach((value, key)=>{
         items.push([key,value]);
       });
-      console.log(items);
       this.setState({tableHead: ['Day', 'Expenses']});
       this.setState({tableData: items});
     });
@@ -80,8 +74,6 @@ export class PersonOveriew extends Component {
     headerTintColor :'#fff',
   };
   render() {
-    //const id = this.trips.id;
-   // const tableHead = ['Expense Name', 'Amount already paid', 'Amount due', 'Receives/stillneeds to pay'];
    
     return (
     <View>
@@ -200,5 +192,5 @@ export class PersonOveriew extends Component {
      
   });
   export default PersonOveriew;
-// skip this line if using Create React Native App
+
 

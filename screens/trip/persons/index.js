@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { AppRegistry, Image, View, Text,StyleSheet, Picker,Button,FlatList } from 'react-native';
 import TableRow from 'react-native-table-row';
-
 import { StackNavigator } from 'react-navigation';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import AddPersonScreen from './add';
@@ -13,16 +12,11 @@ export class PersonInfo extends Component {
 
   constructor(props){
     super(props);
-    //this.trip = {id : this.props.navigation.state.params.tripId};
-    
-   // console.log(this.props.navigation.state.params.tripId);
    this.state = {id: this.props.navigation.state.params.tripId,persons: []};
-   //this.loadPersons();
   }
   componentDidMount()
   {
     this.loadPersons();
-   //console.log(this.state.persons);
   }
 
   handleOnNavigateBack= (b) => {
@@ -35,13 +29,11 @@ export class PersonInfo extends Component {
         for(let tt of  trip.participants)
         {
           var fname =tt.firstName+ ' '+ tt.lastName;
-          //console.log('jeeej '+ fname);
            items.push({key: fname, id: tt.personId});
         }
         this.setState({persons: items});
       });
 
-    //this.setState({persons: items});
   }
   setState(state)
   {
@@ -54,15 +46,6 @@ export class PersonInfo extends Component {
     headerTintColor :'#fff',
   };
   render() {
-   // const id = this.trip.id;
-    const tableHead = ['Name', 'Amount already paid', 'Amount due', 'Receives/stillneeds to pay'];
-    const tableData = [
-      ['John', '120', '30', '90'],
-      ['Pete', '0', '40', '40'],
-      ['Tiago', '0', '50', '50'],
-      ['Jack', '0', '0', '0'],
-    ];
-    
     return (
       
     <View>
@@ -76,7 +59,7 @@ export class PersonInfo extends Component {
       <View style={styles.buttonStyle}>
       <Button color='#4d9280' 
  onPress={() => this.AddPerson()}
-  title="Voeg een persoon toe"
+  title="Add a person"
   
 />
   </View>
@@ -175,5 +158,4 @@ export class PersonInfo extends Component {
   {
     headerMode : 'none',}
   );
-// skip this line if using Create React Native App
 

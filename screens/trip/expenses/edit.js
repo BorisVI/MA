@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
 import { AppRegistry, Image, View, Text,StyleSheet, TextInput,Button ,Alert, Picker,ListView, FlatList, ScrollView} from 'react-native';
 import TableRow from 'react-native-table-row';
-//import TripsOverzichtScreen from '../overzicht/index';
 import { StackNavigator } from 'react-navigation';
-//import PersonScreen from '../person';
 import DatePicker from 'react-native-datepicker';
-//import {Trip} from '../../domain/trip'
-//import Overzicht from '../overzichtscreen';
 import {LocalStorage} from '../../../domain/localStorage';
 import {Service as Service} from '../../../domain/service';
 import {Person} from '../../../domain/person';
@@ -19,23 +15,16 @@ export default class EditExpenseScreen extends Component {
     var datum = new Date();
     var today = datum.getFullYear() + '-' +(datum.getMonth()+1)+'-'+datum.getDate();
     this.state = {tripId: this.props.navigation.state.params.tripId, expenseId: this.props.navigation.state.params.expenseId,startDateTrip: '', endDateTrip: '',date: '', name: '',categories:[], category : '', currency: '', currencies:[]};
-   
-    //this.dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1!==r2});
-    //(this.datumlimits.max);
-    //(this.datumlimits.min);
-    
   }
   componentDidMount()
   {
     this.getStates();
     this.getAllCategories();
-    
     this.getAllCurrencies();
   }
   setState(state)
   {
     super.setState(state);
-    (`Set state to ${JSON.stringify(state)}`);
   }
   getStates()
   {
@@ -54,26 +43,16 @@ export default class EditExpenseScreen extends Component {
       this.setState({date: tdates});
       this.setState({category: expense.category});
       this.setState({currency: expense.currency});
-      //console.log(expense);
     });
   }
   getAllCategories(){
     items=[];
-    var reg = new RegExp('^[0-9]+$');
-   /* for(var cat in Category)
-    {
-      if(cat.match(reg)){
-        items.push({key: Category[cat]});
-      }
-    }*/
    let categories = Service.getAllCatergories();
    for(let cat of categories)
    {
     items.push({key: cat});
    }
-    //(items);
     this.setState({categories: items});
-   // let b = Category[0];
   }
   getAllCurrencies()
   {
@@ -89,7 +68,6 @@ export default class EditExpenseScreen extends Component {
        }
        items.push({key: c});
       }
-      //console.log('bhi '+ items);
       this.setState({currencies: items});
   
   }
@@ -104,7 +82,7 @@ export default class EditExpenseScreen extends Component {
     return (
     <ScrollView style={styles.container}>
     <Text style={styles.dropText}>Expense name: </Text>
-  <TextInput style={ {height:40} } value={this.state.name} placeholder="Type hier de naam van uw expense!" onChangeText={(text) => this.setState({name:text})}/>
+  <TextInput style={ {height:40} } value={this.state.name} placeholder="Enter here the name of your expense!" onChangeText={(text) => this.setState({name:text})}/>
   <Text style={styles.dropText}>Category: </Text>
   <Picker
   selectedValue={this.state.category}
@@ -132,7 +110,6 @@ export default class EditExpenseScreen extends Component {
           dateInput: {
             marginLeft: 36
           }
-          // ... You can check the source to find the other keys. 
         }}
         onDateChange={(date) => {this.setState({date: date})}}
       />
@@ -146,7 +123,7 @@ export default class EditExpenseScreen extends Component {
 <View style={styles.buttonStyle}>
       <Button color='#4d9280' 
  onPress={() => this.editExpense()}
-  title="edit expense"
+  title="Edit expense"
   
 />
 </View>
@@ -155,7 +132,6 @@ export default class EditExpenseScreen extends Component {
   }
   editExpense()
   {
-    //(this.state.tripId+' , '+ this.state.expenseId)
     var splitdate = this.state.date.split("-");
     var datemonth = parseInt(splitdate[1]) -1;
     Service.editExpenseFromTrip(this.state.tripId, this.state.expenseId,this.state.name, new Date(splitdate[0],datemonth, splitdate[2]), this.state.currency, this.state.category).then(()=>{
@@ -168,7 +144,6 @@ export default class EditExpenseScreen extends Component {
     items=[];
     for(let item of this.state.categories)
     {
-     //(item.key);
       items.push(<Picker.Item key={item.key} label={item.key} value={item.key}/>);
     }
     return items;
@@ -177,7 +152,6 @@ export default class EditExpenseScreen extends Component {
   {
     items=[];
     for(let item of this.state.currencies){
-     //(item.key);
       items.push(<Picker.Item key={item.key} label={item.key} value={item.key}/>);
     }
     return items;
@@ -192,8 +166,6 @@ export default class EditExpenseScreen extends Component {
       container: {  
       flex: 1,
       backgroundColor: '#fff',
-      //alignItems: 'flex-start',
-      //justifyContent: 'flex-start',
     padding: 10, 
      
     },
@@ -230,22 +202,3 @@ export default class EditExpenseScreen extends Component {
       
      }
   });
-  /*AddTrip= StackNavigator(
-    {
-    Actual:
-    {        
-      screen: AddTrip,     
-    },
-    Terug:
-    {
-      screen: TripsOverzichtScreen,
-    }
-   
-    
-  },
-  {
-    headerMode : 'none',
-  });
- // export default AddTrip;
-// skip this line if using Create React Native App
-*/

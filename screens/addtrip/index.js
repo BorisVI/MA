@@ -15,7 +15,6 @@ export default class AddTrip extends Component {
     var today = datum.getFullYear() + '-' +(datum.getMonth()+1)+'-'+datum.getDate();
     this.state = {startdate: today, enddate: today, name: ''};
     this.datumlimits= {min: '',max:''};
-    //this.max= {max: ''};
     if(datum.getMonth() >5)
     {
      var varmonth = (datum.getMonth() + 7) -12
@@ -41,7 +40,7 @@ export default class AddTrip extends Component {
     return (
     <View style={styles.container}>
     <Text>Name of the trip: </Text>
-  <TextInput style={ {height:40} } placeholder="Type hier de naam van uw trip!" onChangeText={(text) => this.setState({name:text})}/>
+  <TextInput style={ {height:40} } placeholder="Enter here the name of your trip!" onChangeText={(text) => this.setState({name:text})}/>
   <Text>Start date: </Text>
  <DatePicker
         style={{width: 200,padding:10,justifyContent: 'center'}}
@@ -63,7 +62,6 @@ export default class AddTrip extends Component {
           dateInput: {
             marginLeft: 36
           }
-          // ... You can check the source to find the other keys. 
         }}
         onDateChange={(date) => {this.setState({startdate: date})}}
       />
@@ -94,7 +92,7 @@ export default class AddTrip extends Component {
       <View style={styles.buttonStyle}>
       <Button color='#4d9280' 
  onPress={() => this.AddTrip()}
-  title="Voeg trip toe"
+  title="Add trip"
 
 />
   </View>
@@ -106,23 +104,17 @@ export default class AddTrip extends Component {
     if(this.state.name != '')
     {
     let tid = this.state.name+ this.state.startdate+ this.state.enddate;
-   // var d = new Date(this.state.startdate);
-  //  console.log(d+ ' '+ this.state.startdate);
-   // var dd = new Date(this.state.enddate);
    var splitstart = this.state.startdate.split("-");
       var splitend = this.state.enddate.split("-");
     var startmonth = parseInt(splitstart[1]) -1;
     var endmonth = parseInt(splitend[1])-1;
-   // console.log(startmonth+ ' '+ endmonth);
     let t = new Trip(tid,this.state.name,new Date(splitstart[0],startmonth,splitstart[2]), new Date(splitend[0],endmonth,splitend[2]));
-    //:console.log('gubhiknmj'+d);    
     Service.addTrip(t).then(()=>{
       this.props.navigation.state.params.onNavigateBack(true);
-      this.props.navigation.goBack();
-      
+      this.props.navigation.goBack();    
     });
     }else{
-      Alert.alert('Naam mag niet worden leeg gelaten');
+      Alert.alert("Name of the trip cannot empty");
     }
   }
 }
@@ -131,9 +123,7 @@ export default class AddTrip extends Component {
       container: {  
       flex: 1,
       backgroundColor: '#fff',
-      //alignItems: 'flex-start',
-      //justifyContent: 'flex-start',
-    padding: 10, 
+      padding: 10, 
      
     },
     titleText: {

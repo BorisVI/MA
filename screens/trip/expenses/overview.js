@@ -15,8 +15,7 @@ class ExpenseOveriew extends Component {
   constructor(props){
     super(props);
     this.state ={buttons:[],tripId: this.props.navigation.state.params.tripId, expenseId: this.props.navigation.state.params.expenseId,name:'',date:'', tableData:[], finalised:'', selectedSplitter:'normal'};
-    //console.log(this.state.tripId+ " , "+ this.state.expenseId);
-    //Service.getTableByExpense(this.props.navigation.state.params.tripId,this.props.navigation.state.params.expenseId);
+
     
   }
   componentDidMount(){
@@ -47,8 +46,6 @@ class ExpenseOveriew extends Component {
       items=[];
       response.forEach((value, key)=>{
          var fname = key[1] + ' '+ key[2];
-         //console.log(value[2]);
-        // console.log(key+' , '+ value);
          items.push([fname,value[1],value[0],value[2]]);
          
        });
@@ -62,7 +59,6 @@ class ExpenseOveriew extends Component {
     headerTintColor :'#fff',
   };
   render() {
-    //const id = this.trips.id;
     const tableHead = ['Name', 'Amount already paid', 'Amount due', 'Receives/stillneeds to pay'];
    
     return (
@@ -158,7 +154,6 @@ class ExpenseOveriew extends Component {
   }
   finalizeExpense()
   {
-    //console.log('ben hier');
     Service.finaliseExpense(this.state.tripId, this.state.expenseId).then(()=>{
       this.componentDidMount();
     });
@@ -273,5 +268,4 @@ class ExpenseOveriew extends Component {
   {
     headerMode : 'none',}
   );
-// skip this line if using Create React Native App
 

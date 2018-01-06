@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import { AppRegistry, Image, View, Text,StyleSheet, TextInput,Button ,Alert,Picker,FlatList} from 'react-native';
 import TableRow from 'react-native-table-row';
-//import TripsOverzichtScreen from '../overzicht/index';
 import { StackNavigator } from 'react-navigation';
-//import PersonScreen from '../person';
 import DatePicker from 'react-native-datepicker';
 import {Service as Service} from '../../../domain/service';
 import {Person} from '../../../domain/person.js';
 import {Trip} from '../../../domain/trip';
-//import Overzicht from '../overzichtscreen';
+
 
 export default class AddConsumerScreen extends Component {
   constructor(props){
@@ -24,7 +22,6 @@ export default class AddConsumerScreen extends Component {
   setState(state)
   {
       super.setState(state);
-      console.log(`Set state to ${JSON.stringify(state)}`);
   }
   loadParticipantsList()
   {
@@ -86,7 +83,7 @@ export default class AddConsumerScreen extends Component {
   <View style={styles.buttonStyle}>
       <Button color='#4d9280' 
  onPress={() => this.AddConsumersToTrip()}
-  title="Add"
+  title="Apply"
   
 />
   </View>
@@ -94,34 +91,6 @@ export default class AddConsumerScreen extends Component {
     
     );
   }
-  /*setKeyForPerson(fname)
-  {
-    var res = fname.split(" ");
-    var firstname = res[0];
-    var lastname= '';
-    for(i =1; i < res.length;i++)
-    {
-      if(i == 1)
-      {
-        lastname+= res[i];
-      } 
-      else
-      {
-        lastname += ' '+ res[i];
-      }
-    }
-    Service.getTrip(this.state.tripId).then((trip)=>{
-        for(let p of trip.participants){
-          console.log(p.firstName+'vs'+ firstname+ ','+ p.lastName+'vs'+lastname);
-            if(p.firstName== firstname&& p.lastName== lastname)
-            {
-                this.setState({selectedParticipantId: p.personId});
-                console.log('tesss '+ this.state.selectedParticipantId);
-            }
-        }
-    });
-    this.setState({selectedParticipant: fname});
-  }*/
   onChangedNrConsumed(text){
     let newText = '';
     let numbers = '0123456789.';
@@ -152,7 +121,7 @@ export default class AddConsumerScreen extends Component {
         else {
             // your call back function
             text='';
-            Alert.alert("please enter numbers only");
+            Alert.alert("Please enter numbers only");
         }
     }
     this.setState({ participantconsumed: newText });
@@ -169,7 +138,6 @@ export default class AddConsumerScreen extends Component {
   {
     if(this.state.participantconsumed.trim() != ''){
     items = this.state.consumers;
-    //console.log('vgubhinj '+ items[0].firstName);
     let init= false;
     result =[];
     for(let t of items)
@@ -210,7 +178,6 @@ export default class AddConsumerScreen extends Component {
     consumerslist = new typescript_map_1.TSMap();
     for(let consumer of this.state.consumers)
     {
-     // console.log(consumer.consumed);
         consumerslist.set(consumer.id,consumer.consumed);
     }
     Service.addConsumersToExpense(this.state.tripId,this.state.expenseId, consumerslist).then(()=>{
@@ -228,8 +195,6 @@ export default class AddConsumerScreen extends Component {
       container: {  
       flex: 1,
       backgroundColor: '#fff',
-      //alignItems: 'flex-start',
-      //justifyContent: 'flex-start',
     padding: 10, 
      
     },
@@ -265,22 +230,3 @@ export default class AddConsumerScreen extends Component {
       
      }
   });
-  /*AddTrip= StackNavigator(
-    {
-    Actual:
-    {        
-      screen: AddTrip,     
-    },
-    Terug:
-    {
-      screen: TripsOverzichtScreen,
-    }
-   
-    
-  },
-  {
-    headerMode : 'none',
-  });
- // export default AddTrip;
-// skip this line if using Create React Native App
-*/

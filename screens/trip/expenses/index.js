@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { AppRegistry, Image, View, Text,StyleSheet, Picker, TouchableWithoutFeedback,Button ,FlatList} from 'react-native';
 import TableRow from 'react-native-table-row';
 import { StackNavigator } from 'react-navigation';
-//import PersonScreen from '../person';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import{Service as Service} from '../../../domain/service';
 import AddExpenseScreen from './add';
@@ -12,9 +11,7 @@ class ExpenseInfo extends Component {
   constructor(props){
     super(props);
     this.trip = {id : this.props.navigation.state.params.tripId};
-   // console.log(this.props.navigation.state.params.tripId);
     this.state = {id: this.props.navigation.state.params.tripId,expenses: []}
-    //this.loadExpenses()
   }
   componentDidMount()
   {
@@ -30,14 +27,10 @@ class ExpenseInfo extends Component {
   {
     var items =[];    
       Service.getTrip(this.state.id).then((trip)=>{
-       // console.log('hfezu9 '+trip);
        
      for(let p of trip.expenses){
-      // console.log('hhh '+p.name);
-     // console.log('hi^fezu '+p.expenseId); 
       items.push({key: p.name, id: p.expenseId})
      }
-    // console.log('ihbpfzerN '+items);
      this.setState({expenses: items});
     }
   );
@@ -46,7 +39,6 @@ class ExpenseInfo extends Component {
   setState(state)
   {
     super.setState(state);
-    console.log(`Set state to ${JSON.stringify(state)}`);
   }
   static navigationOptions = {
     
@@ -55,13 +47,6 @@ class ExpenseInfo extends Component {
     headerTintColor :'#fff',
   };
   render() {
-    const tableHead = ['Name', 'Amount already paid', 'Amount due', 'Receives/stillneeds to pay'];
-    const tableData = [
-      ['John', '120', '30', '90'],
-      ['Pete', '0', '40', '40'],
-      ['Tiago', '0', '50', '50'],
-      ['Jack', '0', '0', '0'],
-    ];
     return (
     <View>
       <Text style={styles.dropText}>Selected expense: </Text>
@@ -83,7 +68,6 @@ class ExpenseInfo extends Component {
   goToExpense(expenseId, expenseName)
   {
     let tripId = this.props.navigation.state.params.tripId;
-    console.log('srdcfvgbh '+ expenseId);
     this.props.navigation.navigate('Expense',{tripId,expenseId,expenseName});
   }
   AddExpense()

@@ -1,18 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View,Image, StatusBar,Alert, FlatList } from 'react-native';
-//import { TabNavigator } from 'react-navigation'; // 1.0.0-beta.14
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'; // 4.4.2
 import Entypo from 'react-native-vector-icons/Entypo';
-//import HomeScreen from './screensstartPagina';
-//import SecondScreen from './second';
-//import Row from 'react-native-row';
-//import 'react-table/react-table.css';
 import TableRow from 'react-native-table-row';
 import { StackNavigator } from 'react-navigation';
 import { Service as Service} from '../../../domain/service';
-//import { Trip } from '../../domain/trip';
-
-//import { Person } from '../../domain/person';
 import {NavigationActions } from 'react-navigation';
 
  class LoansOverview extends React.Component{
@@ -21,9 +13,6 @@ import {NavigationActions } from 'react-navigation';
     super(props);
   
     this.state = {tripId: this.props.navigation.state.params.tripId, expenseId: this.props.navigation.state.params.expenseId,loans: [],currency:''};
-    //console.log('hehe');
-   
-    //console.log('jnbfgszro');
   }
   
   componentDidMount()
@@ -34,16 +23,15 @@ import {NavigationActions } from 'react-navigation';
   getCur()
   {
     Service.getExpenseById(this.state.tripId,this.state.expenseId).then((expense)=>{
-    console.log(expense.currency)
 this.setState({currency: expense.currency});
     });
   }
   Loans() 
   {
-    //console.log(this.state.tripId, this.state.expenseId);
+
     Service.getLoans(this.state.tripId, this.state.expenseId).then((response)=>{
       items=[];
-     // console.log(response);
+
      response.forEach((value,key)=>{
       var fnamepayer = key[1]+ ' ' + key[2];
       var fnamereceiver = key[4]+ ' '+ key[5];
@@ -54,8 +42,6 @@ this.setState({currency: expense.currency});
               });   
               this.setState({loans:items});
     });
-   // console.log('hybuezaf');
-    //set state for loans[]
   }
   static navigationOptions = {
    
@@ -67,18 +53,6 @@ this.setState({currency: expense.currency});
   render() {
     
     return (
-    /*  <View style={styles.container}>
-            <StatusBar hidden={true}/> 
-           <TableRow style={styles.row} title={'trip 1'} showArrow={true} onPress={() => this.goToTrip('trip 1')}></TableRow>
-            <TableRow style={styles.row} title={'trip 2'} showArrow={true}  onPress={() => this.goToTrip('trip 2')}></TableRow>
-            <TableRow style={styles.row} title={'trip 3'} showArrow={true}  onPress={() => this.goToTrip('whoehoe')}></TableRow>
-            <MaterialIcons
-        name={'add-box'}
-        size={50}
-        style={styles.addButton}
-        onPress={() => this.goToAdd()}/>
-
-        </View>*/
         <View style={styles.container}>
         <StatusBar hidden={true}/> 
         <FlatList
@@ -95,7 +69,6 @@ this.setState({currency: expense.currency});
   }
   pay(id)
   {
-    //pay the
     Service.payLoan(this.state.tripId,this.state.expenseId,id).then(()=>{
       this.componentDidMount();
     });
@@ -154,31 +127,6 @@ addButton: {
 
 
 export default LoansOverview;
-//export default Overzicht;
-/*const RootTabs = TabNavigator(
-  {
-  Home: {
-    screen: HomeScreen,
-    
-  },
-  Second: {
-    screen: SecondScreen,
-  },
- 
-},
-{ 
-  tabBarPosition: 'top',
-  tabBarOptions: {
-  showIcon:true,
-  labelStyle: {
-    fontSize: 12,
-  },
-  style: {
-    backgroundColor: '#4d9280',
-  },
-}}
-);*/
 
-//export default RootTabs;
 
 

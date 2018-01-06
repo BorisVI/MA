@@ -12,27 +12,9 @@ export default class AddExpense extends Component {
   constructor(props){
     super(props);
     var datum = new Date();
-    //var today = datum.getFullYear() + '-' +(datum.getMonth()+1)+'-'+datum.getDate();
     this.state = {date: '', name: '',id: this.props.navigation.state.params.tripId,startDateTrip: '', endDateTrip:''};
-    //this.datumlimits= {min: '',max:''};
-    //this.max= {max: ''};
-    /*if(datum.getMonth() >5)
-    {
-     var varmonth = (datum.getMonth() + 7) -12
-      this.datumlimits.max= (datum.getFullYear()+1) + '-'+varmonth+'-'+datum.getDate();
-      this.datumlimits.min =datum.getFullYear() + '-' +(datum.getMonth())+'-'+datum.getDate();
-    } else if(datum.getMonth()==0)
-    {
-      this.datumlimits.max= (datum.getFullYear()) + '-' +(datum.getMonth()+7)+'-'+datum.getDate();
-      this.datumlimits.min=(datum.getFullYear()-1) + '-' +'12'+'-'+datum.getDate();
-    } else
-    {
-      this.datumlimits.max= (datum.getFullYear()) + '-' +(datum.getMonth()+7)+'-'+datum.getDate();
-      this.datumlimits.min=(datum.getFullYear()) + '-' +(datum.getMonth())+'-'+datum.getDate();
-    }*/
     Service.getTrip(this.state.id).then((trip)=>{
-      let startdate= new Date(trip.startDate);
-      
+      let startdate= new Date(trip.startDate);     
       let startdates = startdate.getFullYear()+'-'+ (startdate.getMonth()+1)+'-'+ startdate.getDate();
       let enddate = new Date(trip.endDate);
       let enddates = enddate.getFullYear()+'-'+ (enddate.getMonth()+1)+'-'+ enddate.getDate();
@@ -40,16 +22,15 @@ export default class AddExpense extends Component {
       this.setState({startDateTrip: startdates});
       this.setState({endDateTrip: enddates});
     });
-   // console.log(this.datumlimits.min+ ','+ this.datumlimits.max);
+
   }
   setState(state)
   {
     super.setState(state);
-   // console.log(`Set state to ${JSON.stringify(state)}`);
   }
   static navigationOptions = {
     
-    title:'Add a expense',
+    title:'Add an expense',
     headerStyle: { backgroundColor: '#4d9280', borderWidth: 0, shadowColor: 'transparent'},
     headerTintColor :'#fff',
   };
@@ -57,7 +38,7 @@ export default class AddExpense extends Component {
     return (
     <View style={styles.container}>
     <Text>Name of the expense: </Text>
-  <TextInput style={ {height:40} } placeholder="Type hier de naam van uw expense!" onChangeText={(text) => this.setState({name:text})}/>
+  <TextInput style={ {height:40} } placeholder="Enter here the name of your expense!" onChangeText={(text) => this.setState({name:text})}/>
   <Text>Start date: </Text>
  <DatePicker
         style={{width: 200,padding:10,justifyContent: 'center'}}
@@ -78,8 +59,7 @@ export default class AddExpense extends Component {
           },
           dateInput: {
             marginLeft: 36
-          }
-          // ... You can check the source to find the other keys. 
+          } 
         }}
         onDateChange={(date) => {this.setState({date: date})}}
       />
@@ -87,7 +67,7 @@ export default class AddExpense extends Component {
       <View style={styles.buttonStyle}>
       <Button color='#4d9280' 
  onPress={() => this.AddExpense()}
-  title="add expense"
+  title="Add expense"
   
 />
   </View>
@@ -98,10 +78,7 @@ export default class AddExpense extends Component {
   {
     if(this.state.name != '')
     {
-    //let tid = this.state.name+ this.state.startdate+ this.state.enddate;
-    //let t = new Trip(tid,this.state.name,this.state.startdate, this.state.enddate);   
     var splitdate = this.state.date.split("-");
-    console.log('hijok'+splitdate[0]+ splitdate[1]+ splitdate[2]);
     var datemonth = parseInt(splitdate[1]) -1;
     Service.addExpenseToTrip(this.state.id, this.state.name, new Date(splitdate[0],datemonth, splitdate[2])).then(()=>{
       this.props.navigation.state.params.onNavigateBack(true);
@@ -109,7 +86,7 @@ export default class AddExpense extends Component {
       
     });
     }else{
-      Alert.alert('Naam mag niet worden leeg gelaten');
+      Alert.alert("Name of the expense cannot be empty");
     }
   }
 }
@@ -118,9 +95,7 @@ export default class AddExpense extends Component {
       container: {  
       flex: 1,
       backgroundColor: '#fff',
-      //alignItems: 'flex-start',
-      //justifyContent: 'flex-start',
-    padding: 10, 
+      padding: 10, 
      
     },
     titleText: {
