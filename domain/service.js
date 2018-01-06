@@ -44,6 +44,23 @@ var category_1 = require("./category");
 var Service = /** @class */ (function () {
     function Service() {
     }
+    Service.spitEvenly = function (tripId, expenseId, participants, amount) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.getTrip(tripId).then(function (trip) {
+                            var t = _this.getNewTrip(trip);
+                            t.splitBill(expenseId, participants, amount);
+                            _this.updateTrip(t);
+                        })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
     Service.getTransactionSummaryForPerson = function (tripId, personId) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;

@@ -13,6 +13,14 @@ var Trip = /** @class */ (function () {
         this.endDate = endDate;
         this.standardCurrency = "EUR";
     }
+    Trip.prototype.splitBill = function (expenseId, participants, amount) {
+        var expense = this.getExpenseById(expenseId);
+        expense.consumers.clear();
+        for (var _i = 0, participants_1 = participants; _i < participants_1.length; _i++) {
+            var p = participants_1[_i];
+            expense.consumers.set(p, amount / participants.length);
+        }
+    };
     Trip.prototype.payLoan = function (expenseId, loanId) {
         this.getExpenseById(expenseId).payLoan(loanId);
     };

@@ -8,6 +8,14 @@ import { Category } from "./category";
 
 export class Service {
 
+    static async spitEvenly(tripId: string, expenseId: string, participants: string[], amount: number): Promise<void>{
+        await this.getTrip(tripId).then((trip) =>{
+            let t = this.getNewTrip(trip);
+            t.splitBill(expenseId,participants,amount);
+            this.updateTrip(t);
+        });
+    }
+
     static async getTransactionSummaryForPerson(tripId: string, personId: string): Promise<Array<string[]>>{
         return this.getTrip(tripId).then((trip) =>{
             let t = this.getNewTrip(trip);

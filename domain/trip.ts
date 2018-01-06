@@ -22,6 +22,14 @@ export class Trip{
 		this.standardCurrency = "EUR";
 	}
 
+	splitBill(expenseId: string, participants: string[], amount: number){
+		let expense = this.getExpenseById(expenseId);
+		expense.consumers.clear();
+		for(let p of participants){
+			expense.consumers.set(p, amount/participants.length);
+		}
+	}
+
 	payLoan(expenseId: string, loanId: string){
 		this.getExpenseById(expenseId).payLoan(loanId);
 	}
