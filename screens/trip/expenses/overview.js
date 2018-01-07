@@ -10,6 +10,8 @@ import AddConsumerScreen from './addConsumer';
 import AddPayersScreen from './addPayers';
 import LoansOverview from './loanOverzicht';
 import SplitEvenly from './split';
+import AddItem from './addItem';
+import AssignItems from './assignItems';
 class ExpenseOveriew extends Component {
 
   constructor(props){
@@ -87,6 +89,7 @@ class ExpenseOveriew extends Component {
       onValueChange={(itemValue, itemIndex) => {this.setButtons(itemValue)}}>
       <Picker.Item label="What you consumed" value="normal" key="normal"/>
       <Picker.Item label="Split evenly" value="split" key="split"/>
+      <Picker.Item label="Split by the bill" value="bill" key="bill"/>
       </Picker>
 
       <FlatList
@@ -108,15 +111,22 @@ class ExpenseOveriew extends Component {
     switch (type)
     {
       case 'normal':
-      items.push( {key: 'normalconsumerskey', buttonkey:'normalconsumers' , action:'addConsumer', title:"add consumers"});
-  
+      items.push( {key: 'normalconsumerskey', buttonkey:'normalconsumers' , action:'addConsumer', title:"add consumers"}); 
       items.push({key: 'normalpayerskey',buttonkey:'normalpayers',action: 'addPayers', title:'add payers'});
       this.setState({selectedSplitter:type});
       break;
+
       case 'split':
       items.push( {key:'splitkey', buttonkey:'splitbutton', action:'goToSplitEven', title:'Enter and split the bill'} );
       items.push({key: 'splitpayerskey',buttonkey:'splitpayers',action: 'addPayers', title:'add payers'});
-        this.setState({selectedSplitter:type}); 
+      this.setState({selectedSplitter:type}); 
+      break;
+
+      case 'bill' :
+      items.push( {key:'additemkey', buttonkey:'additembutton', action:'addItem', title:'add an item'} );
+      items.push( {key:'assignitemkey', buttonkey:'assignitembutton', action:'assignItem', title:'assign the items'} );
+      items.push({key: 'splitpayerskey',buttonkey:'splitpayers',action: 'addPayers', title:'add payers'});
+      this.setState({selectedSplitter:type});
       break;
     }
     this.setState({buttons: items});
@@ -128,14 +138,37 @@ class ExpenseOveriew extends Component {
       case 'addConsumer':
       this.addConsumer();
       break;
+
       case 'addPayers':
       this.addPayers();
+
       break;
       case 'goToSplitEven':
       this.goToSplitEven();
       break;
+
+      case 'addItem':
+      this.addItem();
+      break;
+
+      case 'assignItem':
+      this.assignItem();
+      break;
     }
   }
+  addItem()
+  {
+    let tripId = this.state.tripId;
+    let expenseId = this.state.expenseId;
+    this.props.navigation.navigate('Item',{tripId,expenseId,onNavigateBack: this.handleOnNavigateBack});
+  }
+  assignItem()
+  {
+    let tripId = this.state.tripId;
+    let expenseId = this.state.expenseId;
+    this.props.navigation.navigate('Assign',{tripId,expenseId,onNavigateBack: this.handleOnNavigateBack});
+  }
+
   goToSplitEven()
   {
     let tripId = this.state.tripId;
@@ -262,6 +295,14 @@ class ExpenseOveriew extends Component {
     Even:
     {
       screen: SplitEvenly, 
+    },
+    Item:
+    {
+      screen: AddItem,
+    },
+    Assign:
+    {
+      screen: AssignItems,
     },
     
   },

@@ -8,17 +8,16 @@ import {Person} from '../../../domain/person.js';
 import {Trip} from '../../../domain/trip';
 import CheckBox from 'react-native-check-box';
 
-export default class SplitEvenly extends Component {
+export default class AssignItems extends Component {
   constructor(props){
     super(props);
-    this.state = {tripId: this.props.navigation.state.params.tripId,expenseId: this.props.navigation.state.params.expenseId, participants:[], particpantsToExpense:[],totalAmount:''};
+    this.state = {tripId: this.props.navigation.state.params.tripId,expenseId: this.props.navigation.state.params.expenseId, participants:[], particpantsToItem:[]};
    
   }
   componentDidMount()
   {
-    this.loadConsumersToExpnse();
+   // this.loadConsumersToExpnse();
       this.loadParticipantsList();
-      this.setBillAmount();
   }
   setState(state)
   {
@@ -44,14 +43,6 @@ export default class SplitEvenly extends Component {
       
     });
   }
-setBillAmount(){
-  Service.getExpenseById(this.state.tripId, this.state.expenseId).then((expense)=>{
-   var total= expense.getTotalConsumers();
-   if(total > 0){
-     this.setState({totalAmount: total.toString()});
-   }
-  });
-}
 loadConsumersToExpnse()
   {
     Service.getConsumersFromExpense(this.state.tripId, this.state.expenseId).then((payers)=>{
@@ -66,12 +57,12 @@ loadConsumersToExpnse()
   alreadyConsumer(id)
   {
     var result = false;
-    for(let p of this.state.particpantsToExpense)
+    /*for(let p of this.state.particpantsToExpense)
     {
       if(p.key== id){
         result = true;
       }
-    }
+    }*/
     return result;
   }
   static navigationOptions = {
@@ -83,7 +74,7 @@ loadConsumersToExpnse()
   render() {
     return (
     <View style={styles.container}>
-    <Text style={styles.dropText}>Select persons who particpated to this expense: </Text>
+    <Text style={styles.dropText}>Select persons who particpated to this item: </Text>
 <FlatList
         data={this.state.participants}
         extraData={this.state}
@@ -91,21 +82,18 @@ loadConsumersToExpnse()
         isChecked={item.isChecked} leftText={item.key}/>}
       />
 
-
-<Text style={styles.dropText}>Bill: </Text>
-  <TextInput style={ {height:40} }
-   keyboardType='numeric'
-   onChangeText={(text)=> this.onChangedNrPayed(text)}
-   value={this.state.totalAmount}
-   maxLength={10} />
 <Button color='#4d9280' 
- onPress={() => this.splitEvenly()}
-  title="SPLIT"  
+ onPress={() => this.splitByTheBill()}
+  title="Apply"  
 />
 
   </View>
     
     );
+  }
+  splitByTheBill()
+  {
+      
   }
   CheckBoxChange(id){
     items= [];
@@ -138,20 +126,7 @@ loadConsumersToExpnse()
     this.setState({participants:items})
     this.setState({particpantsToExpense: result});
   }
-  splitEvenly()
-  {
-    if(this.state.totalAmount.trim()!= ""){
-
-    
-      
-      Service.splitEvenly(this.state.tripId, this.state.expenseId, this.getIdsAsArray(),this.state.totalAmount).then(()=>{
-        this.props.navigation.state.params.onNavigateBack(true);
-        this.props.navigation.goBack();
-      });
-    } else{
-      Alert.alert("Please enter an amount!");
-    }
-  }
+ 
   getIdsAsArray()
   {
     var result = [];
@@ -159,105 +134,11 @@ loadConsumersToExpnse()
     {
       result.push(t.key);
     }
-  return result;    
+    return result;    
   }
   
-  onChangedNrPayed(text){
-    let newText = '';
-    let numbers = '0123456789.';
-    if(text[0]=='.')
-    {
-      newText = '0';
-    }
-    var comma = false;
-    for (var i=0; i < text.length; i++) {
-      if(text[i]==','){
-        Alert.alert(', should be a .')
-      }
-       else if(numbers.indexOf(text[i]) > -1 ) {
-          if(text[i]=='.'){
-            if(comma){
-              Alert.alert('Only one comma allowed');
-            } else{
-
-              newText = newText + text[i];
-              comma=true;
-            }
-          }else{
-            newText = newText + text[i];
-          }
-          
-        }
-        
-        else {
-            text='';
-            Alert.alert("Please enter numbers only");
-        }
-    }
-    this.setState({totalAmount: newText });
-  }
-  loadParticpantsPickerItems(){
-      items =[];
-      for(let p of this.state.participants)
-      {
-          items.push(<Picker.Item label={p.key} value={p.id} key={p.id}/>);
-      }
-      return items;
-  }
-  AddPayer()
-  {
-    if(this.state.participantpayed.trim() != ''){
-
-    
-    items = this.state.payers;
-    let init= false;
-    result= [];
-    for(let t of items)
-    {
-        if(t.id == this.state.selectedParticipant)
-        {
-          var value = this.getNameForId(this.state.selectedParticipant);
-          result.push({key: value, id: this.state.selectedParticipant, payed: this.state.participantpayed});
-          init=true
-        } else{
-          result.push(t);
-        }
-        
-    }
-    if(!init)
-    {
-      var value = this.getNameForId(this.state.selectedParticipant);
-        result.push({key: value, id: this.state.selectedParticipant, payed: this.state.participantpayed});
-    }
-    this.setState({payers: result});
-  }
-  }
-  getNameForId(id)
-  {
-    var res = '';
-    for(let p of this.state.participants)
-    {
-      if(p.id== id)
-      {
-        res= p.key;
-      }
-    }
-    return res;
-  }
-  AddPayersToTrip()
-  {
-    var typescript_map_1 = require("../../../node_modules/typescript-map");
-    payerslist = new typescript_map_1.TSMap();
-    for(let payer of this.state.payers)
-    {
-        payerslist.set(payer.id,payer.payed);
-    }
-    
-    Service.addPayersToExpense(this.state.tripId,this.state.expenseId, payerslist).then(()=>{
-        this.props.navigation.state.params.onNavigateBack(true);
-        this.props.navigation.goBack();
-    });
-  }
+  
+  
 }
  const styles = StyleSheet.create(
       { 

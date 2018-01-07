@@ -116,12 +116,9 @@ export default class AddPayersScreen extends Component {
           }
           
         }
-        
         else {
-            // your call back function
             text='';
             Alert.alert("Please enter numbers only");
-           // break;
         }
     }
     this.setState({ participantpayed: newText });

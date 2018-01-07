@@ -53,7 +53,7 @@ class ExpenseInfo extends Component {
       <FlatList
           data={this.state.expenses}
           extraData={this.state}
-          renderItem={({item}) => <TableRow style={styles.row} title={item.key} key={item.key} showArrow={true}  onPress={() => this.goToExpense(item.id,item.key)}>{console.log('bifze '+item.key)}</TableRow>}
+          renderItem={({item}) => <TableRow style={styles.row} title={item.key} key={item.key} showArrow={true}  onPress={() => this.goToExpense(item.id,item.key)}></TableRow>}
         />
       <View style={styles.buttonStyle}>
       <Button color='#4d9280' 
