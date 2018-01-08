@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, Image, View, Text,StyleSheet, TextInput,Button ,Alert} from 'react-native';
+import { AppRegistry, Image, View, Text,StyleSheet, TextInput,Button ,Alert, FlatList,ScrollView} from 'react-native';
 import TableRow from 'react-native-table-row';
 import { StackNavigator } from 'react-navigation';
 import { Service as Service} from '../../../domain/service';
@@ -9,12 +9,32 @@ export default class AddItem extends Component {
   constructor(props){
     super(props);
     var datum = new Date();
-    this.state = {name: '',tripId: this.props.navigation.state.params.tripId,expenseId: this.props.navigation.expenseId, expensePrice:'', isShared: false};
+    this.state = {name: '',tripId: this.props.navigation.state.params.tripId,expenseId: this.props.navigation.expenseId, itemPrice:'', isShared: false, participants:[], participantsToItem:[],billItems:{}};
 
+  }
+  componentDidMount()
+  {
+    this.setState({participants:[], isChecked: false});
+    this.loadParticipants();
+  }
+  loadParticipants()
+  {
+    Service.getTrip(this.state.tripId).then((trip)=>{
+      items= [];
+      already=[];
+      for(let p of trip.participants)
+      {
+        var fname = p.firstName + ' '+ p.lastName;
+        items.push({key: fname, id: p.personId, isChecked: false});
+      }
+      this.setState({participants: items});
+      
+    });
   }
   setState(state)
   {
     super.setState(state);
+    console.log(JSON.stringify(state));
   }
   static navigationOptions = {
     
@@ -25,19 +45,94 @@ export default class AddItem extends Component {
   render() {
     return (
     <View style={styles.container}>
-    <Text>Item name: </Text>
-  <TextInput style={ {height:40} } placeholder="Enter here the name of your item!" onChangeText={(text) => this.setState({name:text})}/>
-  <Text>Item price: </Text>
-  <TextInput style={ {height:40} }  keyboardType='numeric' maxLength={10} placeholder="Enter here the price of your item!" onChangeText={(text) => this.onChangedPrice(text)}/>
-  <CheckBox style={{flex: 1, padding: 10}} onClick={()=>this.setState({isShared: !this.state.isShared})}
-        isChecked={this.state.isShared} leftText="shared"/>
-      <View style={styles.buttonStyle}>
+      <Text style={styles.dropText}>Item name: </Text>
+      <TextInput style={ {height:40} } value={this.state.name} placeholder="Enter here the name of your item!" onChangeText={(text) => this.setState({name:text})}/>
+      <Text style={styles.dropText}>Item price: </Text>
+      <TextInput style={ {height:40} }  value={this.state.itemPrice} keyboardType='numeric' maxLength={10} placeholder="Enter here the price of your item!" onChangeText={(text) => this.onChangedPrice(text)}/>
+      <Text style={styles.dropText}>Shared/not shared</Text>
+      <CheckBox style={{ padding: 10}} extraData={this.state} onClick={()=>this.setState({isShared: !this.state.isShared})} isChecked={this.state.isShared} leftText="shared"/>
+      <Text style={styles.dropText}>Consumers of this item: </Text>
+      <FlatList
+        data={this.state.participants}
+        extraData={this.state}
+        renderItem={({item}) =><CheckBox style={{paddingBottom: 10}} onClick={()=>this.CheckBoxChange(item.id)}
+        isChecked={item.isChecked} leftText={item.key}/>}
+      />
+    <View style={styles.buttonStyle}>
       <Button color='#4d9280' 
- onPress={() => this.AddItem()}
-  title="Add item" />
+ onPress={() => this.addItemAndClear()}
+  title="Add Item"
+  
+/>
   </View>
+  <View style={styles.buttonStyle}>
+      <Button color='#4d9280' 
+ onPress={() => this.finishBill()}
+  title="Finish the bill"
+  
+/>
+  </View>
+    
     </View>
     );
+  }
+  finishBill(){
+    if(this.state.name.trim() != ""  ||this.state.itemPrice.trim() != "" || this.state.participantsToItem.length > 0)
+    {
+      Alert.alert("Item is not added, please first add the item to the bill and then finish the bill");
+    }
+    else
+    {
+      console.log(JSON.stringify(this.state.billItems));
+    }
+  }
+  addItemAndClear()
+  {
+    //console.log('Item name:' +this.state.name+ ', price: '+ this.state.itemPrice +', shared: '+this.state.isShared+ ",persons:"+ this.state.participantsToItem);
+    if(this.state.name.trim() != ""  &&this.state.itemPrice.trim() != "" && this.state.participantsToItem.length> 0)
+    {
+      let items = this.state.billItems;
+      items.push({key: this.state.name, price: this.state.itemPrice, consumers: this.state.participantsToItem, isShared: this.state.isShared});
+      this.setState({name: '', itemPrice: '', isShared: false, participantsToItem:[]});
+      this.componentDidMount();
+    }
+    else
+    {
+      Alert.alert("Item is not complete")
+    }
+  }
+
+  CheckBoxChange(id)
+  {
+    items= [];
+    for(let t of this.state.participants )
+    {
+        if(t.id == id)
+        { 
+         if(t.isChecked == false){
+          items.push({key: t.key, id:t.id, isChecked:true });
+      } else
+      {
+          items.push({key: t.key, id:t.id, isChecked:false }); 
+      }
+        }
+        else
+        {
+          items.push(t)
+        }
+    }
+    
+   
+    result= [];
+    for(let t of items)
+    {
+        if(t.isChecked){
+            
+            result.push({key: t.id});
+        }
+    }
+    this.setState({participants:items})
+    this.setState({participantsToItem: result});
   }
   onChangedPrice(text){
     let newText = '';
@@ -71,14 +166,14 @@ export default class AddItem extends Component {
             Alert.alert("Please enter numbers only");
         }
       }
-      this.setState({expensePrice: newText});
+      this.setState({itemPrice: newText});
     }
   AddItem()
   {
-    if(this.state.name.trim() != ''&& this.state.expensePrice.trim()!= null)
+    if(this.state.name.trim() != ''&& this.state.itemPrice.trim()!= null)
     {
         
-    console.log('Item: '+ this.state.name+ ', price: '+ this.state.expensePrice+ ', isshared: '+ this.state.isShared);
+    console.log('Item: '+ this.state.name+ ', price: '+ this.state.itemPrice + ', isshared: '+ this.state.isShared);
     }else{
       Alert.alert("Name of the expense cannot be empty");
     }
@@ -122,5 +217,9 @@ export default class AddItem extends Component {
        marginTop: 10,
        paddingTop: 10,
       
-     }
+     },
+     dropText:{
+      fontSize: 18,
+      fontWeight: 'bold',
+    },
   });

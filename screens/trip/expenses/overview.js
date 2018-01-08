@@ -10,8 +10,7 @@ import AddConsumerScreen from './addConsumer';
 import AddPayersScreen from './addPayers';
 import LoansOverview from './loanOverzicht';
 import SplitEvenly from './split';
-import AddItem from './addItem';
-import AssignItems from './assignItems';
+import AddItems from './addItem';
 class ExpenseOveriew extends Component {
 
   constructor(props){
@@ -123,8 +122,7 @@ class ExpenseOveriew extends Component {
       break;
 
       case 'bill' :
-      items.push( {key:'additemkey', buttonkey:'additembutton', action:'addItem', title:'add an item'} );
-      items.push( {key:'assignitemkey', buttonkey:'assignitembutton', action:'assignItem', title:'assign the items'} );
+      items.push( {key:'additemskey', buttonkey:'additembutton', action:'addItems', title:'add items'} );
       items.push({key: 'splitpayerskey',buttonkey:'splitpayers',action: 'addPayers', title:'add payers'});
       this.setState({selectedSplitter:type});
       break;
@@ -147,28 +145,18 @@ class ExpenseOveriew extends Component {
       this.goToSplitEven();
       break;
 
-      case 'addItem':
-      this.addItem();
-      break;
-
-      case 'assignItem':
-      this.assignItem();
+      case 'addItems':
+      this.addItems();
       break;
     }
   }
-  addItem()
+  addItems()
   {
     let tripId = this.state.tripId;
     let expenseId = this.state.expenseId;
-    this.props.navigation.navigate('Item',{tripId,expenseId,onNavigateBack: this.handleOnNavigateBack});
+    this.props.navigation.navigate('Items',{tripId,expenseId,onNavigateBack: this.handleOnNavigateBack});
   }
-  assignItem()
-  {
-    let tripId = this.state.tripId;
-    let expenseId = this.state.expenseId;
-    this.props.navigation.navigate('Assign',{tripId,expenseId,onNavigateBack: this.handleOnNavigateBack});
-  }
-
+ 
   goToSplitEven()
   {
     let tripId = this.state.tripId;
@@ -296,14 +284,11 @@ class ExpenseOveriew extends Component {
     {
       screen: SplitEvenly, 
     },
-    Item:
+    Items:
     {
-      screen: AddItem,
+      screen: AddItems,
     },
-    Assign:
-    {
-      screen: AssignItems,
-    },
+  
     
   },
   {
