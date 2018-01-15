@@ -10,7 +10,7 @@ import AddConsumerScreen from './addConsumer';
 import AddPayersScreen from './addPayers';
 import LoansOverview from './loanOverzicht';
 import SplitEvenly from './split';
-import AddItems from './addItem';
+import AddItems from './addItems';
 class ExpenseOveriew extends Component {
 
   constructor(props){
