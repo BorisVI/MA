@@ -108,11 +108,18 @@ export default class AddTrip extends Component {
       var splitend = this.state.enddate.split("-");
     var startmonth = parseInt(splitstart[1]) -1;
     var endmonth = parseInt(splitend[1])-1;
-    let t = new Trip(tid,this.state.name,new Date(splitstart[0],startmonth,splitstart[2]), new Date(splitend[0],endmonth,splitend[2]));
-    Service.addTrip(t).then(()=>{
-      this.props.navigation.state.params.onNavigateBack(true);
-      this.props.navigation.goBack();    
-    });
+   let startdateTrip= new Date(splitstart[0],startmonth,splitstart[2]);
+   let enddateTrip=  new Date(splitend[0],endmonth,splitend[2]);
+   if(enddateTrip.getTime() > startdateTrip.getTime()){
+
+     let t = new Trip(tid,this.state.name,startdateTrip,enddateTrip);
+     Service.addTrip(t).then(()=>{
+       this.props.navigation.state.params.onNavigateBack(true);
+       this.props.navigation.goBack();    
+     });
+   } else{
+     Alert.alert("End date can't come before the start date");
+   }
     }else{
       Alert.alert("Name of the trip cannot empty");
     }

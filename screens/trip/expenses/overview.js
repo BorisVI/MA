@@ -38,7 +38,7 @@ class ExpenseOveriew extends Component {
       
     });
     Service.isFinal(this.state.tripId, this.state.expenseId).then((final)=>{
-      this.setState({finalised: final});
+      this.setState({finalised: final});  
     });
   }
   loadTable()
