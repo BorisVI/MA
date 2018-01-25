@@ -82,7 +82,7 @@ export default class EditExpenseScreen extends Component {
     return (
     <ScrollView style={styles.container}>
     <Text style={styles.dropText}>Expense name: </Text>
-  <TextInput style={ {height:40} } value={this.state.name} placeholder="Enter here the name of your expense!" onChangeText={(text) => this.setState({name:text})}/>
+  <TextInput style={ {height:40} } value={this.state.name} placeholder="Enter here the name of your expense!" onChangeText={(text) => this.onChangedNameExpense(text)}/*this.setState({name:text})*//>
   <Text style={styles.dropText}>Category: </Text>
   <Picker
   selectedValue={this.state.category}
@@ -155,6 +155,28 @@ export default class EditExpenseScreen extends Component {
       items.push(<Picker.Item key={item.key} label={item.key} value={item.key}/>);
     }
     return items;
+  }
+
+  onChangedNameExpense(text)
+  {
+    if(this.state.name != '')
+    {
+      let valid = true;
+      for(let i = 0; i <this.state.name.length; i++){
+        let code = this.state.name.charCodeAt(i);
+        if(code > 255){
+          Alert.alert("The input contains invalid characters");
+          valid = false;
+        }
+      }
+      if(valid)
+      {
+        this.setState({name:text});
+      }
+    }
+    else{
+      Alert.alert("Name of the expense cannot be empty");
+    }
   }
 }
  const styles = StyleSheet.create(
