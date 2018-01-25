@@ -53,7 +53,7 @@ export default class AddPersonScreen extends Component {
       }
       for(let j = 0; j <this.state.firstname.length; j++){
         if(valid){
-          let code = this.state.name.charCodeAt(j);
+          let code = this.state.firstname.charCodeAt(j);
           if(code > 255){
             Alert.alert("The input contains invalid characters");
             valid = false;

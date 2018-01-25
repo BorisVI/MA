@@ -60,11 +60,12 @@ export class Service {
         });
     }
 
-    static async finaliseExpense(tripId: string, expenseId: string): Promise<void>{
-        await this.getTrip(tripId).then((trip) =>{
+    static async finaliseExpense(tripId: string, expenseId: string): Promise<boolean>{
+        return this.getTrip(tripId).then((trip) =>{
             let t = this.getNewTrip(trip);
             t.getExpenseById(expenseId).calculateLoans();
             this.updateTrip(t);
+            return t.getExpenseById(expenseId).isFinalized;
         });
     }
 

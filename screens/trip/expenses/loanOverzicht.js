@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View,Image, StatusBar,Alert, FlatList } from 'react-native';
+import { StyleSheet, Text, View,Image, StatusBar,Alert, FlatList,ScrollView } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'; // 4.4.2
 import Entypo from 'react-native-vector-icons/Entypo';
 import TableRow from 'react-native-table-row';
@@ -53,7 +53,7 @@ this.setState({currency: expense.currency});
   render() {
     
     return (
-        <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.container}>
         <StatusBar hidden={true}/> 
         <FlatList
           data={this.state.loans}
@@ -64,7 +64,7 @@ this.setState({currency: expense.currency});
           style={styles.addButton} onPress={()=>{this.pay(item.key)}} />}></TableRow>}
         />
        
-        </View>
+        </ScrollView>
     );
   }
   pay(id)

@@ -38,7 +38,7 @@ export default class AddItem extends Component {
   setState(state)
   {
     super.setState(state);
-    console.log(JSON.stringify(state));
+   // console.log(JSON.stringify(state));
   }
   static navigationOptions = {
     
@@ -104,7 +104,7 @@ export default class AddItem extends Component {
         this.props.navigation.state.params.onNavigateBack(true);
         this.props.navigation.goBack();
       });
-      console.log(JSON.stringify(this.state.billItems));
+     // console.log(JSON.stringify(this.state.billItems));
     }
   }
   addItemAndClear()
@@ -190,6 +190,7 @@ export default class AddItem extends Component {
       }
       this.setState({itemPrice: newText});
     }
+    
   AddItem(text)
   {
     if(text.trim() != '')
@@ -213,6 +214,7 @@ export default class AddItem extends Component {
       Alert.alert("Name of the item cannot be empty");
     }
   }
+
 }
  const styles = StyleSheet.create(
     { 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, Image, View, Text,StyleSheet, TextInput,Button ,Alert,Picker,FlatList} from 'react-native';
+import { AppRegistry, Image, View, Text,StyleSheet, TextInput,Button ,Alert,Picker,FlatList,ScrollView} from 'react-native';
 import TableRow from 'react-native-table-row';
 import { StackNavigator } from 'react-navigation';
 import DatePicker from 'react-native-datepicker';
@@ -57,7 +57,7 @@ export default class AddConsumerScreen extends Component {
   };
   render() {
     return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
     <Text style={styles.dropText}>Select consumer: </Text>
 <Picker
   selectedValue={this.state.selectedParticipant}
@@ -87,7 +87,7 @@ export default class AddConsumerScreen extends Component {
   
 />
   </View>
-  </View>
+  </ScrollView>
     
     );
   }
@@ -159,6 +159,9 @@ export default class AddConsumerScreen extends Component {
     }
     this.setState({consumers: result});
   }
+  else{
+    Alert.alert("No amount entered");
+  }
   }
   getNameForId(id)
   {
@@ -174,6 +177,10 @@ export default class AddConsumerScreen extends Component {
   }
   AddConsumersToTrip()
   {
+    if(this.state.consumers.length==0)
+    {
+      this.props.navigation.goBack();
+    }
     var typescript_map_1 = require("../../../node_modules/typescript-map");
     consumerslist = new typescript_map_1.TSMap();
     for(let consumer of this.state.consumers)

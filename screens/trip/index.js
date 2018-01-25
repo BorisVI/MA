@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, Image, View, Text,StyleSheet, Button, Picker } from 'react-native';
+import { AppRegistry, Image, View, Text,StyleSheet, Button, Picker,ScrollView } from 'react-native';
 import TableRow from 'react-native-table-row';
 
 import { TabNavigator } from 'react-navigation';
@@ -73,7 +73,7 @@ export class TripInfo extends Component {
   };
   render() {
     return (
-    <View>
+    <ScrollView>
       <Text style={styles.titleText}>Trip: {this.state.name}</Text>
       <Text style={styles.objText}>Start date: {this.state.startdate}</Text>
       <Text style={styles.objText}>End date: {this.state.enddate}</Text>
@@ -94,7 +94,7 @@ export class TripInfo extends Component {
  onPress={() => this.refreshScreen()}
   title="Refresh"/>
   </View>
-    </View>
+    </ScrollView>
     );
   }
   setTable(table)

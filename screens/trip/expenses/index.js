@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, Image, View, Text,StyleSheet, Picker, TouchableWithoutFeedback,Button ,FlatList} from 'react-native';
+import { AppRegistry, Image, View, Text,StyleSheet, Picker, TouchableWithoutFeedback,Button ,FlatList,ScrollView} from 'react-native';
 import TableRow from 'react-native-table-row';
 import { StackNavigator } from 'react-navigation';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
@@ -48,7 +48,7 @@ class ExpenseInfo extends Component {
   };
   render() {
     return (
-    <View>
+    <ScrollView>
       <Text style={styles.dropText}>Selected expense: </Text>
       <FlatList
           data={this.state.expenses}
@@ -62,7 +62,7 @@ class ExpenseInfo extends Component {
   
 />
   </View>
-    </View>
+    </ScrollView>
     );
   }
   goToExpense(expenseId, expenseName)
