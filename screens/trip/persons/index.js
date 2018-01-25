@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, Image, View, Text,StyleSheet, Picker,Button,FlatList } from 'react-native';
+import { AppRegistry, Image, View, Text,StyleSheet, Picker,Button,FlatList,ScrollView } from 'react-native';
 import TableRow from 'react-native-table-row';
 import { StackNavigator } from 'react-navigation';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
@@ -48,7 +48,7 @@ export class PersonInfo extends Component {
   render() {
     return (
       
-    <View>
+    <ScrollView>
       <Text style={styles.dropText}>Persons: </Text>
       <FlatList
           data={this.state.persons}
@@ -63,7 +63,7 @@ export class PersonInfo extends Component {
   
 />
   </View>
-    </View>
+    </ScrollView>
     );
   }
   goToPerson(personId, fname){

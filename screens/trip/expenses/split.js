@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, Image, View, Text,StyleSheet, TextInput,Button ,Alert,Picker,FlatList} from 'react-native';
+import { AppRegistry, Image, View, Text,StyleSheet, TextInput,Button ,Alert,Picker,FlatList,ScrollView} from 'react-native';
 import TableRow from 'react-native-table-row';
 import { StackNavigator } from 'react-navigation';
 import DatePicker from 'react-native-datepicker';
@@ -82,7 +82,7 @@ loadConsumersToExpnse()
   };
   render() {
     return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
     <Text style={styles.dropText}>Select persons who particpated to this expense: </Text>
 <FlatList
         data={this.state.participants}
@@ -103,7 +103,7 @@ loadConsumersToExpnse()
   title="SPLIT"  
 />
 
-  </View>
+  </ScrollView>
     
     );
   }

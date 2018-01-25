@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, Image, View, Text,StyleSheet, Button ,Picker} from 'react-native';
+import { AppRegistry, Image, View, Text,StyleSheet, Button ,Picker,ScrollView} from 'react-native';
 import TableRow from 'react-native-table-row';
 import { TabNavigator } from 'react-navigation';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
@@ -76,7 +76,7 @@ export class PersonOveriew extends Component {
   render() {
    
     return (
-    <View>
+    <ScrollView>
       <Text style={styles.titleText}>Person: {this.state.fname}</Text>
       <Text style={styles.titleText}>Select table: </Text>
       <Picker
@@ -101,7 +101,7 @@ export class PersonOveriew extends Component {
   
 />
   </View>
-    </View>
+    </ScrollView>
     );
   }
   setTable(table)

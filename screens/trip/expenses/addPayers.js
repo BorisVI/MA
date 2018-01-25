@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, Image, View, Text,StyleSheet, TextInput,Button ,Alert,Picker,FlatList} from 'react-native';
+import { AppRegistry, Image, View, Text,StyleSheet, TextInput,Button ,Alert,Picker,FlatList,ScrollView} from 'react-native';
 import TableRow from 'react-native-table-row';
 import { StackNavigator } from 'react-navigation';
 import DatePicker from 'react-native-datepicker';
@@ -56,7 +56,7 @@ export default class AddPayersScreen extends Component {
   };
   render() {
     return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
     <Text style={styles.dropText}>Select payer: </Text>
 <Picker
   selectedValue={this.state.selectedParticipant}
@@ -86,7 +86,7 @@ export default class AddPayersScreen extends Component {
   
 />
   </View>
-  </View>
+  </ScrollView>
     
     );
   }

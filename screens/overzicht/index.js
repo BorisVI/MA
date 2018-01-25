@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View,Image, StatusBar,Alert, FlatList } from 'react-native';
+import { StyleSheet, Text, View,Image, StatusBar,Alert, FlatList, ScrollView } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'; // 4.4.2
 import Entypo from 'react-native-vector-icons/Entypo';
 import TripScreen from '../trip';
@@ -58,7 +58,7 @@ import {NavigationActions } from 'react-navigation';
         onPress={() => this.goToAdd()}/>
 
         </View>*/
-        <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.container}>
         <StatusBar hidden={true}/> 
         <FlatList
           data={this.state.trips}
@@ -72,7 +72,7 @@ import {NavigationActions } from 'react-navigation';
         style={styles.addButton}
         onPress={() => this.goToAdd()}/>
        
-        </View>
+        </ScrollView>
     );
   }
   delete(tripid)
