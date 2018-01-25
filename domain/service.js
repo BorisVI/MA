@@ -143,16 +143,12 @@ var Service = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.getTrip(tripId).then(function (trip) {
-                            var t = _this.getNewTrip(trip);
-                            t.getExpenseById(expenseId).calculateLoans();
-                            _this.updateTrip(t);
-                        })];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
+                return [2 /*return*/, this.getTrip(tripId).then(function (trip) {
+                        var t = _this.getNewTrip(trip);
+                        t.getExpenseById(expenseId).calculateLoans();
+                        _this.updateTrip(t);
+                        return t.getExpenseById(expenseId).isFinalized;
+                    })];
             });
         });
     };
