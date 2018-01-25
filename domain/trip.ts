@@ -22,7 +22,34 @@ export class Trip{
 		this.standardCurrency = "EUR";
 	}
 
-	splitBill(expenseId: string, participants: string[], amount: number){
+	splitBill(expenseId: string, bill: string){
+		let expense = this.getExpenseById(expenseId);
+		let b = JSON.parse(bill);
+		if(expense.consumers == null)
+		{
+			expense.consumers = new TSMap<string, number>();
+		}
+		else{
+			expense.consumers.clear();
+		}
+		for(let item of b){
+			let amount: number = Number(Number(item.price).toFixed(2)); 
+			if(item.isShared){
+				amount = Number((Number(amount) / Number(item.consumers.length)).toFixed(2));
+			}
+			for(let c of item.consumers){
+				console.log(c.key + " consumed " + amount + " of " + item.key);
+				if(expense.consumers.has(c.key)){
+					expense.consumers.set(c.key, Number(amount) + Number(expense.consumers.get(c.key)));
+				}else{
+					expense.consumers.set(c.key, amount);
+				}
+				console.log(c.key + " has now consumed " + expense.consumers.get(c.key));
+			}
+		}
+	}
+
+	splitEvenly(expenseId: string, participants: string[], amount: number){
 		let expense = this.getExpenseById(expenseId);
 		console.log(expense);
 		if(expense.consumers == null)

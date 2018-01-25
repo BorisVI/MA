@@ -51,21 +51,7 @@ var Service = /** @class */ (function () {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.getTrip(tripId).then(function (trip) {
                             var t = _this.getNewTrip(trip);
-                            var e = t.getExpenseById(expenseId);
-                            //console.log(bill);
-                            var b = JSON.parse(bill);
-                            for (var _i = 0, b_1 = b; _i < b_1.length; _i++) {
-                                var item = b_1[_i];
-                                var amount = Number(Number(item.price).toFixed(2));
-                                if (item.isShared) {
-                                    amount = Number((Number(amount) / Number(item.consumers.length)).toFixed(2));
-                                }
-                                for (var _a = 0, _b = item.consumers; _a < _b.length; _a++) {
-                                    var c = _b[_a];
-                                    console.log(c.key + " consumed " + amount + " of " + item.key);
-                                }
-                            }
-                            console.log(b);
+                            t.splitBill(expenseId, bill);
                             _this.updateTrip(t);
                         })];
                     case 1:
@@ -82,7 +68,7 @@ var Service = /** @class */ (function () {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.getTrip(tripId).then(function (trip) {
                             var t = _this.getNewTrip(trip);
-                            t.splitBill(expenseId, participants, amount);
+                            t.splitEvenly(expenseId, participants, amount);
                             _this.updateTrip(t);
                         })];
                     case 1:
