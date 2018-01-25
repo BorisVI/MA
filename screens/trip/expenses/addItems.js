@@ -51,7 +51,7 @@ export default class AddItem extends Component {
       <ScrollView style={styles.container}>
      
       <Text style={styles.dropText}>Item name: </Text>
-      <TextInput style={ {height:40} } value={this.state.name} placeholder="Enter here the name of your item!" onChangeText={(text) => this.setState({name:text})}/>
+      <TextInput style={ {height:40} } value={this.state.name} placeholder="Enter here the name of your item!" onChangeText={(text) => this.AddItem(text)/*this.setState({name:text})*/}/>
       <Text style={styles.dropText}>Item price: </Text>
       <TextInput style={ {height:40} }  value={this.state.itemPrice} keyboardType='numeric' maxLength={10} placeholder="Enter here the price of your item!" onChangeText={(text) => this.onChangedPrice(text)}/>
       <Text style={styles.dropText}>Shared/not shared</Text>
@@ -190,14 +190,27 @@ export default class AddItem extends Component {
       }
       this.setState({itemPrice: newText});
     }
-  AddItem()
+  AddItem(text)
   {
-    if(this.state.name.trim() != ''&& this.state.itemPrice.trim()!= null)
+    if(text.trim() != '')
     {
-        
-    console.log('Item: '+ this.state.name+ ', price: '+ this.state.itemPrice + ', isshared: '+ this.state.isShared);
+      //console.log('Item: '+ this.state.name+ ', price: '+ this.state.itemPrice + ', isshared: '+ this.state.isShared);
+      let valid = true;
+      for(let i = 0; i <text.length; i++){
+        if(valid){
+          let code = text.charCodeAt(i);
+          if(code > 255){
+            Alert.alert("The input contains invalid characters");
+            valid = false;
+          }
+        }
+      }
+      if(valid)
+      {
+        this.setState({name:text})
+      }
     }else{
-      Alert.alert("Name of the expense cannot be empty");
+      Alert.alert("Name of the item cannot be empty");
     }
   }
 }
