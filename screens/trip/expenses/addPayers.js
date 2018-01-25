@@ -136,28 +136,28 @@ export default class AddPayersScreen extends Component {
     if(this.state.participantpayed.trim() != ''){
 
     
-    items = this.state.payers;
-    let init= false;
-    result= [];
-    for(let t of items)
-    {
-        if(t.id == this.state.selectedParticipant)
-        {
-          var value = this.getNameForId(this.state.selectedParticipant);
+      items = this.state.payers;
+      let init= false;
+      result= [];
+      for(let t of items)
+      {
+          if(t.id == this.state.selectedParticipant)
+          {
+            var value = this.getNameForId(this.state.selectedParticipant);
+            result.push({key: value, id: this.state.selectedParticipant, payed: this.state.participantpayed});
+            init=true
+          } else{
+            result.push(t);
+          }
+          
+      }
+      if(!init)
+      {
+        var value = this.getNameForId(this.state.selectedParticipant);
           result.push({key: value, id: this.state.selectedParticipant, payed: this.state.participantpayed});
-          init=true
-        } else{
-          result.push(t);
-        }
-        
+      }
+      this.setState({payers: result});
     }
-    if(!init)
-    {
-      var value = this.getNameForId(this.state.selectedParticipant);
-        result.push({key: value, id: this.state.selectedParticipant, payed: this.state.participantpayed});
-    }
-    this.setState({payers: result});
-  }
   }
   getNameForId(id)
   {
