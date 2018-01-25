@@ -10,7 +10,6 @@
   },
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
-
     "start": "react-native-scripts start",
     "eject": "react-native-scripts eject",
     "android": "react-native-scripts android",
@@ -29,6 +28,8 @@
     "react-native-asyncstorage": "^1.0.0",
     "react-native-branch": "^2.2.1",
     "react-native-check-box": "^2.0.2",
+    "react-native-checkbox": "^2.0.0",
+    "react-native-checkbox-field": "^2.0.2",
     "react-native-datepicker": "^1.6.0",
     "react-native-elements": "^0.18.4",
     "react-native-table-component": "^1.1.2",

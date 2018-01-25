@@ -4,19 +4,22 @@ import TableRow from 'react-native-table-row';
 import { StackNavigator } from 'react-navigation';
 import { Service as Service} from '../../../domain/service';
 import CheckBox from 'react-native-check-box';
+import CheckboxField from 'react-native-checkbox-field';
 
 export default class AddItem extends Component {
   constructor(props){
     super(props);
     var datum = new Date();
-    this.state = {name: '',tripId: this.props.navigation.state.params.tripId,expenseId: this.props.navigation.expenseId, itemPrice:'', isShared: false, participants:[], participantsToItem:[],billItems:[]};
+    this.state = {name: '',tripId: this.props.navigation.state.params.tripId,expenseId: this.props.navigation.state.params.expenseId, itemPrice:'', isShared: false, participants:[], participantsToItem:[],billItems:[]};
 
   }
   componentDidMount()
   {
-    this.setState({participants:[], isShared: false});
+   
+    this.setState({name: '', itemPrice: '', participantsToItem:[],participants: [], isShared:false});
     this.loadParticipants();
   }
+ 
   loadParticipants()
   {
     Service.getTrip(this.state.tripId).then((trip)=>{
@@ -30,6 +33,7 @@ export default class AddItem extends Component {
       this.setState({participants: items});
       
     });
+
   }
   setState(state)
   {
@@ -44,19 +48,29 @@ export default class AddItem extends Component {
   };
   render() {
     return (
-    <View style={styles.container}>
+      <ScrollView style={styles.container}>
+     
       <Text style={styles.dropText}>Item name: </Text>
       <TextInput style={ {height:40} } value={this.state.name} placeholder="Enter here the name of your item!" onChangeText={(text) => this.setState({name:text})}/>
       <Text style={styles.dropText}>Item price: </Text>
       <TextInput style={ {height:40} }  value={this.state.itemPrice} keyboardType='numeric' maxLength={10} placeholder="Enter here the price of your item!" onChangeText={(text) => this.onChangedPrice(text)}/>
       <Text style={styles.dropText}>Shared/not shared</Text>
-      <CheckBox style={{ padding: 10}} extraData={this.state} onClick={()=>this.setState({isShared: !this.state.isShared})} isChecked={this.state.isShared} leftText="shared"/>
+      <CheckboxField style={{ padding: 10}} extraData={this.state}  onSelect={()=>this.setState({isShared: !this.state.isShared})} selected={this.state.isShared} label="shared" labelSide="left" />
       <Text style={styles.dropText}>Consumers of this item: </Text>
       <FlatList
         data={this.state.participants}
         extraData={this.state}
         renderItem={({item}) =><CheckBox style={{paddingBottom: 10}} onClick={()=>this.CheckBoxChange(item.id)}
         isChecked={item.isChecked} leftText={item.key}/>}
+      />
+      <Text style={styles.dropText}>Bill overview: </Text>
+<FlatList
+        data={this.state.billItems}
+        extraData={this.state}
+        renderItem={({item}) => <Text style={styles.row}>Item: {item.key} ,  price: {item.price} {"\n"} {item.isShared? "shared":"not shared"}, persons:
+        {item.consumers.length}</Text> }
+      
+      
       />
     <View style={styles.buttonStyle}>
       <Button color='#4d9280' 
@@ -73,20 +87,24 @@ export default class AddItem extends Component {
 />
   </View>
     
-    </View>
+    </ScrollView>
     );
   }
+
   finishBill(){
     if(this.state.name.trim() != ""  ||this.state.itemPrice.trim() != "" || this.state.participantsToItem.length > 0)
     {
+      
       Alert.alert("Item is not added, please first add the item to the bill and then finish the bill");
     }
     else
     {
-      //console.log((this.state.billItems));
-      Service.finalizeBill(this.state.tripId,this.state.expenseId, JSON.stringify(this.state.billItems)).then(()=>{
-        console.log("done");
-    });
+     
+      Service.finalizeBill(this.state.tripId, this.state.expenseId, JSON.stringify(this.state.billItems)).then(()=>{
+        this.props.navigation.state.params.onNavigateBack(true);
+        this.props.navigation.goBack();
+      });
+      console.log(JSON.stringify(this.state.billItems));
     }
   }
   addItemAndClear()
@@ -96,8 +114,9 @@ export default class AddItem extends Component {
     {
       let items = this.state.billItems;
       items.push({key: this.state.name, price: this.state.itemPrice, consumers: this.state.participantsToItem, isShared: this.state.isShared});
-      this.setState({name: '', itemPrice: '', isShared: false, participantsToItem:[]});
+     
       this.componentDidMount();
+    
     }
     else
     {
@@ -223,6 +242,8 @@ export default class AddItem extends Component {
       {
        marginTop: 10,
        paddingTop: 10,
+       marginBottom: 10,
+       paddingBottom: 10,
       },
       dropText:{
         fontSize: 18,
