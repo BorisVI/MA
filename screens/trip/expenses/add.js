@@ -78,13 +78,23 @@ export default class AddExpense extends Component {
   {
     if(this.state.name != '')
     {
-    var splitdate = this.state.date.split("-");
-    var datemonth = parseInt(splitdate[1]) -1;
-    Service.addExpenseToTrip(this.state.id, this.state.name, new Date(splitdate[0],datemonth, splitdate[2])).then(()=>{
-      this.props.navigation.state.params.onNavigateBack(true);
-      this.props.navigation.goBack();
-      
-    });
+      let valid = true;
+      for(let i = 0; i <this.state.name.length; i++){
+        let code = this.state.name.charCodeAt(i);
+        if(code > 255){
+          Alert.alert("The input contains invalid characters");
+          valid = false;
+        }
+      }
+      if(valid){
+        var splitdate = this.state.date.split("-");
+        var datemonth = parseInt(splitdate[1]) -1;
+        Service.addExpenseToTrip(this.state.id, this.state.name, new Date(splitdate[0],datemonth, splitdate[2])).then(()=>{
+          this.props.navigation.state.params.onNavigateBack(true);
+          this.props.navigation.goBack();
+          
+        });
+      }
     }else{
       Alert.alert("Name of the expense cannot be empty");
     }

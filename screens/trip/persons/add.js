@@ -41,20 +41,30 @@ export default class AddPersonScreen extends Component {
   {
     if(this.state.name.trim() != ''&& this.state.firstname.trim()!= '')
     {
-      var firstname = this.state.firstname;
-      var lastname = this.state.name;
-      while(firstname.endsWith(' '))
-      {
-       firstname= firstname.slice(0,firstname.length-1);
+      let valid = true;
+      for(let i = 0; i <this.state.name.length; i++){
+        let code = this.state.name.charCodeAt(i);
+        if(code > 255){
+          Alert.alert("The input contains invalid characters");
+          valid = false;
+        }
       }
-      while(lastname.endsWith(' '))
-      {
-       lastname= lastname.slice(0,lastname.length-1);
+      if(valid){
+        var firstname = this.state.firstname;
+        var lastname = this.state.name;
+        while(firstname.endsWith(' '))
+        {
+          firstname= firstname.slice(0,firstname.length-1);
+        }
+        while(lastname.endsWith(' '))
+        {
+          lastname= lastname.slice(0,lastname.length-1);
+        }
+        Service.addPersonToTrip(this.state.id, firstname,lastname).then(()=>{
+          this.props.navigation.state.params.onNavigateBack(true);
+          this.props.navigation.goBack();
+        });
       }
-   Service.addPersonToTrip(this.state.id, firstname,lastname).then(()=>{
-     this.props.navigation.state.params.onNavigateBack(true);
-     this.props.navigation.goBack();
-   });
     }else{
       Alert.alert('Firstname and lastname cannot be empty!');
     }
