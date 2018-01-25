@@ -9,12 +9,12 @@ export default class AddItem extends Component {
   constructor(props){
     super(props);
     var datum = new Date();
-    this.state = {name: '',tripId: this.props.navigation.state.params.tripId,expenseId: this.props.navigation.expenseId, itemPrice:'', isShared: false, participants:[], participantsToItem:[],billItems:{}};
+    this.state = {name: '',tripId: this.props.navigation.state.params.tripId,expenseId: this.props.navigation.expenseId, itemPrice:'', isShared: false, participants:[], participantsToItem:[],billItems:[]};
 
   }
   componentDidMount()
   {
-    this.setState({participants:[], isChecked: false});
+    this.setState({participants:[], isShared: false});
     this.loadParticipants();
   }
   loadParticipants()
