@@ -44,6 +44,37 @@ var category_1 = require("./category");
 var Service = /** @class */ (function () {
     function Service() {
     }
+    Service.finalizeBill = function (tripId, expenseId, bill) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.getTrip(tripId).then(function (trip) {
+                            var t = _this.getNewTrip(trip);
+                            var e = t.getExpenseById(expenseId);
+                            //console.log(bill);
+                            var b = JSON.parse(bill);
+                            for (var _i = 0, b_1 = b; _i < b_1.length; _i++) {
+                                var item = b_1[_i];
+                                var amount = Number(Number(item.price).toFixed(2));
+                                if (item.isShared) {
+                                    amount = Number((Number(amount) / Number(item.consumers.length)).toFixed(2));
+                                }
+                                for (var _a = 0, _b = item.consumers; _a < _b.length; _a++) {
+                                    var c = _b[_a];
+                                    console.log(c.key + " consumed " + amount + " of " + item.key);
+                                }
+                            }
+                            console.log(b);
+                            _this.updateTrip(t);
+                        })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
     Service.splitEvenly = function (tripId, expenseId, participants, amount) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;

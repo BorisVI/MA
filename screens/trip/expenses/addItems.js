@@ -83,7 +83,10 @@ export default class AddItem extends Component {
     }
     else
     {
-      console.log(JSON.stringify(this.state.billItems));
+      //console.log((this.state.billItems));
+      Service.finalizeBill(this.state.tripId,this.state.expenseId, JSON.stringify(this.state.billItems)).then(()=>{
+        console.log("done");
+    });
     }
   }
   addItemAndClear()
