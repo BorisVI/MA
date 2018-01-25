@@ -159,6 +159,9 @@ export default class AddConsumerScreen extends Component {
     }
     this.setState({consumers: result});
   }
+  else{
+    Alert.alert("No amount entered");
+  }
   }
   getNameForId(id)
   {
@@ -174,6 +177,10 @@ export default class AddConsumerScreen extends Component {
   }
   AddConsumersToTrip()
   {
+    if(this.state.consumers.length==0)
+    {
+      this.props.navigation.goBack();
+    }
     var typescript_map_1 = require("../../../node_modules/typescript-map");
     consumerslist = new typescript_map_1.TSMap();
     for(let consumer of this.state.consumers)

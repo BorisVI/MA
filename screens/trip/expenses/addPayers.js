@@ -158,6 +158,10 @@ export default class AddPayersScreen extends Component {
       }
       this.setState({payers: result});
     }
+    else
+    {
+      Alert.alert("No amount entered");
+    }
   }
   getNameForId(id)
   {
@@ -173,6 +177,10 @@ export default class AddPayersScreen extends Component {
   }
   AddPayersToTrip()
   {
+    if(this.state.payers.length==0)
+    {
+      this.props.navigation.goBack();
+    }
     var typescript_map_1 = require("../../../node_modules/typescript-map");
     payerslist = new typescript_map_1.TSMap();
     for(let payer of this.state.payers)

@@ -140,6 +140,11 @@ loadConsumersToExpnse()
   }
   splitEvenly()
   {
+    if(this.state.particpantsToExpense.length==0)
+    {
+      Alert.alert("Please select participants!");
+    }
+    else{
     if(this.state.totalAmount.trim()!= ""){
 
     
@@ -152,6 +157,7 @@ loadConsumersToExpnse()
       Alert.alert("Please enter an amount!");
     }
   }
+}
   getIdsAsArray()
   {
     var result = [];
