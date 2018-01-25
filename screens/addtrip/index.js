@@ -106,7 +106,7 @@ export default class AddTrip extends Component {
     {
       let valid = true;
       for(let i = 0; i <this.state.name.length; i++){
-        if(!valid){
+        if(valid){
           let code = this.state.name.charCodeAt(i);
           if(code > 255){
             Alert.alert("The input contains invalid characters");
