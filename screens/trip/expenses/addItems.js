@@ -180,46 +180,49 @@ export default class AddItem extends Component {
   }
 }
  const styles = StyleSheet.create(
-      { 
-      container: {  
+    { 
+      container: 
+      {  
       flex: 1,
       backgroundColor: '#fff',
       padding: 10, 
-     
-    },
-    titleText: {
-      fontSize: 20,
-      fontWeight: 'bold',
-      marginTop: 10,
-      marginBottom: 10,
-     
+      },
+      titleText: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginTop: 10,
+        marginBottom: 10,     
     },
   
-    objText: {
-      fontSize: 16,
-      marginTop: 0,
-      marginBottom: 5,
-    },
-    row: {
-       paddingTop: 25,
-       paddingBottom: 25,
-     },
-     hText: {
-      fontSize: 16,
-      marginTop: 0,
-      marginBottom: 5,
-      fontWeight: 'bold',
-     },
-     viewStyle: {
-       marginBottom :5,
-     },
-     buttonStyle: {
+      objText: 
+      {
+        fontSize: 16,
+        marginTop: 0,
+        marginBottom: 5,
+      },
+      row: 
+      {
+        paddingTop: 25,
+        paddingBottom: 25,
+      },
+      hText: 
+      {
+        fontSize: 16,
+        marginTop: 0,
+        marginBottom: 5,
+        fontWeight: 'bold',
+      },
+      viewStyle: 
+      {
+        marginBottom :5,
+      },
+      buttonStyle: 
+      {
        marginTop: 10,
        paddingTop: 10,
-      
-     },
-     dropText:{
-      fontSize: 18,
-      fontWeight: 'bold',
-    },
+      },
+      dropText:{
+        fontSize: 18,
+        fontWeight: 'bold',
+      },
   });

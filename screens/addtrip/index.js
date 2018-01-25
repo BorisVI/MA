@@ -15,6 +15,7 @@ export default class AddTrip extends Component {
     var today = datum.getFullYear() + '-' +(datum.getMonth()+1)+'-'+datum.getDate();
     this.state = {startdate: today, enddate: today, name: ''};
     this.datumlimits= {min: '',max:''};
+
     if(datum.getMonth() >5)
     {
      var varmonth = (datum.getMonth() + 7) -12
@@ -110,7 +111,7 @@ export default class AddTrip extends Component {
     var endmonth = parseInt(splitend[1])-1;
    let startdateTrip= new Date(splitstart[0],startmonth,splitstart[2]);
    let enddateTrip=  new Date(splitend[0],endmonth,splitend[2]);
-   if(enddateTrip.getTime() > startdateTrip.getTime()){
+   if(enddateTrip.getTime() >= startdateTrip.getTime()){
 
      let t = new Trip(tid,this.state.name,startdateTrip,enddateTrip);
      Service.addTrip(t).then(()=>{
@@ -130,15 +131,13 @@ export default class AddTrip extends Component {
       container: {  
       flex: 1,
       backgroundColor: '#fff',
-      padding: 10, 
-     
+      padding: 10,   
     },
     titleText: {
       fontSize: 20,
       fontWeight: 'bold',
       marginTop: 10,
       marginBottom: 10,
-     
     },
   
     objText: {

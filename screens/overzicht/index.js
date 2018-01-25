@@ -16,7 +16,7 @@ import {NavigationActions } from 'react-navigation';
    constructor(props)
    {
     super(props);
-    //Service.clearDb();
+   // Service.clearDb();
    // Service.clearTripDb();
     this.state = {trips: []};
     this.storeTripsLocaly();
