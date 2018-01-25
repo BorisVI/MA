@@ -175,9 +175,11 @@ class ExpenseOveriew extends Component {
   }
   finalizeExpense()
   {
-    Service.finaliseExpense(this.state.tripId, this.state.expenseId).then(()=>{
-      this.componentDidMount();
+    Service.finaliseExpense(this.state.tripId, this.state.expenseId).then((b)=>{
+      
+      b? this.componentDidMount(): Alert.alert("unequal amount payers/receivers");
     });
+    
   }
   addConsumer()
   {
