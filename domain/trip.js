@@ -13,7 +13,35 @@ var Trip = /** @class */ (function () {
         this.endDate = endDate;
         this.standardCurrency = "EUR";
     }
-    Trip.prototype.splitBill = function (expenseId, participants, amount) {
+    Trip.prototype.splitBill = function (expenseId, bill) {
+        var expense = this.getExpenseById(expenseId);
+        var b = JSON.parse(bill);
+        if (expense.consumers == null) {
+            expense.consumers = new typescript_map_1.TSMap();
+        }
+        else {
+            expense.consumers.clear();
+        }
+        for (var _i = 0, b_1 = b; _i < b_1.length; _i++) {
+            var item = b_1[_i];
+            var amount = Number(Number(item.price).toFixed(2));
+            if (item.isShared) {
+                amount = Number((Number(amount) / Number(item.consumers.length)).toFixed(2));
+            }
+            for (var _a = 0, _b = item.consumers; _a < _b.length; _a++) {
+                var c = _b[_a];
+                console.log(c.key + " consumed " + amount + " of " + item.key);
+                if (expense.consumers.has(c.key)) {
+                    expense.consumers.set(c.key, Number(amount) + Number(expense.consumers.get(c.key)));
+                }
+                else {
+                    expense.consumers.set(c.key, amount);
+                }
+                console.log(c.key + " has now consumed " + expense.consumers.get(c.key));
+            }
+        }
+    };
+    Trip.prototype.splitEvenly = function (expenseId, participants, amount) {
         var expense = this.getExpenseById(expenseId);
         console.log(expense);
         if (expense.consumers == null) {

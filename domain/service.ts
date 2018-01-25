@@ -11,19 +11,7 @@ export class Service {
     static async finalizeBill(tripId: string, expenseId: string, bill: string): Promise<void>{
         await this.getTrip(tripId).then((trip) =>{
             let t = this.getNewTrip(trip);
-            let e = t.getExpenseById(expenseId);
-            //console.log(bill);
-            let b = JSON.parse(bill);
-            for(let item of b){
-                let amount: number = Number(Number(item.price).toFixed(2)); 
-                if(item.isShared){
-                    amount = Number((Number(amount) / Number(item.consumers.length)).toFixed(2));
-                }
-                for(let c of item.consumers){
-                    console.log(c.key + " consumed " + amount + " of " + item.key);
-                }
-            }
-            console.log(b);
+            t.splitBill(expenseId, bill);
             this.updateTrip(t);
         });
     }
@@ -31,7 +19,7 @@ export class Service {
     static async splitEvenly(tripId: string, expenseId: string, participants: string[], amount: number): Promise<void>{
         await this.getTrip(tripId).then((trip) =>{
             let t = this.getNewTrip(trip);
-            t.splitBill(expenseId,participants,amount);
+            t.splitEvenly(expenseId,participants,amount);
             this.updateTrip(t);
         });
     }
