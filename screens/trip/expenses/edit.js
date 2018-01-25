@@ -163,10 +163,12 @@ export default class EditExpenseScreen extends Component {
     {
       let valid = true;
       for(let i = 0; i <this.state.name.length; i++){
-        let code = this.state.name.charCodeAt(i);
-        if(code > 255){
-          Alert.alert("The input contains invalid characters");
-          valid = false;
+        if(valid){
+          let code = this.state.name.charCodeAt(i);
+          if(code > 255){
+            Alert.alert("The input contains invalid characters");
+            valid = false;
+          }
         }
       }
       if(valid)
