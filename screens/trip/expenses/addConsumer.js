@@ -145,8 +145,8 @@ export default class AddConsumerScreen extends Component {
         if(t.id == this.state.selectedParticipant)
         {
           var value = this.getNameForId(this.state.selectedParticipant);
-         result.push({key: value, id: this.state.selectedParticipant, consumed: this.state.participantconsumed});
-         init=true;
+          result.push({key: value, id: this.state.selectedParticipant, consumed: this.state.participantconsumed});
+          init=true;
         }
         else{
           result.push(t);
@@ -155,7 +155,7 @@ export default class AddConsumerScreen extends Component {
     }
     if(!init){
       var value = this.getNameForId(this.state.selectedParticipant);
-        result.push({key: value, id: this.state.selectedParticipant, consumed: this.state.participantconsumed});
+      result.push({key: value, id: this.state.selectedParticipant, consumed: this.state.participantconsumed});
     }
     this.setState({consumers: result});
   }
