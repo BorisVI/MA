@@ -38,7 +38,7 @@ export default class AddItem extends Component {
   setState(state)
   {
     super.setState(state);
-    console.log(JSON.stringify(state));
+   // console.log(JSON.stringify(state));
   }
   static navigationOptions = {
     
@@ -104,7 +104,7 @@ export default class AddItem extends Component {
         this.props.navigation.state.params.onNavigateBack(true);
         this.props.navigation.goBack();
       });
-      console.log(JSON.stringify(this.state.billItems));
+     // console.log(JSON.stringify(this.state.billItems));
     }
   }
   addItemAndClear()
@@ -190,16 +190,7 @@ export default class AddItem extends Component {
       }
       this.setState({itemPrice: newText});
     }
-  AddItem()
-  {
-    if(this.state.name.trim() != ''&& this.state.itemPrice.trim()!= null)
-    {
-        
-    console.log('Item: '+ this.state.name+ ', price: '+ this.state.itemPrice + ', isshared: '+ this.state.isShared);
-    }else{
-      Alert.alert("Name of the expense cannot be empty");
-    }
-  }
+ 
 }
  const styles = StyleSheet.create(
     { 

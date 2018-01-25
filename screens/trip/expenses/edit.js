@@ -159,12 +159,12 @@ export default class EditExpenseScreen extends Component {
 
   onChangedNameExpense(text)
   {
-    if(this.state.name != '')
+    if(text != '')
     {
       let valid = true;
-      for(let i = 0; i <this.state.name.length; i++){
+      for(let i = 0; i <text.length; i++){
         if(valid){
-          let code = this.state.name.charCodeAt(i);
+          let code = text.charCodeAt(i);
           if(code > 255){
             Alert.alert("The input contains invalid characters");
             valid = false;

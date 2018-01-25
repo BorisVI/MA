@@ -53,7 +53,7 @@ this.setState({currency: expense.currency});
   render() {
     
     return (
-        <ScrollView style={styles.container}>
+        <ScrollView contentContainerStyle={styles.container}>
         <StatusBar hidden={true}/> 
         <FlatList
           data={this.state.loans}
