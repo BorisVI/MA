@@ -124,8 +124,8 @@ export class Expense{
                     this.loans.push(l);
                     mapUnder.set(payer, mapUnder.get(payer) + amount);
                     mapOver.set(receiver, mapOver.get(receiver) - amount);
-                    this.isFinalized = true;
                 }
+                this.isFinalized = true;
                 console.log(this.loans.length);
             }else{
                 console.log("error on creating loans, unequal amount payers/receivers");
